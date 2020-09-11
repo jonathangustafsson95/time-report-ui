@@ -1,11 +1,12 @@
-import React from "react";
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Centiro Time Reporter</h1>
-    </div>
-  );
-}
-
-export default App;
+import React from 'react';  
+import Layout  from './Components/Layout'  
+ 
+function App() {  
+  return (  
+     <div className="App">  
+      <Layout/>   
+     </div>  
+  );  
+}  
+  
+export default App; 
