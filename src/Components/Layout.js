@@ -1,24 +1,26 @@
-import React, { Component, Suspense } from 'react';  
-import LeftSideBar from './LeftSideBar';  
-import Header from './header'  
-import Footer from './footer'  
- 
-export class Layout extends Component {  
-    render() {  
-        return (  
-            <div>  
-                <div id="wrapper">  
-                    <LeftSideBar></LeftSideBar>  
-                    <div id="content-wrapper" class="d-flex flex-column">  
-                        <div id="content">  
-                            <Header />   
-                        </div>  
-                        <Footer />  
-                    </div>  
-                </div>  
-            </div>  
-        )  
-    }  
-}  
+import React from 'react';
+import { BrowserRouter } from "react-router-dom";
+import LeftSideBar from './NavBarComponents/LeftSideBar';
+import TopBar from './NavBarComponents/TopBar';
+import MainSwitch from './ServiceComponents/MainSwitch';
+import styled from 'styled-components';
+
+const Layout = () => {  
+    return (  
+        <BrowserRouter>
+            <TopBar />
+            <MainView>
+                <LeftSideBar />
+                <MainSwitch />
+            </MainView>
+        </BrowserRouter>
+    )   
+}
+
+const MainView = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 100px;
+`;
   
 export default Layout 
