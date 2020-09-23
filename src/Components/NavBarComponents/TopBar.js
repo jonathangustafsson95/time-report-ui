@@ -1,31 +1,41 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
-  
-const TopBar = () => {  
-    return (  
-        <MainBox>
-            <ProfileImage src={require("./Images/profile.jpg")}/>
-            <Text>John Doe</Text>
-        </MainBox>
-    )  
-}
+import { fetchUser } from "../../Redux/Actions/UserActions";
+
+const TopBar = ({ userData, fetchUser }) => {
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return userData.loading ? (
+    <h2>Loading</h2>
+  ) : userData.error ? (
+  <h2>{userData.error}</h2>
+  ) : (
+    <MainBox>
+      <ProfileImage src={require("./Images/profile.jpg")} />
+      <Text>{userData.user.name}</Text>
+    </MainBox>
+  )
+};
 
 const MainBox = styled.div`
-display: flex;
-align-items: center;
-height: 94px;
--webkit-box-shadow: -1px 13px 63px -23px rgba(0,0,0,0.75);
--moz-box-shadow: -1px 13px 63px -23px rgba(0,0,0,0.75);
-box-shadow: -1px 13px 63px -23px rgba(0,0,0,0.75);
-`
+  display: flex;
+  align-items: center;
+  height: 94px;
+  -webkit-box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
+`;
 
 const Text = styled.p`
-margin: 0;
-font-family: Roboto;
-font-weight: normal;
-font-size: 20px;
-letter-spacing: 0.08em;
-color: #585656;
+  margin: 0;
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: #585656;
 `;
 
 const ProfileImage = styled.img`
@@ -47,5 +57,17 @@ const ProfileImage = styled.img`
     outline: 0;
   }
 `;
-  
-export default TopBar; 
+
+const mapStateToProps = (state) => {
+  return {
+    userData: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchUser: () => dispatch(fetchUser()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

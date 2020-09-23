@@ -1,9 +1,11 @@
-import React from 'react';  
+import React from 'react';
 import Layout  from './Components/Layout';
  
-function App() {  
+function App({ count, incrementCount }) {  
   return (  
-        <Layout/>   
+    <div>
+        <Layout/>  
+    </div>
   );  
 }
   

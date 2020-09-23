@@ -18,9 +18,9 @@ const Layout = () => {
 }
 
 const MainView = styled.div`
-display: flex;
-flex-direction: row;
-margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
 `;
   
 export default Layout 
