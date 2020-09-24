@@ -1,12 +1,12 @@
-import React from 'react';
-import Layout  from './Components/Layout';
- 
-function App({ count, incrementCount }) {  
-  return (  
+import React from "react";
+import Layout from "./Components/Layout";
+
+function App({ count, incrementCount }) {
+  return (
     <div>
-        <Layout/>  
+      <Layout />
     </div>
-  );  
+  );
 }
-  
-export default App; 
+
+export default App;

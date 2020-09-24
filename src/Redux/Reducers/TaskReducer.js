@@ -1,30 +1,30 @@
-import * as Types from "../Types/UserTypes";
+import * as Types from "../Types/TaskTypes";
 
 const initialState = {
   loading: false,
-  user: [],
+  tasksByWeek: [],
   error: "",
 };
 
-const userReducer = (state = initialState, action) => {
+const taskReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Types.FETCH_USER_REQUEST:
+    case Types.FETCH_TASK_BY_WEEK_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case Types.FETCH_USER_SUCCESS:
+    case Types.FETCH_TASK_BY_WEEK_SUCCESS:
       return {
         ...state,
         loading: false,
-        user: action.payload,
+        tasksByWeek: action.payload,
         error: "",
       };
-    case Types.FETCH_USER_FAILURE:
+    case Types.FETCH_TASK_BY_WEEK_FAILURE:
       return {
         ...state,
         loading: false,
-        user: null,
+        tasksByWeek: [],
         error: action.payload,
       };
     default:
@@ -32,4 +32,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default taskReducer;

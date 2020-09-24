@@ -6,27 +6,27 @@ import { fetchUser } from "../../Redux/Actions/UserActions";
 const TopBar = ({ userData, fetchUser }) => {
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return userData.loading ? (
     <h2>Loading</h2>
   ) : userData.error ? (
-  <h2>{userData.error}</h2>
+    <h2>{userData.error}</h2>
   ) : (
     <MainBox>
       <ProfileImage src={require("./Images/profile.jpg")} />
       <Text>{userData.user.name}</Text>
     </MainBox>
-  )
+  );
 };
 
 const MainBox = styled.div`
   display: flex;
   align-items: center;
   height: 94px;
-  -webkit-box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
-  box-shadow: -1px 13px 63px -23px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 10px 28px 10px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0px 10px 28px 10px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 10px 28px 10px rgba(0, 0, 0, 0.16);
 `;
 
 const Text = styled.p`
@@ -40,7 +40,7 @@ const Text = styled.p`
 
 const ProfileImage = styled.img`
   opacity: 1;
-  margin-left: 5%;
+  margin-left: 2%;
   width: 65px;
   height: 65px;
   border-radius: 50%;
@@ -60,7 +60,7 @@ const ProfileImage = styled.img`
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.user,
+    userData: state.userData,
   };
 };
 

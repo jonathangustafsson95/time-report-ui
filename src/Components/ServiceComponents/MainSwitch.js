@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import DashBoard from '../DashBoardComponents/DashBoard';
-import TimeReport from '../TimeReportComponents/TimeReport';
+import TimeReport from '../TimeReportComponents/TimeReportComponent';
 import Projects from '../ProjectsComponents/Projects';
 
 
