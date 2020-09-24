@@ -26,9 +26,7 @@ const Week = () => {
 };
 
 const BoxDiv = styled.div`
-  min-width: 1100px;
-  height: 560px;
-  border-radius: 14px;
+  border-radius: 8px;
   background: #fff;
   filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
 `;
@@ -39,6 +37,7 @@ const BoxHolder = styled.div`
   grid-gap: 10px;
   margin-left: 50px;
   margin-right: 50px;
+  margin-bottom: 100px;
 `;
 
 const Text = styled.p`

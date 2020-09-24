@@ -5,19 +5,45 @@ const DayBox = ({ day }) => {
   return (
     <Main>
       <Text>{day}</Text>
-      <Box></Box>
+      <Box>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+        <Line></Line>
+
+        <AddBtn
+          type="image"
+          alt="CreateTask"
+          src={require("./Images/add.svg")}
+        ></AddBtn>
+      </Box>
     </Main>
   );
 };
 
-const Main = styled.div`
+const Main = styled.div``;
+
+const Line = styled.hr`
+  margin: 0;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 45px;
 `;
 
 const Box = styled.div`
-  border-radius: 14px;
+  overflow: auto;
+  border-radius: 8px;
+  height: 45vh;
   min-height: 430px;
+  min-width: 140px;
+  margin-bottom: 25px;
   background: #fff;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.16));
+  text-align: center;
 `;
 
 const Text = styled.p`
@@ -31,6 +57,13 @@ const Text = styled.p`
   opacity: 0.7;
   margin: 0;
   text-align: center;
+`;
+
+const AddBtn = styled.input`
+  margin-top: 20px;
+  &:hover {
+    transform: scale(1.03) perspective(1px);
+  }
 `;
 
 export default DayBox;
