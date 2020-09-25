@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./BoxComponent";
-import { fetchTasksByWeek } from '../../../Redux/Actions/TaskActions';
+import { fetchTasksByWeek } from '../../../Redux/Actions/RegistryActions';
 
 const Week = () => {
     useEffect(() => {
@@ -13,13 +13,13 @@ const Week = () => {
     <BoxDiv>
       <Text>2020.09.14 - 2020.09.20</Text>
       <BoxHolder>
-        <DayBox day="Mon"></DayBox>
-        <DayBox day="Tue"></DayBox>
-        <DayBox day="Wed"></DayBox>
-        <DayBox day="Thu"></DayBox>
-        <DayBox day="Fri"></DayBox>
-        <DayBox day="Sat"></DayBox>
-        <DayBox day="Sun"></DayBox>
+        <DayBox day="Mon" transformConst={0}></DayBox>
+        <DayBox day="Tue" transformConst={1}></DayBox>
+        <DayBox day="Wed" transformConst={2}></DayBox>
+        <DayBox day="Thu" transformConst={3}></DayBox>
+        <DayBox day="Fri" transformConst={4}></DayBox>
+        <DayBox day="Sat" transformConst={5}></DayBox>
+        <DayBox day="Sun" transformConst={6}></DayBox>
       </BoxHolder>
     </BoxDiv>
   ); 

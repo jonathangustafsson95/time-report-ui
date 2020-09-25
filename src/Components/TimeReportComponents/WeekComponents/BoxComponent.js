@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import BoxItem from './BoxItemComponent';
 
-const DayBox = ({ day }) => {
+const DayBox = ({ day, transformConst }) => {
+  var date = new Date();
+  date.setDate(date.getDate() + transformConst);
+  console.log(date);
   return (
     <Main>
       <Text>{day}</Text>
