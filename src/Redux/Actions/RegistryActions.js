@@ -36,3 +36,48 @@ export const fetchRegistriesByWeek = () => {
       });
   };
 };
+
+export const addRegistryToStore = (registryData) => {
+  return {
+    type: Types.ADD_REGISTRY_TO_STORE,
+    payload: registryData,
+  };
+};
+
+export const postRegistriesRequest = () => {
+  return {
+    type: Types.POST_REGISTRIES_REQUEST,
+  };
+};
+
+export const postRegistriesSuccess = () => {
+  return {
+    type: Types.POST_REGISTRIES_SUCCESS,
+  };
+};
+
+export const postRegistriesFailure = (error) => {
+  return {
+    type: Types.POST_REGISTRIES_FAILURE,
+    payload: error,
+  };
+};
+
+export const postRegistries = (Registries) => {
+  return (dispatch) => {
+    dispatch(postRegistriesRequest);
+    axios
+      .post(
+        "https://localhost:44362/api/reporting/getweek/2021-01-02",
+        Registries
+      )
+      .then((response) => {
+        const registries = response.data;
+        dispatch(postRegistriesSuccess);
+      })
+      .catch((error) => {
+        const errorMsg = error.message;
+        dispatch(postRegistriesFailure(errorMsg));
+      });
+  };
+};

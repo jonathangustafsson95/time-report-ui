@@ -1,28 +1,48 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { connect } from "react-redux";
+import Modal from "../../Modals/Modal";
+import AddRegistry from "../../Modals/AddRegistryModal";
 
-const DayBox = ({ day, registries }) => {
-  console.log(day);
-  console.log(registries);
+const DayBox = ({ day, dayConst, registries }) => {
+  const tmpDate = new Date();
+  tmpDate.setDate(-tmpDate.getDay() + dayConst + 1);
+  
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [date, setDate] = useState(tmpDate);
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
+
+  const escFunction = useCallback((event) => {
+    if (event.keyCode === 27) {
+      setModalIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
 
   let registryList = [];
   registries.map((registry) => {
-    registryList.push(<BoxItem registry={registry} />);
+    registryList.push(<BoxItem registry={registry} key={registry.registryId}/>);
   });
-
-  const test = () => {
-    console.log("CLICK");
-  }
 
   return (
     <Main>
+      <Modal isOpen={modalIsOpen}>
+        <AddRegistry date={date} closeModal={closeModal}/>
+      </Modal>
       <Text>{day}</Text>
       <Box>
-        <BoxItemHolder>
-          {registryList}
-        </BoxItemHolder>
+        <BoxItemHolder>{registryList}</BoxItemHolder>
         <Line></Line>
         <Line></Line>
         <Line></Line>
@@ -34,9 +54,9 @@ const DayBox = ({ day, registries }) => {
 
         <AddBtn
           type="image"
-          alt="CreateTask"
+          alt="AddRegistry"
           src={require("./Images/add.svg")}
-          onClick={test}
+          onClick={() => setModalIsOpen(true)}
         ></AddBtn>
       </Box>
     </Main>
@@ -45,7 +65,7 @@ const DayBox = ({ day, registries }) => {
 
 const BoxItemHolder = styled.div`
   position: absolute;
-  min-height: inherit;
+  min-height: inherit - 100px;
   min-width: inherit;
 `;
 
@@ -88,7 +108,10 @@ const Text = styled.p`
 const AddBtn = styled.input`
   margin-top: 20px;
   &:hover {
-    transform: scale(1.1) perspective(1px);
+    transform: scale(1.03) perspective(1px);
+  }
+  &:focus {
+    outline: 0;
   }
 `;
 

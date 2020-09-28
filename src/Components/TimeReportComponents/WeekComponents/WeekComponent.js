@@ -5,25 +5,42 @@ import DayBox from "./BoxComponent";
 import { fetchRegistriesByWeek } from "../../../Redux/Actions/RegistryActions";
 
 const Week = ({ registriesByWeek, fetchRegistries }) => {
-  useEffect(() => {
-    fetchRegistries();
-  }, []);
+  // useEffect(() => {
+  //   fetchRegistries();
+  // }, []);
 
   return (
-    <BoxDiv>
-      <Text>2020.09.14 - 2020.09.20</Text>
-      <BoxHolder>
-        <DayBox day="Mon" dayConst={0}></DayBox>
-        <DayBox day="Tue" dayConst={1}></DayBox>
-        <DayBox day="Wed" dayConst={2}></DayBox>
-        <DayBox day="Thu" dayConst={3}></DayBox>
-        <DayBox day="Fri" dayConst={4}></DayBox>
-        <DayBox day="Sat" dayConst={5}></DayBox>
-        <DayBox day="Sun" dayConst={6}></DayBox>
-      </BoxHolder>
-    </BoxDiv>
+    <div>
+      <BoxDiv>
+        <Text>2020.09.14 - 2020.09.20</Text>
+        <BoxHolder>
+          <DayBox day="Mon" dayConst={0}></DayBox>
+          <DayBox day="Tue" dayConst={1}></DayBox>
+          <DayBox day="Wed" dayConst={2}></DayBox>
+          <DayBox day="Thu" dayConst={3}></DayBox>
+          <DayBox day="Fri" dayConst={4}></DayBox>
+          <DayBox day="Sat" dayConst={5}></DayBox>
+          <DayBox day="Sun" dayConst={6}></DayBox>
+        </BoxHolder>
+      </BoxDiv>
+      <Button>Report</Button>
+    </div>
   );
 };
+
+const Button = styled.button`
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  color: #fff;
+  margin-left: 40%;
+  margin-right: 40%;
+  width: 189px;
+  height: 40px; 
+  border-radius: 8px;
+  background: #585656;
+  border: 2px solid #585656;
+`;
 
 const BoxDiv = styled.div`
   border-radius: 8px;
@@ -37,7 +54,7 @@ const BoxHolder = styled.div`
   grid-gap: 10px;
   margin-left: 50px;
   margin-right: 50px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const Text = styled.p`
@@ -47,7 +64,6 @@ const Text = styled.p`
   font-size: 14px;
   letter-spacing: 0.08em;
   line-height: 44px;
-  text-align: left;
   color: #585656;
   text-align: center;
 `;
