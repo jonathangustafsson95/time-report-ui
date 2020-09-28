@@ -1,38 +1,38 @@
 import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
 
-export const fetchTasksByWeekRequest = () => {
+export const fetchRegistriesByWeekRequest = () => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_REQUEST,
   };
 };
 
-export const fetchTasksByWeekSuccess = (registries) => {
+export const fetchRegistriesByWeekSuccess = (registries) => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_SUCCESS,
     payload: registries,
   };
 };
 
-export const fetchTasksByWeekFailure = (error) => {
+export const fetchRegistriesByWeekFailure = (error) => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_FAILURE,
     payload: error,
   };
 };
 
-export const fetchTasksByWeek = () => {
+export const fetchRegistriesByWeek = () => {
   return (dispatch) => {
-    dispatch(fetchTasksByWeekRequest);
+    dispatch(fetchRegistriesByWeekRequest);
     axios
       .get("http://jsonplaceholder.typicode.com/posts")
       .then((response) => {
         const registries = response.data;
-        dispatch(fetchTasksByWeekSuccess(registries));
+        dispatch(fetchRegistriesByWeekSuccess(registries));
       })
       .catch((error) => {
         const errorMsg = error.message;
-        dispatch(fetchTasksByWeekFailure(errorMsg));
+        dispatch(fetchRegistriesByWeekFailure(errorMsg));
       });
   };
 };

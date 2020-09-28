@@ -1,15 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import BoxItem from './BoxItemComponent';
+import BoxItem from "./BoxItemComponent";
+import { connect } from "react-redux";
 
-const DayBox = ({ day, transformConst }) => {
-  var date = new Date();
-  date.setDate(date.getDate() + transformConst);
-  console.log(date);
+const DayBox = ({ day, registries }) => {
+  console.log(day);
+  console.log(registries);
+
+  let registryList = [];
+  registries.map((registry) => {
+    registryList.push(<BoxItem registry={registry} />);
+  });
+
+  const test = () => {
+    console.log("CLICK");
+  }
+
   return (
     <Main>
       <Text>{day}</Text>
       <Box>
+        <BoxItemHolder>
+          {registryList}
+        </BoxItemHolder>
         <Line></Line>
         <Line></Line>
         <Line></Line>
@@ -23,11 +36,18 @@ const DayBox = ({ day, transformConst }) => {
           type="image"
           alt="CreateTask"
           src={require("./Images/add.svg")}
+          onClick={test}
         ></AddBtn>
       </Box>
     </Main>
   );
 };
+
+const BoxItemHolder = styled.div`
+  position: absolute;
+  min-height: inherit;
+  min-width: inherit;
+`;
 
 const Main = styled.div``;
 
@@ -36,6 +56,8 @@ const Line = styled.hr`
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 45px;
+  // border-top: 1px dashed #707070;
+  // opacity: 0.3;
 `;
 
 const Box = styled.div`
@@ -66,8 +88,16 @@ const Text = styled.p`
 const AddBtn = styled.input`
   margin-top: 20px;
   &:hover {
-    transform: scale(1.03) perspective(1px);
+    transform: scale(1.1) perspective(1px);
   }
 `;
 
-export default DayBox;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    registries: state.registryData.registriesByWeek.filter(
+      (registry) => registry.dayOfWeek === ownProps.dayConst
+    ),
+  };
+};
+
+export default connect(mapStateToProps)(DayBox);

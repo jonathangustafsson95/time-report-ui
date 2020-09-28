@@ -2,9 +2,38 @@ import * as Types from "../Types/RegistryTypes";
 
 const initialState = {
   loading: false,
-  registriesByWeek: [],
+  registriesByWeek: [
+    {
+      registryId: 1,
+      hours: 2,
+      dayOfWeek: 0,
+      projectName: "Project 1",
+      taskName: "Task 1",
+    },
+    {
+      registryId: 2,
+      hours: 3,
+      dayOfWeek: 1,
+      projectName: "Project 1",
+      taskName: "Task 2",
+    },
+    {
+      registryId: 3,
+      hours: 2,
+      dayOfWeek: 2,
+      projectName: "Project 1",
+      taskName: "Task 3",
+    },
+    {
+      registryId: 3,
+      hours: 1,
+      dayOfWeek: 0,
+      projectName: "Project 1",
+      taskName: "Task 4",
+    },
+  ],
   error: "",
-  registriesToReport: []
+  registriesToReport: [],
 };
 
 const registryReducer = (state = initialState, action) => {

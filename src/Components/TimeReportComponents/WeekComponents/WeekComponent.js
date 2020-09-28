@@ -2,27 +2,27 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./BoxComponent";
-import { fetchTasksByWeek } from '../../../Redux/Actions/RegistryActions';
+import { fetchRegistriesByWeek } from "../../../Redux/Actions/RegistryActions";
 
-const Week = () => {
-    useEffect(() => {
-        fetchTasksByWeek();
-      }, []);
+const Week = ({ registriesByWeek, fetchRegistries }) => {
+  // useEffect(() => {
+  //   fetchRegistries();
+  // }, []);
 
   return (
     <BoxDiv>
       <Text>2020.09.14 - 2020.09.20</Text>
       <BoxHolder>
-        <DayBox day="Mon" transformConst={0}></DayBox>
-        <DayBox day="Tue" transformConst={1}></DayBox>
-        <DayBox day="Wed" transformConst={2}></DayBox>
-        <DayBox day="Thu" transformConst={3}></DayBox>
-        <DayBox day="Fri" transformConst={4}></DayBox>
-        <DayBox day="Sat" transformConst={5}></DayBox>
-        <DayBox day="Sun" transformConst={6}></DayBox>
+        <DayBox day="Mon" dayConst={0}></DayBox>
+        <DayBox day="Tue" dayConst={1}></DayBox>
+        <DayBox day="Wed" dayConst={2}></DayBox>
+        <DayBox day="Thu" dayConst={3}></DayBox>
+        <DayBox day="Fri" dayConst={4}></DayBox>
+        <DayBox day="Sat" dayConst={5}></DayBox>
+        <DayBox day="Sun" dayConst={6}></DayBox>
       </BoxHolder>
     </BoxDiv>
-  ); 
+  );
 };
 
 const BoxDiv = styled.div`
@@ -53,15 +53,15 @@ const Text = styled.p`
 `;
 
 const mapStateToProps = (state) => {
-    return {
-        tasks: state.taskData,
-    }
-}
+  return {
+    registryData: state.registryData,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchTasksByWeek: dispatch(fetchTasksByWeek()),
-    }
-}
+  return {
+    fetchRegistries: () => dispatch(fetchRegistriesByWeek()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Week);
