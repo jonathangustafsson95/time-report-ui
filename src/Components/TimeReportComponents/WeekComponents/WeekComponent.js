@@ -5,9 +5,9 @@ import DayBox from "./BoxComponent";
 import { fetchRegistriesByWeek } from "../../../Redux/Actions/RegistryActions";
 
 const Week = ({ registriesByWeek, fetchRegistries }) => {
-  // useEffect(() => {
-  //   fetchRegistries();
-  // }, []);
+  useEffect(() => {
+    fetchRegistries();
+  }, []);
 
   return (
     <BoxDiv>

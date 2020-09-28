@@ -95,7 +95,7 @@ const AddBtn = styled.input`
 const mapStateToProps = (state, ownProps) => {
   return {
     registries: state.registryData.registriesByWeek.filter(
-      (registry) => registry.dayOfWeek === ownProps.dayConst
+      (registry) => registry.day === ownProps.dayConst
     ),
   };
 };

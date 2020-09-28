@@ -12,7 +12,7 @@ const BoxItem = ({ registry }) => {
       <InfoDiv>
         <RegisterImage src={require("./Images/register.svg")} />
         <TextDiv>
-          <ProjectText>{registry.projectName}</ProjectText>
+          <ProjectText>{registry.missionName}</ProjectText>
           <TaskText>{registry.taskName}</TaskText>
         </TextDiv>
       </InfoDiv>

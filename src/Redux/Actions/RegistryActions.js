@@ -25,7 +25,7 @@ export const fetchRegistriesByWeek = () => {
   return (dispatch) => {
     dispatch(fetchRegistriesByWeekRequest);
     axios
-      .get("http://jsonplaceholder.typicode.com/posts")
+      .get("https://localhost:44362/api/reporting/getweek/2021-01-02")
       .then((response) => {
         const registries = response.data;
         dispatch(fetchRegistriesByWeekSuccess(registries));
