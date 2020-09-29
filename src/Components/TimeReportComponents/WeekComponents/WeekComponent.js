@@ -2,24 +2,30 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./BoxComponent";
+import { BeatLoader } from "react-spinners";
+import { css } from "@emotion/core";
 import {
   fetchRegistriesByWeek,
   postRegistries,
 } from "../../../Redux/Actions/RegistryActions";
 
-const Week = ({
-  registries,
-  registriesToReport,
-  fetchRegistries,
-  reportRegistries,
-}) => {
+const override = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+`;
+
+const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
   useEffect(() => {
     fetchRegistries();
   }, []);
 
+  console.log(registryData.loading, registryData.error);
+
   const onReportRegistries = () => {
-    console.log(registriesToReport);
-    reportRegistries(registriesToReport);
+    reportRegistries(registryData.registriesToReport);
   };
 
   return (
@@ -34,7 +40,18 @@ const Week = ({
           <DayBox day="Fri" dayConst={4}></DayBox>
           <DayBox day="Sat" dayConst={5}></DayBox>
           <DayBox day="Sun" dayConst={6}></DayBox>
+
+          <BeatLoader
+            loading={registryData.loading}
+            css={override}
+            color={"#585656"}
+          ></BeatLoader>
         </BoxHolder>
+        {registryData.error && (
+          <ErrorMsg>
+            Sorry something went wrong... "{registryData.errorMsg}"
+          </ErrorMsg>
+        )}
       </BoxDiv>
       <Button onClick={onReportRegistries}>Report</Button>
     </div>
@@ -61,6 +78,7 @@ const BoxDiv = styled.div`
   // @media (min-width: 1000px) {
   //   transform: scale(1.2);
   // }
+  margin-bottom: 30px;
   filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
 `;
 
@@ -70,7 +88,7 @@ const BoxHolder = styled.div`
   grid-gap: 10px;
   margin-left: 50px;
   margin-right: 50px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
 `;
 
 const Text = styled.p`
@@ -84,10 +102,13 @@ const Text = styled.p`
   text-align: center;
 `;
 
+const ErrorMsg = styled(Text)`
+  color: #ff2366; ;
+`;
+
 const mapStateToProps = (state) => {
   return {
-    registries: state.registryData.registriesByWeek,
-    registriesToReport: state.registryData.registriesToReport,
+    registryData: state.registryData,
   };
 };
 

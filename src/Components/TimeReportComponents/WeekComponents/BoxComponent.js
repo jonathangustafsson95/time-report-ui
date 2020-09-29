@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { connect } from "react-redux";
-import Modal from "../../Modals/Modal";
+//import Modal from "../../Modals/Modal";
+import Modal from "react-bootstrap/Modal";
 import AddRegistry from "../../Modals/AddRegistryModal";
 
 const DayBox = ({ day, dayConst, registries }) => {
@@ -15,7 +16,7 @@ const DayBox = ({ day, dayConst, registries }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [date, setDate] = useState(d);
 
-  const closeModal = () => {
+  const onCloseModal = () => {
     setModalIsOpen(false);
   };
 
@@ -42,9 +43,14 @@ const DayBox = ({ day, dayConst, registries }) => {
 
   return (
     <Main>
-      <Modal isOpen={modalIsOpen}>
+      <AddRegistry
+        onCloseModal={onCloseModal}
+        modalIsOpen={modalIsOpen}
+        date={date}
+      />
+      {/* <Modal isOpen={modalIsOpen}>
         <AddRegistry date={date} closeModal={closeModal} />
-      </Modal>
+      </Modal> */}
       <Text>{day}</Text>
       <Box>
         <BoxItemHolder>{registryList}</BoxItemHolder>

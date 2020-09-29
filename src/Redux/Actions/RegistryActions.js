@@ -24,7 +24,7 @@ export const fetchRegistriesByWeekFailure = (error) => {
 
 export const fetchRegistriesByWeek = () => {
   return (dispatch) => {
-    dispatch(fetchRegistriesByWeekRequest);
+    dispatch(fetchRegistriesByWeekRequest());
     axios
       .get(service.baseUrl + "/reporting/getweek/2021-01-02")
       .then((response) => {
@@ -67,7 +67,7 @@ export const postRegistriesFailure = (error) => {
 export const postRegistries = (registries) => {
   console.log(registries);
   return (dispatch) => {
-    dispatch(postRegistriesRequest);
+    dispatch(postRegistriesRequest());
     let payload = {
       registriesToReport: registries,
     };
@@ -77,20 +77,11 @@ export const postRegistries = (registries) => {
       data: payload,
     })
       .then(() => {
-        dispatch(postRegistriesSuccess);
+        dispatch(postRegistriesSuccess());
       })
       .catch((error) => {
         const errorMsg = error.message;
         dispatch(postRegistriesFailure(errorMsg));
       });
-    // axios
-    //   .post(service.baseUrl + "/reporting/AddTimeReport", { registries })
-    //   .then(() => {
-    //     dispatch(postRegistriesSuccess);
-    //   })
-    //   .catch((error) => {
-    //     const errorMsg = error.message;
-    //     dispatch(postRegistriesFailure(errorMsg));
-    //   });
   };
 };

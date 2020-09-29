@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import Modal from "react-bootstrap/Modal";
 import { addRegistryToStore } from "../../Redux/Actions/RegistryActions";
 
-const AddRegistry = ({ addRegistry, date, closeModal }) => {
+const AddRegistry = ({ addRegistry, date, modalIsOpen, onCloseModal }) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
@@ -14,8 +15,8 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
     const time = parseFloat(hours) + mins;
 
     const registryToReport = {
-      registryId: -1,
-      taskId: -1,
+      registryId: 0,
+      taskId: null,
       userId: 1,
       hours: time,
       created: new Date().toJSON(),
@@ -24,7 +25,7 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
     };
 
     const registry = {
-      registryId: -1,
+      registryId: 0,
       hours: time,
       day: date.getDay() - 1,
       missionName: "Internal",
@@ -32,28 +33,33 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
     };
 
     addRegistry([registry, registryToReport]);
-    closeModal();
+    onCloseModal();
   };
 
   return (
-    <RootDiv>
-      <InputDiv>
-        <Input
-          type="number"
-          id="hours"
-          value={hours}
-          onChange={(e) => setHours(e.target.value)}
-        />
-        <Line></Line>
-        <Input
-          type="number"
-          id="minutes"
-          value={minutes}
-          onChange={(e) => setMinutes(e.target.value)}
-        />
-      </InputDiv>
-      <Button onClick={onAddRegistry}>Add</Button>
-    </RootDiv>
+    <Modal show={modalIsOpen} onHide={onCloseModal}>
+      {/* <Modal.Header>
+        <Text>New Report</Text>
+      </Modal.Header> */}
+      <Modal.Body>
+        <InputDiv>
+          <Input
+            type="number"
+            id="hours"
+            value={hours}
+            onChange={(e) => setHours(e.target.value)}
+          />
+          <Line></Line>
+          <Input
+            type="number"
+            id="minutes"
+            value={minutes}
+            onChange={(e) => setMinutes(e.target.value)}
+          />
+        </InputDiv>
+        <Button onClick={onAddRegistry}>Add</Button>
+      </Modal.Body>
+    </Modal>
   );
 };
 
@@ -64,12 +70,24 @@ const Button = styled.button`
   color: #fff;
   width: 189px;
   height: 40px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 8px;
   background: #585656;
   border: 2px solid #585656;
-  text-align: center;
+  margin-left: 30%;
+`;
+
+const Text = styled.p`
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  line-height: 46px;
+  text-align: left;
+  color: #585656;
+  opacity: 0.7;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Line = styled.hr`
@@ -115,25 +133,6 @@ const Input = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
-`;
-
-const RootDiv = styled.div`
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  margin-top: 100px;
-  border-radius: 14px;
-  width: 350px;
-  height: 200px;
-  background: #fff;
-  box-shadow: 0 0 0 1600px rgba(0, 0, 0, 0.3);
 `;
 
 const mapDispatchToProps = (dispatch) => {
