@@ -1,5 +1,6 @@
 import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
+import * as service from "../ApiService/Service";
 
 export const fetchRegistriesByWeekRequest = () => {
   return {
@@ -25,7 +26,7 @@ export const fetchRegistriesByWeek = () => {
   return (dispatch) => {
     dispatch(fetchRegistriesByWeekRequest);
     axios
-      .get("https://localhost:44362/api/reporting/getweek/2021-01-02")
+      .get(service.baseUrl + "/reporting/getweek/2021-01-02")
       .then((response) => {
         const registries = response.data;
         dispatch(fetchRegistriesByWeekSuccess(registries));
@@ -63,21 +64,33 @@ export const postRegistriesFailure = (error) => {
   };
 };
 
-export const postRegistries = (Registries) => {
+export const postRegistries = (registries) => {
+  console.log(registries);
   return (dispatch) => {
     dispatch(postRegistriesRequest);
-    axios
-      .post(
-        "https://localhost:44362/api/reporting/getweek/2021-01-02",
-        Registries
-      )
-      .then((response) => {
-        const registries = response.data;
+    let payload = {
+      registriesToReport: registries,
+    };
+    axios({
+      url: service.baseUrl + "/reporting/AddTimeReport",
+      method: "post",
+      data: payload,
+    })
+      .then(() => {
         dispatch(postRegistriesSuccess);
       })
       .catch((error) => {
         const errorMsg = error.message;
         dispatch(postRegistriesFailure(errorMsg));
       });
+    // axios
+    //   .post(service.baseUrl + "/reporting/AddTimeReport", { registries })
+    //   .then(() => {
+    //     dispatch(postRegistriesSuccess);
+    //   })
+    //   .catch((error) => {
+    //     const errorMsg = error.message;
+    //     dispatch(postRegistriesFailure(errorMsg));
+    //   });
   };
 };

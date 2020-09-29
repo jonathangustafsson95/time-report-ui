@@ -6,15 +6,18 @@ import Modal from "../../Modals/Modal";
 import AddRegistry from "../../Modals/AddRegistryModal";
 
 const DayBox = ({ day, dayConst, registries }) => {
-  const tmpDate = new Date();
-  tmpDate.setDate(-tmpDate.getDay() + dayConst + 1);
-  
+  var d = new Date();
+  var dayC = d.getDay(),
+    diff = d.getDate() - dayC + (dayC == 0 ? -6 : 1);
+  d.setDate(diff);
+  d.setDate(d.getDate() + dayConst);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [date, setDate] = useState(tmpDate);
+  const [date, setDate] = useState(d);
 
   const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -32,13 +35,15 @@ const DayBox = ({ day, dayConst, registries }) => {
 
   let registryList = [];
   registries.map((registry) => {
-    registryList.push(<BoxItem registry={registry} key={registry.registryId}/>);
+    registryList.push(
+      <BoxItem registry={registry} key={registry.registryId} />
+    );
   });
 
   return (
     <Main>
       <Modal isOpen={modalIsOpen}>
-        <AddRegistry date={date} closeModal={closeModal}/>
+        <AddRegistry date={date} closeModal={closeModal} />
       </Modal>
       <Text>{day}</Text>
       <Box>
@@ -83,7 +88,7 @@ const Line = styled.hr`
 const Box = styled.div`
   overflow: auto;
   border-radius: 8px;
-  height: 45vh;
+  //height: 45vh;
   min-height: 430px;
   min-width: 140px;
   margin-bottom: 25px;

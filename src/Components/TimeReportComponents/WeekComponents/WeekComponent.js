@@ -2,12 +2,25 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./BoxComponent";
-import { fetchRegistriesByWeek } from "../../../Redux/Actions/RegistryActions";
+import {
+  fetchRegistriesByWeek,
+  postRegistries,
+} from "../../../Redux/Actions/RegistryActions";
 
-const Week = ({ registriesByWeek, fetchRegistries }) => {
-  // useEffect(() => {
-  //   fetchRegistries();
-  // }, []);
+const Week = ({
+  registries,
+  registriesToReport,
+  fetchRegistries,
+  reportRegistries,
+}) => {
+  useEffect(() => {
+    fetchRegistries();
+  }, []);
+
+  const onReportRegistries = () => {
+    console.log(registriesToReport);
+    reportRegistries(registriesToReport);
+  };
 
   return (
     <div>
@@ -23,7 +36,7 @@ const Week = ({ registriesByWeek, fetchRegistries }) => {
           <DayBox day="Sun" dayConst={6}></DayBox>
         </BoxHolder>
       </BoxDiv>
-      <Button>Report</Button>
+      <Button onClick={onReportRegistries}>Report</Button>
     </div>
   );
 };
@@ -36,7 +49,7 @@ const Button = styled.button`
   margin-left: 40%;
   margin-right: 40%;
   width: 189px;
-  height: 40px; 
+  height: 40px;
   border-radius: 8px;
   background: #585656;
   border: 2px solid #585656;
@@ -45,6 +58,9 @@ const Button = styled.button`
 const BoxDiv = styled.div`
   border-radius: 8px;
   background: #fff;
+  // @media (min-width: 1000px) {
+  //   transform: scale(1.2);
+  // }
   filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
 `;
 
@@ -70,13 +86,15 @@ const Text = styled.p`
 
 const mapStateToProps = (state) => {
   return {
-    registryData: state.registryData,
+    registries: state.registryData.registriesByWeek,
+    registriesToReport: state.registryData.registriesToReport,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchRegistries: () => dispatch(fetchRegistriesByWeek()),
+    reportRegistries: (registries) => dispatch(postRegistries(registries)),
   };
 };
 

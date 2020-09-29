@@ -7,8 +7,10 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
+  console.log(date);
+
   const onAddRegistry = () => {
-    const mins = parseFloat(minutes) / 60 * 1;
+    const mins = (parseFloat(minutes) / 60) * 1;
     const time = parseFloat(hours) + mins;
 
     const registryToReport = {
@@ -16,8 +18,8 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
       taskId: -1,
       userId: 1,
       hours: time,
-      created: Date.now(),
-      date: date,
+      created: new Date().toJSON(),
+      date: date.toJSON(),
       invoice: 0,
     };
 
@@ -27,7 +29,7 @@ const AddRegistry = ({ addRegistry, date, closeModal }) => {
       day: date.getDay() - 1,
       missionName: "Internal",
       taskName: "",
-    }
+    };
 
     addRegistry([registry, registryToReport]);
     closeModal();
