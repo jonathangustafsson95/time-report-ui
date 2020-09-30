@@ -1,10 +1,12 @@
 import React from "react";
 import Layout from "./Components/Layout";
+import SignIn from "./Components/SignInComponents/SignInComponent";
 
 function App({ count, incrementCount }) {
   return (
     <div>
-      <Layout />
+      <SignIn />
+      {/* <Layout /> */}
     </div>
   );
 }

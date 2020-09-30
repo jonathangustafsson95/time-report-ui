@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "redux-thunk";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
 import TimeInput from "../CommonComponents/TimeInputComponent";
@@ -9,6 +10,8 @@ const RegistryInfoModal = ({ showInfoModal, onCloseInfoModal, registry }) => {
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
 
+  const onDelete = () => {};
+
   return (
     <RegistryModal show={showInfoModal} onHide={onCloseInfoModal}>
       <Modal.Header>
@@ -17,6 +20,7 @@ const RegistryInfoModal = ({ showInfoModal, onCloseInfoModal, registry }) => {
           type="image"
           alt="delete"
           src={require("./Icons/trash.svg")}
+          onClick={onDelete}
         ></DeleteBtn>
       </Modal.Header>
       <Modal.Body>
@@ -54,5 +58,9 @@ const Text = styled.h1`
 const RegistryModal = styled(Modal)`
   margin-top: 15%;
 `;
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
 export default RegistryInfoModal;

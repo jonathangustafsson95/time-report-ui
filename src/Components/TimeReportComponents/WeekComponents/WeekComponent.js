@@ -22,6 +22,7 @@ const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
   useEffect(() => {
     fetchRegistries();
   }, []);
+
   const [reportSuccess, setreportSuccess] = useState(false);
 
   console.log(registryData.loading, registryData.error);
