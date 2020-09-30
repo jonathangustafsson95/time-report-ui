@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./BoxComponent";
@@ -8,6 +8,7 @@ import {
   fetchRegistriesByWeek,
   postRegistries,
 } from "../../../Redux/Actions/RegistryActions";
+import { Redirect } from "react-router-dom";
 
 const override = css`
   position: absolute;
@@ -21,25 +22,33 @@ const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
   useEffect(() => {
     fetchRegistries();
   }, []);
+  const [reportSuccess, setreportSuccess] = useState(false);
 
   console.log(registryData.loading, registryData.error);
 
   const onReportRegistries = () => {
     reportRegistries(registryData.registriesToReport);
+    if (!registryData.error) {
+      setreportSuccess(true);
+    }
   };
+
+  if (reportSuccess) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>
       <BoxDiv>
         <Text>2020.09.14 - 2020.09.20</Text>
         <BoxHolder>
-          <DayBox day="Mon" dayConst={0}></DayBox>
-          <DayBox day="Tue" dayConst={1}></DayBox>
-          <DayBox day="Wed" dayConst={2}></DayBox>
-          <DayBox day="Thu" dayConst={3}></DayBox>
-          <DayBox day="Fri" dayConst={4}></DayBox>
-          <DayBox day="Sat" dayConst={5}></DayBox>
-          <DayBox day="Sun" dayConst={6}></DayBox>
+          <DayBox day="Mon" dayConst={1}></DayBox>
+          <DayBox day="Tue" dayConst={2}></DayBox>
+          <DayBox day="Wed" dayConst={3}></DayBox>
+          <DayBox day="Thu" dayConst={4}></DayBox>
+          <DayBox day="Fri" dayConst={5}></DayBox>
+          <DayBox day="Sat" dayConst={6}></DayBox>
+          <DayBox day="Sun" dayConst={0}></DayBox>
 
           <BeatLoader
             loading={registryData.loading}
@@ -53,7 +62,7 @@ const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
           </ErrorMsg>
         )}
       </BoxDiv>
-      <Button onClick={onReportRegistries}>Report</Button>
+      <Button onClick={onReportRegistries}>Save Changes</Button>
     </div>
   );
 };

@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import RegistryInfoModal from "../../Modals/RegistryInfoModal";
 
 const BoxItem = ({ registry }) => {
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   const Box = styled(Main)`
-  height: ${registry.hours * 46}px;
+    height: ${registry.hours * 46}px;
   `;
 
+  const onCloseInfoModal = () => {
+    setShowInfoModal(false);
+  };
+
   return (
-    <Box>
+    <Box draggable onClick={() => setShowInfoModal(true)}>
+      <RegistryInfoModal
+        onCloseInfoModal={onCloseInfoModal}
+        showInfoModal={showInfoModal}
+        registry={registry}
+      />
       <InfoDiv>
         <RegisterImage src={require("./Images/register.svg")} />
         <TextDiv>
@@ -21,8 +32,8 @@ const BoxItem = ({ registry }) => {
 };
 
 const InfoDiv = styled.div`
-margin-top: 4px;
-margin-left: 4px;
+  margin-top: 4px;
+  margin-left: 4px;
   display: flex;
 `;
 

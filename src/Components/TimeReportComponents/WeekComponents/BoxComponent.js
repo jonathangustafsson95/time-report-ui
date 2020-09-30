@@ -1,38 +1,26 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { connect } from "react-redux";
-//import Modal from "../../Modals/Modal";
-import Modal from "react-bootstrap/Modal";
-import AddRegistry from "../../Modals/AddRegistryModal";
+import AddRegistryModal from "../../Modals/AddRegistryModal";
 
 const DayBox = ({ day, dayConst, registries }) => {
   var d = new Date();
   var dayC = d.getDay(),
     diff = d.getDate() - dayC + (dayC == 0 ? -6 : 1);
   d.setDate(diff);
-  d.setDate(d.getDate() + dayConst);
+  if (dayConst === 0) {
+    d.setDate(d.getDate() + dayConst + 6);
+  } else {
+    d.setDate(d.getDate() + dayConst - 1);
+  }
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [date, setDate] = useState(d);
 
-  const onCloseModal = () => {
-    setModalIsOpen(false);
+  const onCloseAddModal = () => {
+    setShowAddModal(false);
   };
-
-  const escFunction = useCallback((event) => {
-    if (event.keyCode === 27) {
-      setModalIsOpen(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, []);
 
   let registryList = [];
   registries.map((registry) => {
@@ -43,14 +31,12 @@ const DayBox = ({ day, dayConst, registries }) => {
 
   return (
     <Main>
-      <AddRegistry
-        onCloseModal={onCloseModal}
-        modalIsOpen={modalIsOpen}
+      <AddRegistryModal
+        onCloseAddModal={onCloseAddModal}
+        showAddModal={showAddModal}
         date={date}
       />
-      {/* <Modal isOpen={modalIsOpen}>
-        <AddRegistry date={date} closeModal={closeModal} />
-      </Modal> */}
+
       <Text>{day}</Text>
       <Box>
         <BoxItemHolder>{registryList}</BoxItemHolder>
@@ -62,12 +48,11 @@ const DayBox = ({ day, dayConst, registries }) => {
         <Line></Line>
         <Line></Line>
         <Line></Line>
-
         <AddBtn
           type="image"
           alt="AddRegistry"
           src={require("./Images/add.svg")}
-          onClick={() => setModalIsOpen(true)}
+          onClick={() => setShowAddModal(true)}
         ></AddBtn>
       </Box>
     </Main>
@@ -75,7 +60,7 @@ const DayBox = ({ day, dayConst, registries }) => {
 };
 
 const BoxItemHolder = styled.div`
-  position: absolute;
+  position: fixed;
   min-height: inherit - 100px;
   min-width: inherit;
 `;

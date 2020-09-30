@@ -3,8 +3,14 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import { addRegistryToStore } from "../../Redux/Actions/RegistryActions";
+import TimeInput from "../CommonComponents/TimeInputComponent";
 
-const AddRegistry = ({ addRegistry, date, modalIsOpen, onCloseModal }) => {
+const AddRegistryModal = ({
+  addRegistry,
+  date,
+  showAddModal,
+  onCloseAddModal,
+}) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
   const [registryType, setRegistryType] = useState({
@@ -32,20 +38,26 @@ const AddRegistry = ({ addRegistry, date, modalIsOpen, onCloseModal }) => {
       invoice: 0,
     };
 
+    let day = date.getDay();
+    console.log(day);
+    if (day === 7) {
+      day = 0;
+    }
+
     const registry = {
       registryId: 0,
       hours: time,
-      day: date.getDay() - 1,
-      missionName: "Internal",
+      day: day,
+      missionName: "Internal time",
       taskName: "",
     };
 
     addRegistry([registry, registryToReport]);
-    onCloseModal();
+    onCloseAddModal();
   };
 
   return (
-    <RegistryModal show={modalIsOpen} onHide={onCloseModal}>
+    <RegistryModal show={showAddModal} onHide={onCloseAddModal}>
       <Modal.Body>
         <Text>New Registry</Text>
         <MenuDiv>
@@ -141,27 +153,13 @@ const AddRegistry = ({ addRegistry, date, modalIsOpen, onCloseModal }) => {
             </Icon>
           </IconButton>
         </IconMenuDiv>
-        <MenuDiv>
-          <SecondTitle>H</SecondTitle>
-          <SecondSpaceDiv />
-          <SecondTitle>M</SecondTitle>
-        </MenuDiv>
-
-        <InputDiv>
-          <Input
-            type="number"
-            id="hours"
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-          />
-          <Line></Line>
-          <Input
-            type="number"
-            id="minutes"
-            value={minutes}
-            onChange={(e) => setMinutes(e.target.value)}
-          />
-        </InputDiv>
+        <TimeInput
+          setHours={(value) => setHours(value)}
+          setMinutes={(value) => setMinutes(value)}
+          hours={hours}
+          minutes={minutes}
+          titleContent="Add time"
+        />
         <Button onClick={onAddRegistry}>Add</Button>
       </Modal.Body>
     </RegistryModal>
@@ -200,16 +198,8 @@ const SpaceDiv = styled.div`
   margin-right: 30px;
 `;
 
-const SecondSpaceDiv = styled.div`
-  width: 20px;
-`;
-
 const Title = styled(Text)`
   font-size: 12px;
-`;
-
-const SecondTitle = styled(Text)`
-  opacity: 0.7;
 `;
 
 const MenuDiv = styled.div`
@@ -219,7 +209,7 @@ const MenuDiv = styled.div`
 `;
 
 const IconMenuDiv = styled(MenuDiv)`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 const MenuLine = styled.hr`
@@ -257,55 +247,10 @@ const Button = styled.button`
   margin-left: 30%;
 `;
 
-const Line = styled.hr`
-  margin: 0;
-  width: 0px;
-  height: 24px;
-  background-color: #585656;
-  border: 1px solid #585656;
-  opacity: 0.7;
-`;
-
-const InputDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 74px;
-  height: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 6px;
-  background: #fff;
-  opacity: 0.7;
-  border: 2px solid #585656;
-  margin-top: -13px;
-  margin-bottom: 30px;
-`;
-
-const Input = styled.input`
-  font-family: Roboto;
-  font-weight: normal;
-  font-size: 16px;
-  width: 30px;
-  height: 25px;
-  letter-spacing: 0.08em;
-  line-height: 36px;
-  text-align: center;
-  color: #585656;
-  border: none;
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-
 const mapDispatchToProps = (dispatch) => {
   return {
     addRegistry: (registry) => dispatch(addRegistryToStore(registry)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddRegistry);
+export default connect(null, mapDispatchToProps)(AddRegistryModal);

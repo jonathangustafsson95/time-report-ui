@@ -24,9 +24,13 @@ export const fetchRegistriesByWeekFailure = (error) => {
 
 export const fetchRegistriesByWeek = () => {
   return (dispatch) => {
+    const date = new Date();
+    const stringDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
     dispatch(fetchRegistriesByWeekRequest());
     axios
-      .get(service.baseUrl + "/reporting/getweek/2021-01-02")
+      .get(service.baseUrl + "/reporting/getweek/" + stringDate)
       .then((response) => {
         const registries = response.data;
         dispatch(fetchRegistriesByWeekSuccess(registries));
