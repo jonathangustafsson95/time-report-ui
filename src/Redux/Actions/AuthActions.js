@@ -21,22 +21,15 @@ export const authorizeFailure = (error) => {
       };
 }
 
-export const authorize = () => {
+export const authorize = (userData) => {
     return (dispatch) => {
-
         dispatch(authorizeRequest())
-
-        //HTTP Call
         axios.post({
             url: service.baseUrl + "/system/login",
             method: "post",
-            data: payload,
-            headers: {
-                'Authorization': `Basic ${token}` 
-              }
-
+            data: userData,
         }).then((response) => {
-            dispatch(authorizeSuccess(token))
+            dispatch(authorizeSuccess(response))
         }).catch((errorMsg) => {
             dispatch(authorizeFailure(errorMsg))
         })
