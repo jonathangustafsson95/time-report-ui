@@ -25,19 +25,17 @@ export const authorize = (userData) => {
   console.log(userData);
   return (dispatch) => {
     dispatch(authorizeRequest());
-    let payload = {
-      user: userData,
-    };
+
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: payload,
+      data: userData,
     })
       .then((response) => {
         dispatch(authorizeSuccess(response));
       })
       .catch((error) => {
-        dispatch(authorizeFailure(error));
+        dispatch(authorizeFailure(error.message));
       });
   };
 };

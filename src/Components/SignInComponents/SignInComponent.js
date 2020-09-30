@@ -9,7 +9,8 @@ const SignIn = ({ authData, signIn }) => {
   const [password, setPassword] = useState("");
   console.log(userName);
 
-  const onSignIn = (e) => {
+  const onSignIn = (event) => {
+    event.preventDefault();
     signIn({
       userName: userName,
       password: password,
@@ -17,42 +18,28 @@ const SignIn = ({ authData, signIn }) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        onChange={(e) => setUserName(e.target.value)}
-        placeholder="username"
-      ></input>
-      <input
-        type="text"
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
-      ></input>
-      <button onClick={onSignIn}>sign in</button>
-    </div>
+    <Form onSubmit={onSignIn}>
+      <Form.Group controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          placeholder="Enter username"
+          onChange={(e) => setUserName(e.target.value)}
+        />
+      </Form.Group>
 
-    // <Form onSubmit={() => onSignIn}>
-    //   <Form.Group controlId="formBasicEmail">
-    //     <Form.Label>Username</Form.Label>
-    //     <Form.Control
-    //       placeholder="Enter username"
-    //       onChange={(e) => setUserName(e.target.value)}
-    //     />
-    //   </Form.Group>
+      <Form.Group controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </Form.Group>
 
-    //   <Form.Group controlId="formBasicPassword">
-    //     <Form.Label>Password</Form.Label>
-    //     <Form.Control
-    //       type="password"
-    //       placeholder="Password"
-    //       onChange={(e) => setPassword(e.target.value)}
-    //     />
-    //   </Form.Group>
-
-    //   <Button variant="primary" type="submit">
-    //     Sign in
-    //   </Button>
-    // </Form>
+      <Button variant="primary" type="submit">
+        Sign in
+      </Button>
+    </Form>
   );
 };
 
