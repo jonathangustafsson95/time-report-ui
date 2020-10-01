@@ -32,7 +32,7 @@ export const authorize = (userData) => {
       data: userData,
     })
       .then((response) => {
-        dispatch(authorizeSuccess(response));
+        dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
         dispatch(authorizeFailure(error.message));

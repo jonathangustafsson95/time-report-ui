@@ -22,15 +22,18 @@ export const fetchRegistriesByWeekFailure = (error) => {
   };
 };
 
-export const fetchRegistriesByWeek = () => {
+export const fetchRegistriesByWeek = (token) => {
   return (dispatch) => {
     const date = new Date();
     const stringDate =
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
     dispatch(fetchRegistriesByWeekRequest());
-    axios
-      .get(service.baseUrl + "/reporting/getweek/" + stringDate)
+    axios({
+      url: service.baseUrl + "/reporting/getweek/" + stringDate,
+      method: "get",
+      headers: { Authorization: "Bearer " + token },
+    })
       .then((response) => {
         const registries = response.data;
         dispatch(fetchRegistriesByWeekSuccess(registries));
@@ -68,8 +71,8 @@ export const postRegistriesFailure = (error) => {
   };
 };
 
-export const postRegistries = (registries) => {
-  console.log(registries);
+export const postRegistries = (registries, token) => {
+  console.log(token);
   return (dispatch) => {
     dispatch(postRegistriesRequest());
     let payload = {
@@ -79,6 +82,7 @@ export const postRegistries = (registries) => {
       url: service.baseUrl + "/reporting/AddTimeReport",
       method: "post",
       data: payload,
+      headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
         dispatch(postRegistriesSuccess());

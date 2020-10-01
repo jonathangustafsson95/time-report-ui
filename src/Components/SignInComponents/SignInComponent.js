@@ -7,7 +7,6 @@ import { authorize } from "../../Redux/Actions/AuthActions";
 const SignIn = ({ authData, signIn }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  console.log(userName);
 
   const onSignIn = (event) => {
     event.preventDefault();

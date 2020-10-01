@@ -18,17 +18,23 @@ const override = css`
   margin: auto;
 `;
 
-const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
+const Week = ({
+  registryData,
+  fetchRegistries,
+  reportRegistries,
+  authData,
+}) => {
   useEffect(() => {
-    fetchRegistries();
+    fetchRegistries(authData.user.token);
   }, []);
 
   const [reportSuccess, setreportSuccess] = useState(false);
 
   console.log(registryData.loading, registryData.error);
 
-  const onReportRegistries = () => {
-    reportRegistries(registryData.registriesToReport);
+  const onReportRegistries = (token) => {
+    console.log(token);
+    reportRegistries(registryData.registriesToReport, token);
     if (!registryData.error) {
       setreportSuccess(true);
     }
@@ -63,7 +69,9 @@ const Week = ({ registryData, fetchRegistries, reportRegistries }) => {
           </ErrorMsg>
         )}
       </BoxDiv>
-      <Button onClick={onReportRegistries}>Save Changes</Button>
+      <Button onClick={() => onReportRegistries(authData.user.token)}>
+        Save Changes
+      </Button>
     </div>
   );
 };
@@ -119,13 +127,15 @@ const ErrorMsg = styled(Text)`
 const mapStateToProps = (state) => {
   return {
     registryData: state.registryData,
+    authData: state.authData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchRegistries: () => dispatch(fetchRegistriesByWeek()),
-    reportRegistries: (registries) => dispatch(postRegistries(registries)),
+    fetchRegistries: (token) => dispatch(fetchRegistriesByWeek(token)),
+    reportRegistries: (registries, token) =>
+      dispatch(postRegistries(registries, token)),
   };
 };
 
