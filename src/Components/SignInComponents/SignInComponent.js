@@ -3,6 +3,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { authorize } from "../../Redux/Actions/AuthActions";
+import { isMobile } from "react-device-detect";
+import tapOrClick from 'react-tap-or-click'
+
 
 const SignIn = ({ authData, signIn }) => {
   const [userName, setUserName] = useState("");
@@ -17,7 +20,7 @@ const SignIn = ({ authData, signIn }) => {
   };
 
   return (
-    <Form onSubmit={onSignIn}>
+    <Form onSubmit={onSignIn} onTouchStart={onSignIn}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -34,13 +37,13 @@ const SignIn = ({ authData, signIn }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Group>
-
       <Button variant="primary" type="submit">
         Sign in
       </Button>
     </Form>
   );
 };
+
 
 const mapStateToProps = (state) => {
   return {
