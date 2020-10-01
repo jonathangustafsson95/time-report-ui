@@ -30,7 +30,7 @@ export const fetchRegistriesByWeek = (token) => {
 
     dispatch(fetchRegistriesByWeekRequest());
     axios({
-      url: service.baseUrl + "/reporting/getweek/" + stringDate,
+      url: service.baseUrl + "/reporting/week/" + stringDate,
       method: "get",
       headers: { Authorization: "Bearer " + token },
     })
@@ -108,13 +108,13 @@ export const saveChanges = (registriesToReport, registriesToDelete, token) => {
     axios
       .all([
         axios({
-          url: service.baseUrl + "/reporting/AddTimeReport",
+          url: service.baseUrl + "/reporting/TimeReport",
           method: "post",
           data: postPayload,
           headers: { Authorization: "Bearer " + token },
         }),
         axios({
-          url: service.baseUrl + "/reporting/AddTimeReport",
+          url: service.baseUrl + "/reporting/TimeReport",
           method: "delete",
           data: deletePayload,
           headers: { Authorization: "Bearer " + token },
