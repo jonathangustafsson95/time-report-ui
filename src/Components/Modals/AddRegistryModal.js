@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import { addRegistryToStore } from "../../Redux/Actions/RegistryActions";
 import TimeInput from "../CommonComponents/TimeInputComponent";
+import { v4 as uuidv4 } from "uuid";
 
 const AddRegistryModal = ({
   addRegistry,
@@ -28,6 +29,8 @@ const AddRegistryModal = ({
     const mins = (parseFloat(minutes) / 60) * 1;
     const time = parseFloat(hours) + mins;
 
+    const id = uuidv4();
+
     const registryToReport = {
       registryId: 0,
       taskId: null,
@@ -36,20 +39,23 @@ const AddRegistryModal = ({
       created: new Date().toJSON(),
       date: date.toJSON(),
       invoice: 0,
+      uuid: id,
     };
 
     let day = date.getDay();
-    console.log(day);
     if (day === 7) {
       day = 0;
     }
 
     const registry = {
-      registryId: 0,
-      hours: time,
-      day: day,
+      registryId: id,
       missionName: "Internal time",
-      taskName: "",
+      taskName: null,
+      taskId: null,
+      day: day,
+      hours: time,
+      invoice: 0,
+      new: true,
     };
 
     addRegistry([registry, registryToReport]);

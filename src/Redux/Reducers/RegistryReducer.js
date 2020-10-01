@@ -3,9 +3,11 @@ import * as Types from "../Types/RegistryTypes";
 const initialState = {
   loading: false,
   registriesByWeek: [],
+  registriesToReport: [],
+  registriesToDelete: [],
+  registriesToUpdate: [],
   errorMsg: "",
   error: false,
-  registriesToReport: [],
 };
 
 const registryReducer = (state = initialState, action) => {
@@ -37,46 +39,45 @@ const registryReducer = (state = initialState, action) => {
         registriesByWeek: [...state.registriesByWeek, action.payload[0]],
         registriesToReport: [...state.registriesToReport, action.payload[1]],
       };
-    case Types.POST_REGISTRIES_REQUEST:
+    case Types.SAVE_CHANGES_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case Types.POST_REGISTRIES_SUCCESS:
+    case Types.SAVE_CHANGES_SUCCESS:
       return {
         ...state,
         loading: false,
         registriesByWeek: [],
         registriesToReport: [],
+        registriesToDelete: [],
         errorMsg: "",
         error: false,
       };
-    case Types.POST_REGISTRIES_FAILURE:
+    case Types.SAVE_CHANGES_FAILURE:
       return {
         ...state,
         loading: false,
         errorMsg: action.payload,
         error: true,
       };
-    case Types.DELETE_REGISTRY_REQUEST:
+    case Types.REMOVE_NEW_REGISTRY_FROM_STORE:
       return {
         ...state,
-        loading: true,
+        registriesByWeek: state.registriesByWeek.filter(
+          (registry) => registry.registryId !== action.payload
+        ),
+        registriesToReport: state.registriesToReport.filter(
+          (registry) => registry.uuid !== action.payload
+        ),
       };
-    case Types.DELETE_REGISTRY_SUCCESS:
+    case Types.REMOVE_REGISTRY_FROM_STORE:
       return {
         ...state,
-        loading: false,
-        //Remove specified registry
-        errorMsg: "",
-        error: false,
-      };
-    case Types.DELETE_REGISTRY_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        errorMsg: action.payload,
-        error: true,
+        registriesByWeek: state.registriesByWeek.filter(
+          (registry) => registry.registryId !== action.payload
+        ),
+        registriesToDelete: [...state.registriesToDelete, action.payload],
       };
 
     default:

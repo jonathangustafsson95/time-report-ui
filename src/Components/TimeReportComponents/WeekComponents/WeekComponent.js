@@ -6,7 +6,7 @@ import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import {
   fetchRegistriesByWeek,
-  postRegistries,
+  saveChanges,
 } from "../../../Redux/Actions/RegistryActions";
 import { Redirect } from "react-router-dom";
 
@@ -18,23 +18,19 @@ const override = css`
   margin: auto;
 `;
 
-const Week = ({
-  registryData,
-  fetchRegistries,
-  reportRegistries,
-  authData,
-}) => {
+const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
   useEffect(() => {
     fetchRegistries(authData.user.token);
   }, []);
 
   const [reportSuccess, setreportSuccess] = useState(false);
 
-  console.log(registryData.loading, registryData.error);
-
   const onReportRegistries = (token) => {
-    console.log(token);
-    reportRegistries(registryData.registriesToReport, token);
+    saveChanges(
+      registryData.registriesToReport,
+      registryData.registriesToDelete,
+      token
+    );
     if (!registryData.error) {
       setreportSuccess(true);
     }
@@ -134,8 +130,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchRegistries: (token) => dispatch(fetchRegistriesByWeek(token)),
-    reportRegistries: (registries, token) =>
-      dispatch(postRegistries(registries, token)),
+    saveChanges: (registriesToReport, registriesToDelete, token) =>
+      dispatch(saveChanges(registriesToReport, registriesToDelete, token)),
   };
 };
 

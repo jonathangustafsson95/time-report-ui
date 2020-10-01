@@ -1,16 +1,30 @@
 import React, { useState } from "react";
-import { connect } from "redux-thunk";
+import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
 import TimeInput from "../CommonComponents/TimeInputComponent";
+import {
+  removeNewRegistryFromStore,
+  removeRegistryFromStore,
+} from "../../Redux/Actions/RegistryActions";
 
-const RegistryInfoModal = ({ showInfoModal, onCloseInfoModal, registry }) => {
+const RegistryInfoModal = ({
+  showInfoModal,
+  onCloseInfoModal,
+  registry,
+  setShowInfoModal,
+  removeNewRegistry,
+  removeOldRegistry,
+}) => {
   const tmpHour = Math.floor(registry.hours);
   const tmpMinutes = (registry.hours - tmpHour) * 60;
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
 
-  const onDelete = () => {};
+  const onDelete = (registry) => {
+    registry.new ? removeNewRegistry(registry) : removeOldRegistry(registry);
+    setShowInfoModal(false);
+  };
 
   return (
     <RegistryModal show={showInfoModal} onHide={onCloseInfoModal}>
@@ -20,7 +34,7 @@ const RegistryInfoModal = ({ showInfoModal, onCloseInfoModal, registry }) => {
           type="image"
           alt="delete"
           src={require("./Icons/trash.svg")}
-          onClick={onDelete}
+          onClick={() => onDelete(registry)}
         ></DeleteBtn>
       </Modal.Header>
       <Modal.Body>
@@ -60,7 +74,12 @@ const RegistryModal = styled(Modal)`
 `;
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    removeNewRegistry: (registry) =>
+      dispatch(removeNewRegistryFromStore(registry)),
+    removeOldRegistry: (registry) =>
+      dispatch(removeRegistryFromStore(registry)),
+  };
 };
 
-export default RegistryInfoModal;
+export default connect(null, mapDispatchToProps)(RegistryInfoModal);

@@ -2,20 +2,20 @@ import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 
-export const fetchRegistriesByWeekRequest = () => {
+const fetchRegistriesByWeekRequest = () => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_REQUEST,
   };
 };
 
-export const fetchRegistriesByWeekSuccess = (registries) => {
+const fetchRegistriesByWeekSuccess = (registries) => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_SUCCESS,
     payload: registries,
   };
 };
 
-export const fetchRegistriesByWeekFailure = (error) => {
+const fetchRegistriesByWeekFailure = (error) => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_FAILURE,
     payload: error,
@@ -36,6 +36,9 @@ export const fetchRegistriesByWeek = (token) => {
     })
       .then((response) => {
         const registries = response.data;
+        registries.map((registry) => {
+          registry.new = false;
+        });
         dispatch(fetchRegistriesByWeekSuccess(registries));
       })
       .catch((error) => {
@@ -52,44 +55,90 @@ export const addRegistryToStore = (registryData) => {
   };
 };
 
-export const postRegistriesRequest = () => {
+const saveChangesRequest = () => {
   return {
-    type: Types.POST_REGISTRIES_REQUEST,
+    type: Types.SAVE_CHANGES_REQUEST,
   };
 };
 
-export const postRegistriesSuccess = () => {
+const saveChangesSuccess = () => {
   return {
-    type: Types.POST_REGISTRIES_SUCCESS,
+    type: Types.SAVE_CHANGES_SUCCESS,
   };
 };
 
-export const postRegistriesFailure = (error) => {
+const saveChangesFailure = (error) => {
   return {
-    type: Types.POST_REGISTRIES_FAILURE,
+    type: Types.SAVE_CHANGES_FAILURE,
     payload: error,
   };
 };
 
-export const postRegistries = (registries, token) => {
-  console.log(token);
+// export const postRegistries = (registries, token) => {
+//   return (dispatch) => {
+//     dispatch(postRegistriesRequest());
+//     let payload = {
+//       registriesToReport: registries,
+//     };
+//     axios({
+//       url: service.baseUrl + "/reporting/AddTimeReport",
+//       method: "post",
+//       data: payload,
+//       headers: { Authorization: "Bearer " + token },
+//     })
+//       .then(() => {
+//         dispatch(postRegistriesSuccess());
+//       })
+//       .catch((error) => {
+//         const errorMsg = error.message;
+//         dispatch(postRegistriesFailure(errorMsg));
+//       });
+//   };
+// };
+
+export const saveChanges = (registriesToReport, registriesToDelete, token) => {
   return (dispatch) => {
-    dispatch(postRegistriesRequest());
-    let payload = {
-      registriesToReport: registries,
+    const postPayload = {
+      registriesToReport: registriesToReport,
     };
-    axios({
-      url: service.baseUrl + "/reporting/AddTimeReport",
-      method: "post",
-      data: payload,
-      headers: { Authorization: "Bearer " + token },
-    })
+    const deletePayload = {
+      registriesToDelete: registriesToDelete,
+    };
+    dispatch(saveChangesRequest());
+    axios
+      .all([
+        axios({
+          url: service.baseUrl + "/reporting/AddTimeReport",
+          method: "post",
+          data: postPayload,
+          headers: { Authorization: "Bearer " + token },
+        }),
+        axios({
+          url: service.baseUrl + "/reporting/AddTimeReport",
+          method: "delete",
+          data: deletePayload,
+          headers: { Authorization: "Bearer " + token },
+        }),
+      ])
       .then(() => {
-        dispatch(postRegistriesSuccess());
+        dispatch(saveChangesSuccess());
       })
       .catch((error) => {
-        const errorMsg = error.message;
-        dispatch(postRegistriesFailure(errorMsg));
+        dispatch(saveChangesFailure(error.message));
       });
+  };
+};
+
+export const removeNewRegistryFromStore = (registry) => {
+  return {
+    type: Types.REMOVE_NEW_REGISTRY_FROM_STORE,
+    payload: registry.registryId,
+  };
+};
+
+export const removeRegistryFromStore = (registry) => {
+  return {
+    type: Types.REMOVE_REGISTRY_FROM_STORE,
+    payload: registry.registryId,
   };
 };

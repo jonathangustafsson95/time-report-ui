@@ -23,6 +23,7 @@ const DayBox = ({ day, dayConst, registries }) => {
   };
 
   let registryList = [];
+  registries.sort((a, b) => (a.hours < b.hours ? 1 : -1));
   registries.map((registry) => {
     registryList.push(
       <BoxItem registry={registry} key={registry.registryId} />

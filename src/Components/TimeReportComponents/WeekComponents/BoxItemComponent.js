@@ -18,6 +18,7 @@ const BoxItem = ({ registry }) => {
       <RegistryInfoModal
         onCloseInfoModal={onCloseInfoModal}
         showInfoModal={showInfoModal}
+        setShowInfoModal={setShowInfoModal}
         registry={registry}
       />
       <InfoDiv>
