@@ -2,10 +2,19 @@ import React from "react";
 import Layout from "./Components/Layout";
 import SignIn from "./Components/SignInComponents/SignInComponent";
 import { connect } from "react-redux";
+import {isMobile} from 'react-device-detect';
 
 function App({ authData }) {
   if (!authData.user) {
-    return (
+      if (isMobile) {
+        return(
+          <div>
+        <h1>Det här skrivs ut på mobilversionen</h1>
+        <SignIn />
+      </div>
+        )
+      }
+      return (
       <div>
         <SignIn />
       </div>
