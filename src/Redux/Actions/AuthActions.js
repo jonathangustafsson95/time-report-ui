@@ -35,7 +35,7 @@ export const authorize = (userData) => {
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(authorizeFailure(error.message));
+        dispatch(authorizeFailure(error));
       });
   };
 };
