@@ -9,16 +9,18 @@ function App({ authData }) {
     if (isMobile) {
       return (
         <div>
-          <h1>Det här skrivs ut på mobilversionen</h1>
+          <h1>Det här skrivs ut på mobilversionen!</h1>
           <SignIn />
         </div>
       );
     }
-    return (
-      <div>
-        <SignIn />
-      </div>
+    else{
+      return (
+        <div>
+          <SignIn />
+        </div>
     );
+  }
   } else {
     return (
       <div>

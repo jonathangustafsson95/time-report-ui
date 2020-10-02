@@ -1,60 +1,66 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import "./Login.css";
 import { connect } from "react-redux";
 import { authorize } from "../../Redux/Actions/AuthActions";
-import { isMobile } from "react-device-detect";
-import tapOrClick from 'react-tap-or-click'
 
 
 const SignIn = ({ authData, signIn }) => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+  
+    const onSignIn = (event) => {
+      console.log("clicked");
+      event.preventDefault();
+      signIn({
+        userName: userName,
+        password: password,
+      });
+    };
+  
 
-  const onSignIn = (event) => {
-    event.preventDefault();
-    signIn({
-      userName: userName,
-      password: password,
-    });
-  };
+  function validateForm() {
+    return userName.length > 0 && password.length > 0;
+  }
+
 
   return (
-    <Form onSubmit={onSignIn} onTouchStart={onSignIn}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          placeholder="Enter username"
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Sign in
-      </Button>
-    </Form>
+    <div className="Login">
+      <form onSubmit={onSignIn}>
+        <FormGroup bsSize="large">
+          <FormLabel>Username</FormLabel>
+          <FormControl
+            autoFocus
+            placeholder="Enter username"
+            onChange={(e) => setUserName(e.target.value)}
+            />
+        </FormGroup>
+        <FormGroup controlId="password" bsSize="large">
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormGroup>
+        <Button block bsSize="large" disabled={!validateForm()} onClick={onSignIn}>
+          Login
+        </Button>
+      </form>
+    </div>
   );
 };
 
-
 const mapStateToProps = (state) => {
-  return {
-    authData: state.authData,
+    return {
+      authData: state.authData,
+    };
   };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signIn: (user) => dispatch(authorize(user)),
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      signIn: (user) => dispatch(authorize(user)),
+    };
   };
-};
-
-export default connect(null, mapDispatchToProps)(SignIn);
+  
+  export default connect(null, mapDispatchToProps)(SignIn);
