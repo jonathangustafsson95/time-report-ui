@@ -2,6 +2,47 @@ import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 
+// LOCAL ACTIONS
+
+export const addRegistryToStore = (registryData) => {
+  return {
+    type: Types.ADD_REGISTRY_TO_STORE,
+    payload: registryData,
+  };
+};
+
+export const removeNewRegistryFromStore = (registry) => {
+  return {
+    type: Types.REMOVE_NEW_REGISTRY_FROM_STORE,
+    payload: registry.registryId,
+  };
+};
+
+export const removeRegistryFromStore = (registry) => {
+  return {
+    type: Types.REMOVE_REGISTRY_FROM_STORE,
+    payload: registry.registryId,
+  };
+};
+
+export const updateNewRegistryFromStore = (registries) => {
+  return {
+    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE,
+    payload: registries,
+    id: registries[0].registryId,
+  };
+};
+
+export const updateOldRegistryFromStore = (registries) => {
+  return {
+    type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
+    payload: registries,
+    id: registries[0].registryId,
+  };
+};
+
+// API-ACTIONNS
+
 const fetchRegistriesByWeekRequest = () => {
   return {
     type: Types.FETCH_REGISTRIES_BY_WEEK_REQUEST,
@@ -32,7 +73,9 @@ export const fetchRegistriesByWeek = (token) => {
     axios({
       url: service.baseUrl + "/reporting/week/" + stringDate,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     })
       .then((response) => {
         const registries = response.data;
@@ -45,13 +88,6 @@ export const fetchRegistriesByWeek = (token) => {
         const errorMsg = error.message;
         dispatch(fetchRegistriesByWeekFailure(errorMsg));
       });
-  };
-};
-
-export const addRegistryToStore = (registryData) => {
-  return {
-    type: Types.ADD_REGISTRY_TO_STORE,
-    payload: registryData,
   };
 };
 
@@ -73,28 +109,6 @@ const saveChangesFailure = (error) => {
     payload: error,
   };
 };
-
-// export const postRegistries = (registries, token) => {
-//   return (dispatch) => {
-//     dispatch(postRegistriesRequest());
-//     let payload = {
-//       registriesToReport: registries,
-//     };
-//     axios({
-//       url: service.baseUrl + "/reporting/AddTimeReport",
-//       method: "post",
-//       data: payload,
-//       headers: { Authorization: "Bearer " + token },
-//     })
-//       .then(() => {
-//         dispatch(postRegistriesSuccess());
-//       })
-//       .catch((error) => {
-//         const errorMsg = error.message;
-//         dispatch(postRegistriesFailure(errorMsg));
-//       });
-//   };
-// };
 
 export const saveChanges = (registriesToReport, registriesToDelete, token) => {
   return (dispatch) => {
@@ -126,19 +140,5 @@ export const saveChanges = (registriesToReport, registriesToDelete, token) => {
       .catch((error) => {
         dispatch(saveChangesFailure(error.message));
       });
-  };
-};
-
-export const removeNewRegistryFromStore = (registry) => {
-  return {
-    type: Types.REMOVE_NEW_REGISTRY_FROM_STORE,
-    payload: registry.registryId,
-  };
-};
-
-export const removeRegistryFromStore = (registry) => {
-  return {
-    type: Types.REMOVE_REGISTRY_FROM_STORE,
-    payload: registry.registryId,
   };
 };
