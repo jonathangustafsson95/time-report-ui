@@ -28,10 +28,11 @@ export const removeRegistryFromStore = (registry) => {
 export const updateRegistryFromStore = (registry) => {
   return {
     type: Types,
+    payload: registry
   };
 };
 
-// API-Actions
+// API-ACTIONNS
 
 const fetchRegistriesByWeekRequest = () => {
   return {
