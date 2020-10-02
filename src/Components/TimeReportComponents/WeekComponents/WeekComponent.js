@@ -122,8 +122,8 @@ const ErrorMsg = styled(Text)`
 
 const mapStateToProps = (state) => {
   return {
-    registryData: state.registryData,
     authData: state.authData,
+    registryData: state.registryData,
   };
 };
 

@@ -8,7 +8,7 @@ import authReducer from "./Reducers/AuthReducer";
 const rootReducer = combineReducers({
   userData: userReducer,
   registryData: registryReducer,
-  authData: authReducer
+  authData: authReducer,
 });
 
 const store = createStore(

@@ -4,25 +4,22 @@ import "./Login.css";
 import { connect } from "react-redux";
 import { authorize } from "../../Redux/Actions/AuthActions";
 
+const SignIn = ({ signIn }) => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
-const SignIn = ({ authData, signIn }) => {
-    const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
-  
-    const onSignIn = (event) => {
-      console.log("clicked");
-      event.preventDefault();
-      signIn({
-        userName: userName,
-        password: password,
-      });
-    };
-  
+  const onSignIn = (event) => {
+    console.log("clicked");
+    event.preventDefault();
+    signIn({
+      userName: userName,
+      password: password,
+    });
+  };
 
   function validateForm() {
     return userName.length > 0 && password.length > 0;
   }
-
 
   return (
     <div className="Login">
@@ -33,7 +30,7 @@ const SignIn = ({ authData, signIn }) => {
             autoFocus
             placeholder="Enter username"
             onChange={(e) => setUserName(e.target.value)}
-            />
+          />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <FormLabel>Password</FormLabel>
@@ -43,7 +40,12 @@ const SignIn = ({ authData, signIn }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <Button block bsSize="large" disabled={!validateForm()} onClick={onSignIn}>
+        <Button
+          block
+          bsSize="large"
+          disabled={!validateForm()}
+          onClick={onSignIn}
+        >
           Login
         </Button>
       </form>
@@ -51,16 +53,10 @@ const SignIn = ({ authData, signIn }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-    return {
-      authData: state.authData,
-    };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (user) => dispatch(authorize(user)),
   };
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      signIn: (user) => dispatch(authorize(user)),
-    };
-  };
-  
-  export default connect(null, mapDispatchToProps)(SignIn);
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);

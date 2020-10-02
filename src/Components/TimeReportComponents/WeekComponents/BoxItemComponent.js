@@ -23,20 +23,22 @@ const BoxItem = ({ registry }) => {
   };
 
   return (
-    <Box draggable onClick={() => onShowInfoModal()}>
+    <>
       <RegistryInfoModal
         onCloseInfoModal={onCloseInfoModal}
         showInfoModal={showInfoModal}
         registry={registry}
       />
-      <InfoDiv>
-        <RegisterImage src={require("./Images/register.svg")} />
-        <TextDiv>
-          <ProjectText>{registry.missionName}</ProjectText>
-          <TaskText>{registry.taskName}</TaskText>
-        </TextDiv>
-      </InfoDiv>
-    </Box>
+      <Box draggable onClick={() => onShowInfoModal()}>
+        <InfoDiv>
+          <RegisterImage src={require("./Images/register.svg")} />
+          <TextDiv>
+            <ProjectText>{registry.missionName}</ProjectText>
+            <TaskText>{registry.taskName}</TaskText>
+          </TextDiv>
+        </InfoDiv>
+      </Box>
+    </>
   );
 };
 
