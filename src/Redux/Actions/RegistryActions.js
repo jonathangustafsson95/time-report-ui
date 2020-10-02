@@ -25,10 +25,19 @@ export const removeRegistryFromStore = (registry) => {
   };
 };
 
-export const updateRegistryFromStore = (registry) => {
+export const updateNewRegistryFromStore = (registries) => {
   return {
-    type: Types,
-    payload: registry
+    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE,
+    payload: registries,
+    id: registries[0].registryId,
+  };
+};
+
+export const updateOldRegistryFromStore = (registries) => {
+  return {
+    type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
+    payload: registries,
+    id: registries[0].registryId,
   };
 };
 

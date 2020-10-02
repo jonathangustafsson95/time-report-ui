@@ -4,6 +4,7 @@ import RegistryInfoModal from "../../Modals/RegistryInfoModal";
 
 const BoxItem = ({ registry }) => {
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   const Box = styled(Main)`
     height: ${registry.hours * 46}px;
@@ -13,12 +14,19 @@ const BoxItem = ({ registry }) => {
     setShowInfoModal(false);
   };
 
+  const onShowInfoModal = () => {
+    console.log("onShowInfoModal");
+    console.log(updated);
+    if (!updated) {
+      setShowInfoModal(true);
+    }
+  };
+
   return (
-    <Box draggable onClick={() => setShowInfoModal(true)}>
+    <Box draggable onClick={() => onShowInfoModal()}>
       <RegistryInfoModal
         onCloseInfoModal={onCloseInfoModal}
         showInfoModal={showInfoModal}
-        setShowInfoModal={setShowInfoModal}
         registry={registry}
       />
       <InfoDiv>

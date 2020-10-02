@@ -6,15 +6,18 @@ import TimeInput from "../CommonComponents/TimeInputComponent";
 import {
   removeNewRegistryFromStore,
   removeRegistryFromStore,
+  updateNewRegistryFromStore,
+  updateOldRegistryFromStore,
 } from "../../Redux/Actions/RegistryActions";
 
 const RegistryInfoModal = ({
   showInfoModal,
   onCloseInfoModal,
   registry,
-  setShowInfoModal,
   removeNewRegistry,
   removeOldRegistry,
+  updateNewRegistry,
+  updateOldRegistry,
 }) => {
   const tmpHour = Math.floor(registry.hours);
   const tmpMinutes = (registry.hours - tmpHour) * 60;
@@ -23,7 +26,34 @@ const RegistryInfoModal = ({
 
   const onDelete = (registry) => {
     registry.new ? removeNewRegistry(registry) : removeOldRegistry(registry);
-    setShowInfoModal(false);
+    onCloseInfoModal();
+  };
+
+  const updateRegistry = (registry) => {
+    const updatedReg = JSON.parse(JSON.stringify(registry));
+
+    const mins = parseFloat(minutes) / 60;
+    const time = parseFloat(hours) + mins;
+
+    updatedReg.hours = time;
+
+    const registryToReport = {
+      registryId: updatedReg.new ? 0 : updatedReg.registryId,
+      taskId: updatedReg.taskId,
+      userId: 1,
+      hours: updatedReg.hours,
+      created: updatedReg.created,
+      date: updatedReg.date,
+      invoice: 0,
+      uuid: updatedReg.registryId,
+    };
+
+    console.log(registryToReport);
+    registry.new
+      ? updateNewRegistry([updatedReg, registryToReport])
+      : updateOldRegistry([updatedReg, registryToReport]);
+
+    onCloseInfoModal();
   };
 
   return (
@@ -46,6 +76,7 @@ const RegistryInfoModal = ({
           titleContent="Change time"
         />
       </Modal.Body>
+      <Button onClick={() => updateRegistry(registry)}>Update</Button>
     </RegistryModal>
   );
 };
@@ -73,12 +104,30 @@ const RegistryModal = styled(Modal)`
   margin-top: 15%;
 `;
 
+const Button = styled.button`
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  color: #fff;
+  width: 189px;
+  height: 40px;
+  border-radius: 8px;
+  background: #585656;
+  border: 2px solid #585656;
+  margin-left: 30%;
+  margin-bottom: 40px;
+`;
+
 const mapDispatchToProps = (dispatch) => {
   return {
     removeNewRegistry: (registry) =>
       dispatch(removeNewRegistryFromStore(registry)),
     removeOldRegistry: (registry) =>
       dispatch(removeRegistryFromStore(registry)),
+    updateNewRegistry: (registries) =>
+      dispatch(updateNewRegistryFromStore(registries)),
+    updateOldRegistry: (registries) =>
+      dispatch(updateOldRegistryFromStore(registries)),
   };
 };
 

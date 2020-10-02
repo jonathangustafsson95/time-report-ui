@@ -26,7 +26,7 @@ const AddRegistryModal = ({
   };
 
   const onAddRegistry = () => {
-    const mins = (parseFloat(minutes) / 60) * 1;
+    const mins = parseFloat(minutes) / 60;
     const time = parseFloat(hours) + mins;
 
     const id = uuidv4();
@@ -54,6 +54,8 @@ const AddRegistryModal = ({
       taskId: null,
       day: day,
       hours: time,
+      created: new Date().toJSON(),
+      date: date.toJSON(),
       invoice: 0,
       new: true,
     };

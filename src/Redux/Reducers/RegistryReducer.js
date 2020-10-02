@@ -1,4 +1,5 @@
 import * as Types from "../Types/RegistryTypes";
+import update from "react-addons-update";
 
 const initialState = {
   loading: false,
@@ -79,6 +80,53 @@ const registryReducer = (state = initialState, action) => {
         ),
         registriesToDelete: [...state.registriesToDelete, action.payload],
       };
+    case Types.UPDATE_NEW_REGISTRY_FROM_STORE:
+      const updatedReg = action.payload[0];
+      const regToReport = action.payload[1];
+      return {
+        ...state,
+        registriesByWeek: state.registriesByWeek.map((registry) =>
+          registry.registryId === action.id ? updatedReg : registry
+        ),
+        registriesToReport: state.registriesToReport.map((registry) =>
+          registry.uuid === action.id ? regToReport : registry
+        ),
+      };
+    case Types.UPDATE_OLD_REGISTRY_FROM_STORE:
+      const updatedReg1 = action.payload[0];
+      const regToReport1 = action.payload[1];
+
+      const alreadyUpdated = state.registriesToReport.some(
+        (registry) => registry.registryId === action.id
+      );
+
+      if (alreadyUpdated) {
+        return {
+          ...state,
+          registriesByWeek: state.registriesByWeek.map((registry) =>
+            registry.registryId === action.id ? updatedReg1 : registry
+          ),
+          registriesToReport: state.registriesToReport.map((registry) =>
+            registry.registryId === action.id ? regToReport1 : registry
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          registriesByWeek: state.registriesByWeek.map((registry) =>
+            registry.registryId === action.id ? updatedReg1 : registry
+          ),
+          registriesToReport: [...state.registriesToReport, regToReport1],
+        };
+      }
+
+    // return {
+    //   ...state,
+    //   registriesByWeek: state.registriesByWeek.map((registry) => {
+    //     registry.registryId === action.id ? updatedReg : registry
+    //   }),
+    //   registriesToReport:
+    // }
 
     default:
       return state;
