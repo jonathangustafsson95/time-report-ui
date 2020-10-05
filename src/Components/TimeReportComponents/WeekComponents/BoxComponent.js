@@ -62,7 +62,9 @@ const DayBox = ({ day, dayConst, registries }) => {
 
 const BoxItemHolder = styled.div`
   position: fixed;
-  min-height: inherit - 100px;
+  min-height: 368px;
+  max-height: 368px;
+  overflow: auto;
   min-width: inherit;
 `;
 

@@ -12,6 +12,7 @@ const Layout = () => {
       <MainView>
         <LeftSideBar />
         <MainSwitch />
+        <div></div>
       </MainView>
     </BrowserRouter>
   );
@@ -19,6 +20,9 @@ const Layout = () => {
 
 const MainView = styled.div`
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   margin-top: 60px;
 `;
 
