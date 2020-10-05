@@ -9,7 +9,6 @@ const SignIn = ({ signIn }) => {
   const [password, setPassword] = useState("");
 
   const onSignIn = (event) => {
-    console.log("clicked");
     event.preventDefault();
     signIn({
       userName: userName,

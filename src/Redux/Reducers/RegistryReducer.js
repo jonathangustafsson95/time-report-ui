@@ -1,5 +1,4 @@
 import * as Types from "../Types/RegistryTypes";
-import update from "react-addons-update";
 
 const initialState = {
   loading: false,

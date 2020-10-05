@@ -79,7 +79,7 @@ export const fetchRegistriesByWeek = (token) => {
     })
       .then((response) => {
         const registries = response.data;
-        registries.map((registry) => {
+        registries.forEach((registry) => {
           registry.new = false;
         });
         dispatch(fetchRegistriesByWeekSuccess(registries));

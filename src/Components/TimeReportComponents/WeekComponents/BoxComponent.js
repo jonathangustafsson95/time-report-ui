@@ -7,7 +7,7 @@ import AddRegistryModal from "../../Modals/AddRegistryModal";
 const DayBox = ({ day, dayConst, registries }) => {
   var d = new Date();
   var dayC = d.getDay(),
-    diff = d.getDate() - dayC + (dayC == 0 ? -6 : 1);
+    diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
   d.setDate(diff);
   if (dayConst === 0) {
     d.setDate(d.getDate() + dayConst + 6);
@@ -16,7 +16,7 @@ const DayBox = ({ day, dayConst, registries }) => {
   }
 
   const [showAddModal, setShowAddModal] = useState(false);
-  const [date, setDate] = useState(d);
+  const [date] = useState(d);
 
   const onCloseAddModal = () => {
     setShowAddModal(false);
@@ -24,7 +24,7 @@ const DayBox = ({ day, dayConst, registries }) => {
 
   let registryList = [];
   registries.sort((a, b) => (a.hours < b.hours ? 1 : -1));
-  registries.map((registry) => {
+  registries.forEach((registry) => {
     registryList.push(
       <BoxItem registry={registry} key={registry.registryId} />
     );

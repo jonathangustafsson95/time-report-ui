@@ -4,22 +4,13 @@ import RegistryInfoModal from "../../Modals/RegistryInfoModal";
 
 const BoxItem = ({ registry }) => {
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [updated, setUpdated] = useState(false);
-
-  const Box = styled(Main)`
-    height: ${registry.hours * 46}px;
-  `;
 
   const onCloseInfoModal = () => {
     setShowInfoModal(false);
   };
 
   const onShowInfoModal = () => {
-    console.log("onShowInfoModal");
-    console.log(updated);
-    if (!updated) {
-      setShowInfoModal(true);
-    }
+    setShowInfoModal(true);
   };
 
   return (
@@ -29,7 +20,7 @@ const BoxItem = ({ registry }) => {
         showInfoModal={showInfoModal}
         registry={registry}
       />
-      <Box draggable onClick={() => onShowInfoModal()}>
+      <Box hours={registry.hours} draggable onClick={() => onShowInfoModal()}>
         <InfoDiv>
           <RegisterImage src={require("./Images/register.svg")} />
           <TextDiv>
@@ -41,6 +32,18 @@ const BoxItem = ({ registry }) => {
     </>
   );
 };
+
+const Box = styled.div`
+  margin: 0 auto;
+  margin-right: 6%;
+  margin-left: 6%;
+  border-radius: 6px;
+  text-align: center;
+  background-color: #ffffff;
+  border: 4px solid #f08b7b;
+  filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
+  height: ${(props) => props.hours * 46}px;
+`;
 
 const InfoDiv = styled.div`
   margin-top: 4px;
@@ -75,18 +78,6 @@ const RegisterImage = styled.img`
   opacity: 1;
   margin-left: 2%;
   margin-right: 5px;
-`;
-
-const Main = styled.div`
-  margin: 0 auto;
-  margin-right: 6%;
-  margin-left: 6%;
-  height: 92px;
-  border-radius: 6px;
-  text-align: center;
-  background-color: #ffffff;
-  border: 4px solid #f08b7b;
-  filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
 `;
 
 export default BoxItem;

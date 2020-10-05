@@ -21,7 +21,7 @@ const override = css`
 const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
   useEffect(() => {
     fetchRegistries(authData.user.token);
-  }, []);
+  }, [fetchRegistries, authData.user.token]);
 
   const [reportSuccess, setreportSuccess] = useState(false);
 

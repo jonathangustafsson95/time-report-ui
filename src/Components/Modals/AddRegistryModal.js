@@ -96,7 +96,7 @@ const AddRegistryModal = ({
                   transform="translate(211 22.485)"
                   fill="none"
                   stroke="#707070"
-                  stroke-width="1"
+                  strokeWidth="1"
                   opacity="0.6"
                 >
                   <circle cx="8.5" cy="8.5" r="8.5" stroke="none" />
@@ -108,7 +108,7 @@ const AddRegistryModal = ({
                   transform="translate(217 28.485)"
                   fill="#707070"
                   stroke="#707070"
-                  stroke-width="1"
+                  strokeWidth="1"
                   opacity="0.6"
                 >
                   <circle cx="2.5" cy="2.5" r="2.5" stroke="none" />
@@ -139,7 +139,7 @@ const AddRegistryModal = ({
                   transform="translate(211 22.485)"
                   fill="none"
                   stroke="#707070"
-                  stroke-width="1"
+                  strokeWidth="1"
                   opacity="0.6"
                 >
                   <circle cx="8.5" cy="8.5" r="8.5" stroke="none" />
@@ -151,7 +151,7 @@ const AddRegistryModal = ({
                   transform="translate(217 28.485)"
                   fill="#707070"
                   stroke="#707070"
-                  stroke-width="1"
+                  strokeWidth="1"
                   opacity="0.6"
                 >
                   <circle cx="2.5" cy="2.5" r="2.5" stroke="none" />

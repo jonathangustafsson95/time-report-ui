@@ -22,10 +22,8 @@ export const authorizeFailure = (error) => {
 };
 
 export const authorize = (userData) => {
-  console.log(userData);
   return (dispatch) => {
     dispatch(authorizeRequest());
-
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",

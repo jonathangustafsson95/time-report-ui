@@ -1,21 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { fetchUser } from "../../Redux/Actions/UserActions";
 
-const TopBar = ({ userData, fetchUser }) => {
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-
-  return userData.loading ? (
-    <h2>Loading</h2>
-  ) : userData.error ? (
-    <h2>{userData.error}</h2>
-  ) : (
+const TopBar = ({ userName }) => {
+  return (
     <MainBox>
       <ProfileImage src={require("./Images/profile.jpg")} />
-      <Text>{userData.user.name}</Text>
+      <Text>{userName}</Text>
     </MainBox>
   );
 };
@@ -60,14 +51,8 @@ const ProfileImage = styled.img`
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.userData,
+    userName: state.authData.user.userDetails.userName,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchUser: () => dispatch(fetchUser()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
+export default connect(mapStateToProps)(TopBar);
