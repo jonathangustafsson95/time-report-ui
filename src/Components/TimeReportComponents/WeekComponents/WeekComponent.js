@@ -40,10 +40,23 @@ const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
     return <Redirect to="/" />;
   }
 
+  const getMonAndSun = () => {
+    let d = new Date();
+
+    const mon = d.getDay(),
+      diff = d.getDate() - mon + (mon === 0 ? -6 : 1);
+    d.setDate(diff);
+    const monday = `${d.getFullYear()}.${d.getMonth()}.${d.getDate()}`;
+    d.setDate(d.getDay() + 10);
+    const sunday = `${d.getFullYear()}.${d.getMonth()}.${d.getDate()}`;
+
+    return `${monday} - ${sunday}`;
+  };
+
   return (
     <div>
       <BoxDiv>
-        <Text>2020.09.14 - 2020.09.20</Text>
+        <Text>{getMonAndSun()}</Text>
         <BoxHolder>
           <DayBox day="Mon" dayConst={1}></DayBox>
           <DayBox day="Tue" dayConst={2}></DayBox>
