@@ -11,8 +11,8 @@ import {
 } from "../../../Redux/Actions/RegistryActions";
 
 const RegistryInfoModal = ({
-  showInfoModal,
-  onCloseInfoModal,
+  showModal,
+  onCloseModal,
   registry,
   removeNewRegistry,
   removeOldRegistry,
@@ -26,7 +26,7 @@ const RegistryInfoModal = ({
 
   const onDelete = (registry) => {
     registry.new ? removeNewRegistry(registry) : removeOldRegistry(registry);
-    onCloseInfoModal();
+    onCloseModal();
   };
 
   const updateRegistry = (registry) => {
@@ -53,11 +53,11 @@ const RegistryInfoModal = ({
       ? updateNewRegistry([updatedReg, registryToReport])
       : updateOldRegistry([updatedReg, registryToReport]);
 
-    onCloseInfoModal();
+    onCloseModal();
   };
 
   return (
-    <RegistryModal show={showInfoModal} onHide={onCloseInfoModal}>
+    <RegistryModal show={showModal} onHide={onCloseModal}>
       <Modal.Header>
         <Text>{registry.missionName}</Text>
         <DeleteBtn

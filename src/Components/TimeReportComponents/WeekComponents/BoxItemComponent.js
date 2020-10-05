@@ -3,24 +3,24 @@ import styled from "styled-components";
 import RegistryInfoModal from "../../Modals/RegistryModals/RegistryInfoModal";
 
 const BoxItem = ({ registry }) => {
-  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const onCloseInfoModal = () => {
-    setShowInfoModal(false);
+  const onCloseModal = () => {
+    setShowModal(false);
   };
 
-  const onShowInfoModal = () => {
-    setShowInfoModal(true);
+  const onShowModal = () => {
+    setShowModal(true);
   };
 
   return (
     <>
       <RegistryInfoModal
-        onCloseInfoModal={onCloseInfoModal}
-        showInfoModal={showInfoModal}
+        onCloseModal={onCloseModal}
+        showModal={showModal}
         registry={registry}
       />
-      <Box hours={registry.hours} draggable onClick={() => onShowInfoModal()}>
+      <Box hours={registry.hours} draggable onClick={() => onShowModal()}>
         <InfoDiv>
           <RegisterImage src={require("./Images/register.svg")} />
           <TextDiv>

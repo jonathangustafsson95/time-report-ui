@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
 
-const AddInternalRegistry = ({ date, onCloseAddModal, addRegistry }) => {
+const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
@@ -45,7 +45,7 @@ const AddInternalRegistry = ({ date, onCloseAddModal, addRegistry }) => {
     };
 
     addRegistry([registry, registryToReport]);
-    onCloseAddModal();
+    onCloseModal();
   };
 
   return (

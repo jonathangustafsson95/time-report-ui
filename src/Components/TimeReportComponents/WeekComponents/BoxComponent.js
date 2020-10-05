@@ -15,11 +15,11 @@ const DayBox = ({ day, dayConst, registries }) => {
     d.setDate(d.getDate() + dayConst - 1);
   }
 
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [date] = useState(d);
 
   const onCloseAddModal = () => {
-    setShowAddModal(false);
+    setShowModal(false);
   };
 
   let registryList = [];
@@ -33,8 +33,8 @@ const DayBox = ({ day, dayConst, registries }) => {
   return (
     <Main>
       <AddRegistryModal
-        onCloseAddModal={onCloseAddModal}
-        showAddModal={showAddModal}
+        showModal={showModal}
+        onCloseModal={onCloseAddModal}
         date={date}
       />
 
@@ -53,7 +53,7 @@ const DayBox = ({ day, dayConst, registries }) => {
           type="image"
           alt="AddRegistry"
           src={require("./Images/add.svg")}
-          onClick={() => setShowAddModal(true)}
+          onClick={() => setShowModal(true)}
         ></AddBtn>
       </Box>
     </Main>

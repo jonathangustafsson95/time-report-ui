@@ -5,7 +5,7 @@ import AddInternalRegistry from "./AddInternalRegistryComponent";
 import AddCustomerRegistry from "./AddCustomerRegistryComponent";
 import Icon from "./IconComponent";
 
-const AddRegistryModal = ({ date, showAddModal, onCloseAddModal }) => {
+const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
   const [registryType, setRegistryType] = useState({
     internal: true,
     customer: false,
@@ -18,7 +18,7 @@ const AddRegistryModal = ({ date, showAddModal, onCloseAddModal }) => {
   };
 
   return (
-    <RegistryModal show={showAddModal} onHide={onCloseAddModal}>
+    <RegistryModal show={showModal} onHide={onCloseModal}>
       <Modal.Body>
         <Text>New Registry</Text>
         <MenuDiv>
@@ -42,7 +42,7 @@ const AddRegistryModal = ({ date, showAddModal, onCloseAddModal }) => {
           </IconButton>
         </IconMenuDiv>
         {registryType.internal ? (
-          <AddInternalRegistry date={date} onCloseAddModal={onCloseAddModal} />
+          <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
         ) : (
           <AddCustomerRegistry></AddCustomerRegistry>
         )}
