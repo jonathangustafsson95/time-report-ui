@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import "./Login.css";
+import "./Css/Login.css";
 import { connect } from "react-redux";
 import { authorize } from "../../Redux/Actions/AuthActions";
 
@@ -21,7 +21,7 @@ const SignIn = ({ signIn }) => {
   }
 
   return (
-    <div className="Login">
+    <div style={divStyle} className="Login">
       <form onSubmit={onSignIn}>
         <FormGroup bsSize="large">
           <FormLabel>Username</FormLabel>
@@ -50,6 +50,14 @@ const SignIn = ({ signIn }) => {
       </form>
     </div>
   );
+};
+
+const img = require('./Images/mountain-lake-header.jpg');
+const divStyle = {
+  width: '100%',
+  height: '978px',
+  backgroundImage: `url(${img})`,
+  backgroundSize: 'cover'
 };
 
 const mapDispatchToProps = (dispatch) => {
