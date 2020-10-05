@@ -1,15 +1,43 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { unAuthorize } from "../../Redux/Actions/AuthActions";
 
-const TopBar = ({ userName }) => {
+const TopBar = (props) => {
+
+  const logOut = () => {
+    props.signOut(props.user);
+  }
+
   return (
     <MainBox>
       <ProfileImage src={require("./Images/profile.jpg")} />
-      <Text>{userName}</Text>
+      <div>
+        <Text>{props.user.userDetails.userName}</Text>
+        <Button onClick={logOut}> Log out </Button>
+      </div> 
     </MainBox>
   );
 };
+
+const Button  = styled.div`
+align-items: normal;
+background-color: rgba(0,0,0,0);
+border-color: rgb(0, 0, 238);
+border-style: none;
+box-sizing: content-box;
+color: rgb(255, 0, 0); 
+cursor: pointer;
+display: inline;
+font: inherit;
+height: auto;
+padding: 0;
+perspective-origin: 0 0;
+text-align: start;
+text-decoration: underline;
+transform-origin: 0 0;
+width: auto;
+`;
 
 const MainBox = styled.div`
   display: flex;
@@ -51,8 +79,14 @@ const ProfileImage = styled.img`
 
 const mapStateToProps = (state) => {
   return {
-    userName: state.authData.user.userDetails.userName,
+    user: state.authData.user,
   };
 };
 
-export default connect(mapStateToProps)(TopBar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: (user) => dispatch(unAuthorize(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

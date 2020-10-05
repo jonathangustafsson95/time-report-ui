@@ -29,6 +29,11 @@ const authReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+    case Types.UN_AUTHORIZATION:
+      return {
+        ...state,
+        user: null,
+      }
 
     default:
       return state;

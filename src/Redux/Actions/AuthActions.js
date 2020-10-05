@@ -37,3 +37,9 @@ export const authorize = (userData) => {
       });
   };
 };
+
+export const unAuthorize = () => {
+  return {
+    type: Types.UN_AUTHORIZATION,
+  };
+};
