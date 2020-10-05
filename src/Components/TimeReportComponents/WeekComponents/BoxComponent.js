@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { connect } from "react-redux";
-import AddRegistryModal from "../../Modals/AddRegistryModal";
+import AddRegistryModal from "../../Modals/RegistryModals/AddRegistry/AddRegistryModal";
 
 const DayBox = ({ day, dayConst, registries }) => {
   var d = new Date();

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
-import TimeInput from "../CommonComponents/TimeInputComponent";
+import TimeInput from "../../CommonComponents/TimeInputComponent";
 import {
   removeNewRegistryFromStore,
   removeRegistryFromStore,
   updateNewRegistryFromStore,
   updateOldRegistryFromStore,
-} from "../../Redux/Actions/RegistryActions";
+} from "../../../Redux/Actions/RegistryActions";
 
 const RegistryInfoModal = ({
   showInfoModal,

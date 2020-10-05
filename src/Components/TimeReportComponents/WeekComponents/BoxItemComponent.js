@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RegistryInfoModal from "../../Modals/RegistryInfoModal";
+import RegistryInfoModal from "../../Modals/RegistryModals/RegistryInfoModal";
 
 const BoxItem = ({ registry }) => {
   const [showInfoModal, setShowInfoModal] = useState(false);
