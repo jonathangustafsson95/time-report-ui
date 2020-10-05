@@ -44,7 +44,7 @@ const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
         {registryType.internal ? (
           <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
         ) : (
-          <AddCustomerRegistry></AddCustomerRegistry>
+          <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
         )}
       </Modal.Body>
     </RegistryModal>
