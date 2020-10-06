@@ -3,8 +3,10 @@ import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Css/Login.css";
 import { connect } from "react-redux";
 import { authorize } from "../../Redux/Actions/AuthActions";
+import { Alert } from "@material-ui/lab";
+import styled from "styled-components";
 
-const SignIn = ({ signIn }) => {
+const SignIn = ({ signIn, authData }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +23,7 @@ const SignIn = ({ signIn }) => {
   }
 
   return (
-    <div style={divStyle} className="Login">
+    <div className="Login">
       <form onSubmit={onSignIn}>
         <FormGroup bsSize="large">
           <FormLabel>Username</FormLabel>
@@ -47,10 +49,17 @@ const SignIn = ({ signIn }) => {
         >
           Login
         </Button>
+        {authData.error ? (
+          <AlertMsg severity="error">Something went wrong...</AlertMsg>
+        ) : null}
       </form>
     </div>
   );
 };
+
+const AlertMsg = styled(Alert)`
+  margin-top: 35px;
+`;
 
 const img = require("./Images/mountain-lake-header.jpg");
 
@@ -61,10 +70,16 @@ const divStyle = {
   backgroundSize: "cover",
 };
 
+const mapStateToProps = (state) => {
+  return {
+    authData: state.authData,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (user) => dispatch(authorize(user)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
