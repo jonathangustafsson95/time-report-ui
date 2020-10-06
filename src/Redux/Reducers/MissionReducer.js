@@ -7,6 +7,35 @@ const initialState = {
   error: false,
 };
 
+const mission = [
+  {
+    Name: "mission1",
+    Description: "asdasd",
+    Customer: "DHL",
+    Tasks: [
+      {
+        Name: "task1",
+      },
+      {
+        Name: "task2",
+      },
+    ],
+  },
+  {
+    Name: "mission1",
+    Description: "asdasd",
+    Customer: "DHL",
+    Tasks: [
+      {
+        Name: "task1",
+      },
+      {
+        Name: "task2",
+      },
+    ],
+  },
+];
+
 const missionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Types.FETCH_USER_MISSIONS_REQUEST:
