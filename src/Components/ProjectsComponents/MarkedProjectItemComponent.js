@@ -1,13 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "./Images/projects.png"
 
 const MarkedProjectItem = ({ mission }) => {
   return (
-    
     <Box>
+        <BoxDiv>
+
+      <Inbox>
+        <img src={logo} width="28.87px" height="23.62px" color="#ff2366"></img>
+      </Inbox>
       <MissionText>{mission.name}</MissionText>
+      </BoxDiv>
       <CompanyText>{mission.customer}</CompanyText>
-     
     </Box>
   );
 };
@@ -23,10 +28,16 @@ const MissionText = styled.p`
   letter-spacing: 0.02em;
   text-align: left;
   color: #302f2f;
+  margin-left: 15px;
 `;
 
 const CompanyText = styled(MissionText)`
   font-size: 14px;
+  font-family: Roboto;
+  font-weight: 500;
+  margin-left: 80px;
+  text-align: left;
+
 `;
 
 const Box = styled.div`
@@ -38,13 +49,23 @@ const Box = styled.div`
   border-left-style: solid ;
   border-color:#f00a6b;
   
+  
 `;
-const Imgproj= styled.img `
+const Inbox=styled.div`
 width: 48px;
 height: 48px;
-background: transparent;
+border-radius: 10px;
+background: #ff2366;
+opacity: 0.17;
+margin-left: 15px;
+padding: 10px;
 
 
+
+`;
+const BoxDiv=styled.div`
+display:flex;
+flex-direction:row;
 `;
 
 export default MarkedProjectItem;
