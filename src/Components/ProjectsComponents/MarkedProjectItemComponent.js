@@ -3,12 +3,18 @@ import styled from "styled-components";
 
 const MarkedProjectItem = ({ mission }) => {
   return (
+    
     <Box>
       <MissionText>{mission.name}</MissionText>
       <CompanyText>{mission.customer}</CompanyText>
+     
     </Box>
   );
 };
+
+
+
+
 
 const MissionText = styled.p`
   font-family: Roboto;
@@ -29,6 +35,16 @@ const Box = styled.div`
   background: #fff;
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
   margin-right: 15px;
+  border-left-style: solid ;
+  border-color:#f00a6b;
+  
+`;
+const Imgproj= styled.img `
+width: 48px;
+height: 48px;
+background: transparent;
+
+
 `;
 
 export default MarkedProjectItem;
