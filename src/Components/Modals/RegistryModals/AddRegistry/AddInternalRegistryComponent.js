@@ -49,7 +49,7 @@ const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
   };
 
   return (
-    <div>
+    <Main>
       <TimeInput
         setHours={(value) => setHours(value)}
         setMinutes={(value) => setMinutes(value)}
@@ -58,9 +58,13 @@ const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
         titleContent="Add time"
       />
       <Button onClick={onAddRegistry}>Add</Button>
-    </div>
+    </Main>
   );
 };
+
+const Main = styled.div`
+  text-align: center;
+`;
 
 const Button = styled.button`
   font-family: Roboto;
@@ -72,7 +76,6 @@ const Button = styled.button`
   border-radius: 8px;
   background: #585656;
   border: 2px solid #585656;
-  margin-left: 30%;
 `;
 
 const mapDispatchToProps = (dispatch) => {

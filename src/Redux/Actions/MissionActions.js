@@ -14,6 +14,7 @@ export const fetchUserMissionsSuccess = (missions) => {
     payload: missions,
   };
 };
+
 export const fetchUserMissionsFailure = (error) => {
   return {
     type: Types.FETCH_USER_MISSIONS_FAILURE,
@@ -25,7 +26,7 @@ export const fetchUserMissions = (token) => {
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
-      url: service.baseUrl + "/system/mission",
+      url: service.baseUrl + "/mission/UserMissions",
       method: "get",
       headers: { Authorization: "Bearer " + token },
     })

@@ -2,39 +2,37 @@ import * as Types from "../Types/MissionTypes";
 
 const initialState = {
   loading: false,
-  missions: [],
+  missions: [
+    {
+      Name: "mission1",
+      Description: "asdasd",
+      Customer: "DHL",
+      Tasks: [
+        {
+          Name: "task1",
+        },
+        {
+          Name: "task2",
+        },
+      ],
+    },
+    {
+      Name: "mission2",
+      Description: "asdasd",
+      Customer: "IKEA",
+      Tasks: [
+        {
+          Name: "task1",
+        },
+        {
+          Name: "task2",
+        },
+      ],
+    },
+  ],
   errorMsg: "",
   error: false,
 };
-
-const mission = [
-  {
-    Name: "mission1",
-    Description: "asdasd",
-    Customer: "DHL",
-    Tasks: [
-      {
-        Name: "task1",
-      },
-      {
-        Name: "task2",
-      },
-    ],
-  },
-  {
-    Name: "mission1",
-    Description: "asdasd",
-    Customer: "DHL",
-    Tasks: [
-      {
-        Name: "task1",
-      },
-      {
-        Name: "task2",
-      },
-    ],
-  },
-];
 
 const missionReducer = (state = initialState, action) => {
   switch (action.type) {

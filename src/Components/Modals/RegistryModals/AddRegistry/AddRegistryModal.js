@@ -112,7 +112,15 @@ const MenuLine = styled.hr`
 `;
 
 const RegistryModal = styled(Modal)`
-  margin-top: 15%;
+  max-width: 100%;
+  width: auto !important;
+  display: inline-block;
+  padding: 50px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 `;
 
 export default AddRegistryModal;

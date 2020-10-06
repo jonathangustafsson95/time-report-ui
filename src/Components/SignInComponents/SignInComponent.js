@@ -52,12 +52,13 @@ const SignIn = ({ signIn }) => {
   );
 };
 
-const img = require('./Images/mountain-lake-header.jpg');
+const img = require("./Images/mountain-lake-header.jpg");
+
 const divStyle = {
-  width: '100%',
-  height: '978px',
+  width: "100%",
+  height: "978px",
   backgroundImage: `url(${img})`,
-  backgroundSize: 'cover'
+  backgroundSize: "cover",
 };
 
 const mapDispatchToProps = (dispatch) => {

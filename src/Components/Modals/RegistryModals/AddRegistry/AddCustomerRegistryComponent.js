@@ -2,17 +2,23 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
+import MissionTable from "./MissionTableComponent";
 
 const AddCustomerRegistry = ({ missions, fetchMissions, token }) => {
   useEffect(() => {
     fetchMissions(token);
   }, [fetchMissions, token]);
 
-  return <Main>AddCustomerRegistry</Main>;
+  return (
+    <Main>
+      <MissionTable missions={missions} />
+    </Main>
+  );
 };
 
 const Main = styled.div`
-  width: 600px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const mapStateToProps = (state) => {
