@@ -27,7 +27,7 @@ export const authorize = (userData) => {
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: "John", password: "abc123" },
+      data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
         dispatch(authorizeSuccess(response.data));
