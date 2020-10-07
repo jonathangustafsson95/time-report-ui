@@ -21,12 +21,18 @@ const AddCustomerRegistry = ({
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
+  console.log(currentMission);
+  console.log(currentTask);
+
   useEffect(() => {
     fetchMissions(token);
+  }, []);
+
+  useEffect(() => {
     if (missions.length > 0) {
-      setCurrentMission(missions[0].MissionId);
+      setCurrentMission(missions[0].missionId);
     }
-  }, [fetchMissions, missions, token]);
+  }, [missions]);
 
   const onAddRegistry = () => {
     const mins = parseFloat(minutes) / 60;
@@ -35,9 +41,9 @@ const AddCustomerRegistry = ({
     const d = new Date();
 
     const mission = missions.find(
-      (mission) => mission.MissionId === currentMission
+      (mission) => mission.missionId === currentMission
     );
-    const task = mission.Tasks.find((task) => task.TaskId === currentTask);
+    const task = mission.tasks.find((task) => task.taskId === currentTask);
 
     const registryToReport = {
       registryId: 0,
@@ -57,8 +63,8 @@ const AddCustomerRegistry = ({
 
     const registry = {
       registryId: id,
-      missionName: mission.Name,
-      taskName: task.Name,
+      missionName: mission.missionName,
+      taskName: task.name,
       taskId: currentTask,
       day: day,
       hours: time,

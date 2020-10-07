@@ -2,24 +2,9 @@ import React, { useEffect } from "react";
 import MarkedProjectItem from "./MarkedProjectItemComponent";
 import styled from "styled-components";
 
-const MarkedProjects = () => {
-  const missions = [
-    {
-      id: 1,
-      name: "mission 1",
-      customer: "customer 1",
-    },
-    {
-      id: 2,
-      name: "mission 2",
-      customer: "customer 1",
-    },
-    {
-      id: 3,
-      name: "mission 3",
-      customer: "customer 1",
-    },
-  ];
+const MarkedProjects = ({ missions }) => {
+  //useeffect
+
   return (
     <div>
       <Title>Marked Projects</Title>
