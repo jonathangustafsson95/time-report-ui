@@ -4,7 +4,8 @@ import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
 
 
-const MarkedProjectItem = ({ mission }) => {
+const MarkedProjectItem = ({ markedMissions }) => {
+  console.log(markedMissions);
   return (
     <Box>
         <BoxDiv>
@@ -12,10 +13,10 @@ const MarkedProjectItem = ({ mission }) => {
       <Inbox>
         <img src={logoBox}></img>
       </Inbox>
-      <MissionText>{mission.name}</MissionText>
+      <MissionText>{markedMissions.missionName}</MissionText>
       <img src={iconStar} width="19.48px" height="18.53px"></img>
       </BoxDiv>
-      <CompanyText>{mission.customer}</CompanyText>
+      <CompanyText>{markedMissions.customer}</CompanyText>
       
     </Box>
     
@@ -40,7 +41,7 @@ const CompanyText = styled(MissionText)`
   font-size: 14px;
   font-family: Roboto;
   font-weight: 500;
-  margin-left: 90px;
+  margin-left: 30px;
   text-align: left;
 
 `;
