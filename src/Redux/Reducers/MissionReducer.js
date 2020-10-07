@@ -66,6 +66,26 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+    case Types.FETCH_USER_MARKED_MISSIONS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_USER_MARKED_MISSIONS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        missions: action.payload,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_USER_MARKED_MISSIONS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+      };
 
     default:
       return state;
