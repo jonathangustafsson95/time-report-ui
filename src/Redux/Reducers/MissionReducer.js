@@ -55,41 +55,4 @@ const missionReducer = (state = initialState, action) => {
   }
 };
 
-// {
-//   Name: "mission1",
-//   MissionId: "1",
-//   Description: "asdasd",
-//   Customer: "DHL",
-//   Tasks: [
-//     {
-//       Name: "task1",
-//       TaskId: "1",
-//     },
-//     {
-//       Name: "task2",
-//       TaskId: "2",
-//     },
-//   ],
-// },
-// {
-//   Name: "mission2",
-//   MissionId: "2",
-//   Description: "asdasd",
-//   Customer: "IKEA",
-//   Tasks: [
-//     {
-//       Name: "task3",
-//       TaskId: "3",
-//     },
-//     {
-//       Name: "task4",
-//       TaskId: "4",
-//     },
-//     {
-//       Name: "task5",
-//       TaskId: "5",
-//     },
-//   ],
-// },
-
 export default missionReducer;

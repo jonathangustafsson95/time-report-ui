@@ -15,7 +15,13 @@ const useStyles = makeStyles({
   },
 });
 
-const TaskTable = ({ missionId, missions, currentTask, setCurrentTask }) => {
+const TaskTable = ({
+  missionId,
+  missions,
+  currentTask,
+  setCurrentTask,
+  info = false,
+}) => {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [rows, setRows] = useState([]);
 
@@ -24,31 +30,47 @@ const TaskTable = ({ missionId, missions, currentTask, setCurrentTask }) => {
       const mission = missions.find(
         (mission) => mission.missionId === missionId
       );
-
+      console.log(info);
       let selectedStatus = [];
       const rows = mission.tasks.map((task, index) => {
-        index === 0
-          ? selectedStatus.push({
-              selected: true,
-              id: task.taskId,
-            })
-          : selectedStatus.push({
-              selected: false,
-              id: task.taskId,
-            });
-
+        if (info) {
+          console.log(task.taskId, currentTask);
+          task.taskId === currentTask
+            ? selectedStatus.push({
+                selected: true,
+                id: task.taskId,
+              })
+            : selectedStatus.push({
+                selected: false,
+                id: task.taskId,
+              });
+        } else {
+          index === 0
+            ? selectedStatus.push({
+                selected: true,
+                id: task.taskId,
+              })
+            : selectedStatus.push({
+                selected: false,
+                id: task.taskId,
+              });
+        }
         return {
           name: task.name,
           id: task.taskId,
         };
       });
-      if (rows.length > 0) {
-        setCurrentTask(rows[0].id);
+      if (!info) {
+        if (rows.length > 0) {
+          console.log("check");
+          setCurrentTask(rows[0].id);
+        }
       }
+
       setRows(rows);
       setSelectedStatus(selectedStatus);
     }
-  }, [missionId]);
+  }, [missionId, missions]);
 
   const classes = useStyles();
 

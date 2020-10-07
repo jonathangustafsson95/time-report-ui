@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
-import TimeInput from "../../../CommonComponents/TimeInputComponent";
+import InternalInfo from "./InternalInfoComponent";
+import CustomerInfo from "./CustomerInfoComponent";
+import "../AddRegistry/AddRegistryModal.css";
 import {
   removeNewRegistryFromStore,
   removeRegistryFromStore,
@@ -19,24 +21,12 @@ const RegistryInfoModal = ({
   updateNewRegistry,
   updateOldRegistry,
 }) => {
-  const tmpHour = Math.floor(registry.hours);
-  const tmpMinutes = (registry.hours - tmpHour) * 60;
-  const [hours, setHours] = useState(tmpHour);
-  const [minutes, setMinutes] = useState(tmpMinutes);
-
   const onDelete = (registry) => {
     registry.new ? removeNewRegistry(registry) : removeOldRegistry(registry);
     onCloseModal();
   };
 
-  const updateRegistry = (registry) => {
-    const updatedReg = JSON.parse(JSON.stringify(registry));
-
-    const mins = parseFloat(minutes) / 60;
-    const time = parseFloat(hours) + mins;
-
-    updatedReg.hours = time;
-
+  const updateRegistry = (updatedReg) => {
     const registryToReport = {
       registryId: updatedReg.new ? 0 : updatedReg.registryId,
       taskId: updatedReg.taskId,
@@ -44,7 +34,7 @@ const RegistryInfoModal = ({
       hours: updatedReg.hours,
       created: updatedReg.created,
       date: updatedReg.date,
-      invoice: 0,
+      invoice: updatedReg.invoice,
       uuid: updatedReg.registryId,
     };
 
@@ -56,7 +46,12 @@ const RegistryInfoModal = ({
   };
 
   return (
-    <RegistryModal show={showModal} onHide={onCloseModal}>
+    <Modal
+      show={showModal}
+      onHide={onCloseModal}
+      dialogClassName="modal-90w"
+      centered
+    >
       <Modal.Header>
         <Text>{registry.missionName}</Text>
         <Text>{registry.taskName}</Text>
@@ -68,8 +63,12 @@ const RegistryInfoModal = ({
         ></DeleteBtn>
       </Modal.Header>
       <Modal.Body></Modal.Body>
-      <Button onClick={() => updateRegistry(registry)}>Update</Button>
-    </RegistryModal>
+      {!registry.taskId ? (
+        <InternalInfo registry={registry} updateRegistry={updateRegistry} />
+      ) : (
+        <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+      )}
+    </Modal>
   );
 };
 
@@ -90,24 +89,6 @@ const Text = styled.h1`
   margin-left: auto;
   margin-right: auto;
   color: #585656;
-`;
-
-const RegistryModal = styled(Modal)`
-  margin-top: 15%;
-`;
-
-const Button = styled.button`
-  font-family: Roboto;
-  font-weight: normal;
-  font-size: 14px;
-  color: #fff;
-  width: 189px;
-  height: 40px;
-  border-radius: 8px;
-  background: #585656;
-  border: 2px solid #585656;
-  margin-left: 30%;
-  margin-bottom: 40px;
 `;
 
 const mapDispatchToProps = (dispatch) => {
