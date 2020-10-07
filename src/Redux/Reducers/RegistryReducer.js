@@ -77,6 +77,9 @@ const registryReducer = (state = initialState, action) => {
         registriesByWeek: state.registriesByWeek.filter(
           (registry) => registry.registryId !== action.payload
         ),
+        registriesToReport: state.registriesToReport.filter(
+          (registry) => registry.uuid !== action.payload
+        ),
         registriesToDelete: [...state.registriesToDelete, action.payload],
       };
     case Types.UPDATE_NEW_REGISTRY_FROM_STORE:
@@ -96,7 +99,7 @@ const registryReducer = (state = initialState, action) => {
       const regToReport1 = action.payload[1];
 
       const alreadyUpdated = state.registriesToReport.some(
-        (registry) => registry.registryId === action.ids
+        (registry) => registry.registryId === action.id
       );
 
       if (alreadyUpdated) {

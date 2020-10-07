@@ -21,9 +21,6 @@ const AddCustomerRegistry = ({
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
 
-  console.log(currentMission);
-  console.log(currentTask);
-
   useEffect(() => {
     fetchMissions(token);
   }, []);
