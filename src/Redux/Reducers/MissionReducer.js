@@ -7,6 +7,7 @@ const initialState = {
       Name: "mission1",
       MissionId: "1",
       Description: "asdasd",
+      StartDate:"2020-10-07",
       Customer: "DHL",
       Tasks: [
         {
@@ -23,6 +24,7 @@ const initialState = {
       Name: "mission2",
       MissionId: "2",
       Description: "asdasd",
+      StartDate:"2020-10-07",
       Customer: "IKEA",
       Tasks: [
         {
