@@ -96,7 +96,7 @@ const registryReducer = (state = initialState, action) => {
       const regToReport1 = action.payload[1];
 
       const alreadyUpdated = state.registriesToReport.some(
-        (registry) => registry.registryId === action.id
+        (registry) => registry.registryId === action.ids
       );
 
       if (alreadyUpdated) {
@@ -118,14 +118,6 @@ const registryReducer = (state = initialState, action) => {
           registriesToReport: [...state.registriesToReport, regToReport1],
         };
       }
-
-    // return {
-    //   ...state,
-    //   registriesByWeek: state.registriesByWeek.map((registry) => {
-    //     registry.registryId === action.id ? updatedReg : registry
-    //   }),
-    //   registriesToReport:
-    // }
 
     default:
       return state;

@@ -23,6 +23,7 @@ export const authorizeFailure = (error) => {
 
 export const authorize = (userData) => {
   return (dispatch) => {
+    // { userName: "John", password: "abc123" }
     dispatch(authorizeRequest());
     axios({
       url: service.baseUrl + "/system/login",
@@ -33,7 +34,7 @@ export const authorize = (userData) => {
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(authorizeFailure(error));
+        dispatch(authorizeFailure(error.message));
       });
   };
 };

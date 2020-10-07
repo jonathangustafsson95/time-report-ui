@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import AddInternalRegistry from "./AddInternalRegistryComponent";
 import AddCustomerRegistry from "./AddCustomerRegistryComponent";
 import Icon from "./IconComponent";
+import "./AddRegistryModal.css";
 
 const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
   const [registryType, setRegistryType] = useState({
@@ -18,7 +19,12 @@ const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
   };
 
   return (
-    <RegistryModal show={showModal} onHide={onCloseModal}>
+    <Modal
+      show={showModal}
+      onHide={onCloseModal}
+      dialogClassName="modal-90w"
+      centered
+    >
       <Modal.Body>
         <Text>New Registry</Text>
         <MenuDiv>
@@ -47,7 +53,7 @@ const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
           <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
         )}
       </Modal.Body>
-    </RegistryModal>
+    </Modal>
   );
 };
 

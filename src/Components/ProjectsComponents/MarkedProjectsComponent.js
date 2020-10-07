@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MarkedProjectItem from "./MarkedProjectItemComponent";
 import styled from "styled-components";
 

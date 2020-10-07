@@ -46,9 +46,9 @@ const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
     const mon = d.getDay(),
       diff = d.getDate() - mon + (mon === 0 ? -6 : 1);
     d.setDate(diff);
-    const monday = `${d.getFullYear()}.${d.getMonth()}.${d.getDate()}`;
+    const monday = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
     d.setDate(d.getDay() + 10);
-    const sunday = `${d.getFullYear()}.${d.getMonth()}.${d.getDate()}`;
+    const sunday = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
 
     return `${monday} - ${sunday}`;
   };
