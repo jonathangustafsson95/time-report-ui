@@ -4,10 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import { Checkbox } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -22,24 +20,26 @@ const TaskTable = ({ missionId, missions, currentTask, setCurrentTask }) => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    const mission = missions.find((mission) => mission.MissionId === missionId);
+    if (missionId) {
+      const mission = missions.find(
+        (mission) => mission.missionId === missionId
+      );
 
-    if (mission) {
       let selectedStatus = [];
-      const rows = mission.Tasks.map((task, index) => {
+      const rows = mission.tasks.map((task, index) => {
         index === 0
           ? selectedStatus.push({
               selected: true,
-              id: task.TaskId,
+              id: task.taskId,
             })
           : selectedStatus.push({
               selected: false,
-              id: task.TaskId,
+              id: task.taskId,
             });
 
         return {
-          name: task.Name,
-          id: task.TaskId,
+          name: task.name,
+          id: task.taskId,
         };
       });
       if (rows.length > 0) {
@@ -48,7 +48,7 @@ const TaskTable = ({ missionId, missions, currentTask, setCurrentTask }) => {
       setRows(rows);
       setSelectedStatus(selectedStatus);
     }
-  }, [missions, missionId]);
+  }, [missionId]);
 
   const classes = useStyles();
 
