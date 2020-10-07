@@ -38,3 +38,40 @@ export const fetchUserMissions = (token) => {
       });
   };
 };
+
+export const fetchUserMarkedMissionsRequest = () => {
+  return {
+    type: Types.FETCH_USER_MARKED_MISSIONS_REQUEST,
+  };
+};
+
+export const fetchUserMarkedMissionsSuccess = (missions) => {
+  return {
+    type: Types.FETCH_USER_MARKED_MISSIONS_SUCCESS,
+    payload: missions,
+  };
+};
+
+export const fetchUserMarkedMissionsFailure = (error) => {
+  return {
+    type: Types.FETCH_USER_MARKED_MISSIONS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchUserMarkedMissions = (token) => {
+  return (dispatch) => {
+    dispatch(fetchUserMarkedMissionsRequest());
+    axios({
+      url: service.baseUrl + "/test",
+      method: "get",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        dispatch(fetchUserMarkedMissionsSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchUserMarkedMissionsFailure(error.message));
+      });
+  };
+};

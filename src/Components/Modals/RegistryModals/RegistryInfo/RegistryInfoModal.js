@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
-import TimeInput from "../../CommonComponents/TimeInputComponent";
+import TimeInput from "../../../CommonComponents/TimeInputComponent";
 import {
   removeNewRegistryFromStore,
   removeRegistryFromStore,
   updateNewRegistryFromStore,
   updateOldRegistryFromStore,
-} from "../../../Redux/Actions/RegistryActions";
+} from "../../../../Redux/Actions/RegistryActions";
 
 const RegistryInfoModal = ({
   showModal,
@@ -48,7 +48,6 @@ const RegistryInfoModal = ({
       uuid: updatedReg.registryId,
     };
 
-    console.log(registryToReport);
     registry.new
       ? updateNewRegistry([updatedReg, registryToReport])
       : updateOldRegistry([updatedReg, registryToReport]);
@@ -60,22 +59,15 @@ const RegistryInfoModal = ({
     <RegistryModal show={showModal} onHide={onCloseModal}>
       <Modal.Header>
         <Text>{registry.missionName}</Text>
+        <Text>{registry.taskName}</Text>
         <DeleteBtn
           type="image"
           alt="delete"
-          src={require("./Icons/trash.svg")}
+          src={require("../Icons/trash.svg")}
           onClick={() => onDelete(registry)}
         ></DeleteBtn>
       </Modal.Header>
-      <Modal.Body>
-        <TimeInput
-          setHours={(value) => setHours(value)}
-          setMinutes={(value) => setMinutes(value)}
-          hours={hours}
-          minutes={minutes}
-          titleContent="Change time"
-        />
-      </Modal.Body>
+      <Modal.Body></Modal.Body>
       <Button onClick={() => updateRegistry(registry)}>Update</Button>
     </RegistryModal>
   );

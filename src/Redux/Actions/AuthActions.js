@@ -23,17 +23,18 @@ export const authorizeFailure = (error) => {
 
 export const authorize = (userData) => {
   return (dispatch) => {
+    // { userName: "John", password: "abc123" }
     dispatch(authorizeRequest());
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: userData.userName, password: userData.password },
+      data: { userName: "John", password: "abc123" },
     })
       .then((response) => {
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(authorizeFailure(error));
+        dispatch(authorizeFailure(error.message));
       });
   };
 };
