@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "./Images/projects.png"
+import logoBox from "./Images/Group156.png"
+import iconStar from "./Images/IconFeather-star.png"
+
 
 const MarkedProjectItem = ({ mission }) => {
   return (
@@ -8,12 +10,15 @@ const MarkedProjectItem = ({ mission }) => {
         <BoxDiv>
 
       <Inbox>
-        <img src={logo} width="28.87px" height="23.62px" color="#ff2366"></img>
+        <img src={logoBox}></img>
       </Inbox>
       <MissionText>{mission.name}</MissionText>
+      <img src={iconStar} width="19.48px" height="18.53px"></img>
       </BoxDiv>
       <CompanyText>{mission.customer}</CompanyText>
+      
     </Box>
+    
   );
 };
 
@@ -35,7 +40,7 @@ const CompanyText = styled(MissionText)`
   font-size: 14px;
   font-family: Roboto;
   font-weight: 500;
-  margin-left: 80px;
+  margin-left: 90px;
   text-align: left;
 
 `;
@@ -52,11 +57,6 @@ const Box = styled.div`
   
 `;
 const Inbox=styled.div`
-width: 48px;
-height: 48px;
-border-radius: 10px;
-background: #ff2366;
-opacity: 0.17;
 margin-left: 15px;
 padding: 10px;
 
