@@ -63,7 +63,7 @@ export const fetchUserMarkedMissions = (token) => {
   return (dispatch) => {
     dispatch(fetchUserMarkedMissionsRequest());
     axios({
-      url: service.baseUrl + "/test",
+      url: service.baseUrl + "/mission/GetFavoriteMissions",
       method: "get",
       headers: { Authorization: "Bearer " + token },
     })
