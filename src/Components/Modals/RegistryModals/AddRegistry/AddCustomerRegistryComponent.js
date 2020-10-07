@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import TimeInput from "../../../CommonComponents/TimeInputComponent";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
 import MissionTable from "./MissionTableComponent";
 import TaskTable from "./TaskTableComponent";
+import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
 
-const AddCustomerRegistry = ({ missions, fetchMissions, token }) => {
+const AddCustomerRegistry = ({
+  date,
+  onCloseModal,
+  missions,
+  fetchMissions,
+  token,
+  addRegistry,
+}) => {
   const [currentMission, setCurrentMission] = useState(null);
   const [currentTask, setCurrentTask] = useState(null);
   const [hours, setHours] = useState(1);
@@ -20,7 +29,47 @@ const AddCustomerRegistry = ({ missions, fetchMissions, token }) => {
   }, [fetchMissions, missions, token]);
 
   const onAddRegistry = () => {
-    console.log("Add customer registry");
+    const mins = parseFloat(minutes) / 60;
+    const time = parseFloat(hours) + mins;
+    const id = uuidv4();
+    const d = new Date();
+
+    const mission = missions.find(
+      (mission) => mission.MissionId === currentMission
+    );
+    const task = mission.Tasks.find((task) => task.TaskId === currentTask);
+
+    const registryToReport = {
+      registryId: 0,
+      taskId: currentTask,
+      userId: 1,
+      hours: time,
+      created: d.toJSON(),
+      date: date.toJSON(),
+      invoice: 1,
+      uuid: id,
+    };
+
+    let day = date.getDay();
+    if (day === 7) {
+      day = 0;
+    }
+
+    const registry = {
+      registryId: id,
+      missionName: mission.Name,
+      taskName: task.Name,
+      taskId: currentTask,
+      day: day,
+      hours: time,
+      created: d.toJSON(),
+      date: date.toJSON(),
+      invoice: 0,
+      new: true,
+    };
+
+    addRegistry([registry, registryToReport]);
+    onCloseModal();
   };
 
   return (
@@ -83,6 +132,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchMissions: (token) => dispatch(fetchUserMissions(token)),
+    addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
   };
 };
 
