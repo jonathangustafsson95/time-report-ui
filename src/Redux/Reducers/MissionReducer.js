@@ -2,7 +2,6 @@ import * as Types from "../Types/MissionTypes";
 
 const initialState = {
   loading: false,
-<<<<<<< HEAD
   missions: [
     {
       Name: "mission1",
@@ -43,9 +42,6 @@ const initialState = {
       ],
     },
   ],
-=======
-  missions: [],
->>>>>>> bfbaf0680306accc416fd2f6a0f21c1917663162
   errorMsg: "",
   error: false,
 };
