@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import MarkedProjectItem from "./MarkedProjectItemComponent";
 import styled from "styled-components";
-import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions"
+import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions";
 import { connect } from "react-redux";
+import ProjectDetailComponent from "./ProjectDetailComponent";
 const MarkedProjectsComponentDiv =({markedMissions,token,fetchMarkedMissions})=>{
   useEffect(()=>{
     fetchMarkedMissions(token);
