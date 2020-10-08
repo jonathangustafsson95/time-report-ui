@@ -12,7 +12,12 @@ const MainSwitch = () => {
         <Route exact path="/" render={() => <DashBoard />} />
         <Route exact path="/timereport" render={() => <TimeReport />} />
         <Route exact path="/projects" render={() => <ProjectsComponent />} />
-        <Route exact path="/projectdetail" render={()=><ProjectDetailComponent/>}/>
+        {/* <Route exact path="/projectdetail" render={()=><ProjectDetailComponent/>}/> */}
+        <Route
+          exact
+          path="/projects/:missionId"
+          render={() => <ProjectDetailComponent />}
+        />
       </Switch>
     </div>
   );

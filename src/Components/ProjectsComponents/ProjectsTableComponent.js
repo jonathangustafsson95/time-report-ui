@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Checkbox } from "@material-ui/core";
+import { connect } from "react-redux";
+import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions"
 
 const useStyles = makeStyles({
   table: {
@@ -15,11 +17,33 @@ const useStyles = makeStyles({
   },
 });
 
-const ProjectsTable = ({ missions }) => {
+const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions }) => {
   const classes = useStyles();
+  useEffect(()=>{
+    fetchMarkedMissions(token);
+  },[]);
+  // use state för marked mission och all mission
+  // useState()
+  const handleClick=(e,chkbox)=>{
+    console.log("test"+e.checked)
+    //add eller remove favorite mission baserad om checked eller ej
+    //kalla på check favorite
+    // checkFavorite();
 
+  }
+  const checkFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  const addFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  const removeFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  // const[isChecked, setChecked]=useState()
   return (
     <div>
+       
       <input></input>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -36,8 +60,8 @@ const ProjectsTable = ({ missions }) => {
           <TableBody>
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
-                <TableCell>
-                  <Checkbox></Checkbox>
+                <TableCell >
+                  <Checkbox onClick={(e) => handleClick(e)} checked={ checkFavorite({mission})}></Checkbox>
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {mission.missionName}
@@ -57,4 +81,16 @@ const ProjectsTable = ({ missions }) => {
   );
 };
 
-export default ProjectsTable;
+
+const mapStateToProps=(state)=>{
+  return{
+    markedMissions:state.missionData.missions,
+    token:state.authData.user.token,
+  };
+};
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(ProjectsTable);
