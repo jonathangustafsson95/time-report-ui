@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
+import { NavLink } from "react-router-dom";
 
 
 const MarkedProjectItem = ({ markedMissions }) => {
@@ -13,7 +14,7 @@ const MarkedProjectItem = ({ markedMissions }) => {
       <Inbox>
         <img src={logoBox}></img>
       </Inbox>
-      <MissionText>{markedMissions.missionName}</MissionText>
+      <LinkText to="/projectdetail"><MissionText>{markedMissions.missionName}</MissionText></LinkText>
       <img src={iconStar} width="19.48px" height="18.53px"></img>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
@@ -37,6 +38,16 @@ const MissionText = styled.p`
   margin-left: 15px;
 `;
 
+const LinkText= styled(NavLink)`
+font-family: Roboto;
+font-weight: normal;
+font-size: 20px;
+letter-spacing: 0.02em;
+text-align: left;
+color: #302f2f;
+
+
+`
 const CompanyText = styled(MissionText)`
   font-size: 14px;
   font-family: Roboto;
