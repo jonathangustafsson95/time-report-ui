@@ -1,12 +1,12 @@
 import React from "react";
 import MarkedProjectsComponent from "./MarkedProjectsComponent";
-import ProjectsTableComponent from "./ProjectsTableComponent";
+import ProjectsTableDivComponent from "./ProjectsTableDivComponent";
 
 const Projects = () => {
   return (
     <div>
       <MarkedProjectsComponent />
-      <ProjectsTableComponent />
+      <ProjectsTableDivComponent />
     </div>
   );
 };

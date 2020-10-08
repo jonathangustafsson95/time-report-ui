@@ -28,9 +28,6 @@ const MarkedProjectItem = ({ markedMissions }) => {
 };
 
 
-
-
-
 const MissionText = styled.p`
   font-family: Roboto;
   font-weight: normal;
