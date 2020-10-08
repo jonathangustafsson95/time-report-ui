@@ -120,15 +120,18 @@ const Title = styled.p`
   margin: 0;
   font-family: Roboto;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 14px;
+  opacity: 0.8;
   letter-spacing: 0.08em;
   color: #585656;
   margin-bottom: 30px;
+  text-align: left;
 `;
 
 const TableHolder = styled.div`
   padding: 15px;
   padding-bottom: 0;
+  border-radius: 10px;
   background: #fff;
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
 `;

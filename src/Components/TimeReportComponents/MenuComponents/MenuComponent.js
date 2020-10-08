@@ -54,10 +54,6 @@ const Button = styled.button`
     outline: none;
     border: none;
   }
-  &.active {
-    outline: none;
-    border: none;
-  }
   &:hover {
     opacity: 0.8;
   }
@@ -66,9 +62,8 @@ const Button = styled.button`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 80px;
-  margin-top: 60px;
-  width: 256px;
+  margin-left: 50px;
+  width: 220px;
 `;
 
 const mapStateToProps = (state) => {

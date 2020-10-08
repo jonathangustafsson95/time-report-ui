@@ -18,8 +18,9 @@ const Box = styled.div`
   flex-direction: row;
   text-align: center;
   border-radius: 10px;
-  width: 226px;
-  height: 74px;
+  width: 190px;
+  height: 65px;
+  padding-left: 10px;
   background: #fff;
   box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.1);
   margin-left: 30px;
