@@ -69,6 +69,7 @@ const AddCustomerRegistry = ({
       date: date.toJSON(),
       invoice: 0,
       new: true,
+      isFromTemplate: false,
     };
 
     addRegistry([registry, registryToReport]);
