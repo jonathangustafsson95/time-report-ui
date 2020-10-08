@@ -28,12 +28,12 @@ const Menu = ({ token, fetchWeeklyRegistries }) => {
       <Button onClick={() => toggleMenuItem("latestReports")}>
         Latest reports
       </Button>
-      {showMenuItems.latestReports && <h1>latestreports</h1>}
+      {showMenuItems.latestReports && <p>latestreports</p>}
 
       <Button onClick={() => toggleMenuItem("markedMissions")}>
         Marked missions
       </Button>
-      {showMenuItems.markedMissions && <h1>markedprojects</h1>}
+      {showMenuItems.markedMissions && <p>markedprojects</p>}
     </Main>
   );
 };
@@ -54,10 +54,6 @@ const Button = styled.button`
     outline: none;
     border: none;
   }
-  &.active {
-    outline: none;
-    border: none;
-  }
   &:hover {
     opacity: 0.8;
   }
@@ -66,9 +62,8 @@ const Button = styled.button`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 80px;
-  margin-top: 60px;
-  width: 256px;
+  margin-left: 50px;
+  width: 220px;
 `;
 
 const mapStateToProps = (state) => {
