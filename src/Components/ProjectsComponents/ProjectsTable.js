@@ -7,6 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { Checkbox } from "@material-ui/core";
 
 const useStyles = makeStyles({
   table: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(projectName, Customer, Status, date) {
-  return { projectName, Customer, Status, date };
+function createData(projectName, Customer, Status, StartDate) {
+  return { projectName, Customer, Status, StartDate };
 }
 
 const rows = [
@@ -30,33 +31,35 @@ const rows = [
 const ProjectsTable = ({ missions }) => {
   const classes = useStyles();
 
-  console.log(missions);
 
   return (
     <div>
+      <input></input>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
+              
               <TableCell>Mission Name</TableCell>
               <TableCell align="right">Customer</TableCell>
               {/* <TableCell align="right">Status</TableCell> */}
-              {/* <TableCell align="right">date</TableCell> */}
-              {/* <TableCell align="right"></TableCell> */}
+              <TableCell align="right">StartDate</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
                 <TableCell component="th" scope="row">
+                  <Checkbox></Checkbox>
                   {mission.missionName}
                 </TableCell>
                 <TableCell align="right">{mission.customer}</TableCell>
                 {/* <TableCell align="right">{mission.Status}</TableCell> */}
-                {/* <TableCell align="right">{mission.date}</TableCell> */}
-                {/* <TableCell align="right">
+                <TableCell align="right">{mission.startDate}</TableCell>
+                <TableCell align="right">
                   <button>Add Time</button>
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

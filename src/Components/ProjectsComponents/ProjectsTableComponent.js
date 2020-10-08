@@ -10,10 +10,11 @@ const ProjectsTableDiv = ({ missions, token, fetchMissions }) => {
   }, []);
   return (
     <div>
-      {/* <ProjectButtonsDiv>
+      <ProjectButtonsDiv>
         <button>Your projects</button>
         <button>All projects</button>
-      </ProjectButtonsDiv> */}
+      </ProjectButtonsDiv>
+
 
       <ProjectsTable missions={missions} />
     </div>

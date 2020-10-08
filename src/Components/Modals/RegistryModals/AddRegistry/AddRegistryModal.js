@@ -117,16 +117,4 @@ const MenuLine = styled.hr`
   margin-left: 7px;
 `;
 
-const RegistryModal = styled(Modal)`
-  max-width: 100%;
-  width: auto !important;
-  display: inline-block;
-  padding: 50px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-`;
-
 export default AddRegistryModal;

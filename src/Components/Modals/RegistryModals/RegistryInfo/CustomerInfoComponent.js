@@ -1,7 +1,119 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import TimeInput from "../../../CommonComponents/TimeInputComponent";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
+import MissionTable from "../AddRegistry/MissionTableComponent";
+import TaskTable from "../AddRegistry/TaskTableComponent";
 
-const CustomerInfo = () => {
-  return <div></div>;
+const CustomerInfo = ({
+  registry,
+  updateRegistry,
+  missions,
+  fetchMissions,
+  token,
+}) => {
+  const [currentMission, setCurrentMission] = useState(null);
+  const [currentTask, setCurrentTask] = useState(registry.taskId);
+  const tmpHour = Math.floor(registry.hours);
+  const tmpMinutes = (registry.hours - tmpHour) * 60;
+  const [hours, setHours] = useState(tmpHour);
+  const [minutes, setMinutes] = useState(tmpMinutes);
+
+  useEffect(() => {
+    fetchMissions(token);
+  }, []);
+
+  useEffect(() => {
+    if (missions.length > 0) {
+      const mission = missions.find(
+        (mission) =>
+          mission.tasks.some((task) => task.taskId === currentTask) === true
+      );
+      setCurrentMission(mission.missionId);
+    }
+  }, [missions]);
+
+  const update = () => {
+    const updatedReg = JSON.parse(JSON.stringify(registry));
+    const mins = parseFloat(minutes) / 60;
+    const time = parseFloat(hours) + mins;
+
+    const mission = missions.find(
+      (mission) => mission.missionId === currentMission
+    );
+    const task = mission.tasks.find((task) => task.taskId === currentTask);
+
+    updatedReg.hours = time;
+    updatedReg.taskId = currentTask;
+    updatedReg.taskName = task.name;
+
+    updateRegistry(updatedReg);
+  };
+
+  return (
+    <Root>
+      <Main>
+        <MissionTable
+          missions={missions}
+          currentMission={currentMission}
+          setCurrentMission={(id) => setCurrentMission(id)}
+        />
+        <TaskTable
+          missionId={currentMission}
+          missions={missions}
+          currentTask={currentTask}
+          setCurrentTask={(id) => setCurrentTask(id)}
+          info={true}
+        />
+      </Main>
+      <TimeInput
+        setHours={(value) => setHours(value)}
+        setMinutes={(value) => setMinutes(value)}
+        hours={hours}
+        minutes={minutes}
+        titleContent="Change time"
+      />
+      <Button onClick={() => update()}>Update</Button>
+    </Root>
+  );
 };
 
-export default CustomerInfo;
+const Root = styled.div`
+  text-align: center;
+`;
+
+const Main = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const Button = styled.button`
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  color: #fff;
+  width: 189px;
+  height: 40px;
+  border-radius: 8px;
+  background: #585656;
+  border: 2px solid #585656;
+  margin-bottom: 30px;
+`;
+
+const mapStateToProps = (state) => {
+  return {
+    missions: state.missionData.missions,
+    token: state.authData.user.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchMissions: (token) => dispatch(fetchUserMissions(token)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerInfo);
