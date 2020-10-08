@@ -39,7 +39,7 @@ const ProjectsTable = ({ missions }) => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              
+              <TableCell padding="checkbox"></TableCell>
               <TableCell>Mission Name</TableCell>
               <TableCell align="right">Customer</TableCell>
               {/* <TableCell align="right">Status</TableCell> */}
@@ -50,8 +50,10 @@ const ProjectsTable = ({ missions }) => {
           <TableBody>
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
-                <TableCell component="th" scope="row">
+                <TableCell>
                   <Checkbox></Checkbox>
+                </TableCell>
+                <TableCell component="th" scope="row">
                   {mission.missionName}
                 </TableCell>
                 <TableCell align="right">{mission.customer}</TableCell>

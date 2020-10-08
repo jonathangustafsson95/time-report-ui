@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
-
+import Checkbox from '@material-ui/core/Checkbox';
 
 const MarkedProjectItem = ({ markedMissions }) => {
   console.log(markedMissions);
@@ -14,7 +14,7 @@ const MarkedProjectItem = ({ markedMissions }) => {
         <img src={logoBox}></img>
       </Inbox>
       <MissionText>{markedMissions.missionName}</MissionText>
-      <img src={iconStar} width="19.48px" height="18.53px"></img>
+      <Checkbox></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
       
