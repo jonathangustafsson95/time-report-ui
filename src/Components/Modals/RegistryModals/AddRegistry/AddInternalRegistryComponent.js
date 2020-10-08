@@ -42,6 +42,7 @@ const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
       date: date.toJSON(),
       invoice: 0,
       new: true,
+      isFromTemplate: false,
     };
 
     addRegistry([registry, registryToReport]);

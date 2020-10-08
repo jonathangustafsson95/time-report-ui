@@ -1,12 +1,15 @@
 import React from 'react';
+import {useParams} from "react-router-dom"
+import { Navbar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components';
 import { NavLink } from "react-router-dom";
 import IconArrow from "./Images/Group247.png"
 
-const ProjectDetailComponent = ({markedMissions}) => {
-  console.log(markedMissions);
-  return ( 
+const ProjectDetail = () => {
+  const { missionId } = useParams()
+  console.log(missionId)
+    return ( 
               <div>
                 <BackDiv className="align-baseline">
                   <LinkText to="/projects">

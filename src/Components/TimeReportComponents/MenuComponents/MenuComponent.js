@@ -28,12 +28,12 @@ const Menu = ({ token, fetchWeeklyRegistries }) => {
       <Button onClick={() => toggleMenuItem("latestReports")}>
         Latest reports
       </Button>
-      {showMenuItems.latestReports && <h1>latestreports</h1>}
+      {showMenuItems.latestReports && <p>latestreports</p>}
 
       <Button onClick={() => toggleMenuItem("markedMissions")}>
         Marked missions
       </Button>
-      {showMenuItems.markedMissions && <h1>markedprojects</h1>}
+      {showMenuItems.markedMissions && <p>markedprojects</p>}
     </Main>
   );
 };

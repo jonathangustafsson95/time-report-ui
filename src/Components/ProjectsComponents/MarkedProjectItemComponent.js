@@ -3,7 +3,7 @@ import styled from "styled-components";
 import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
 import Checkbox from '@material-ui/core/Checkbox';
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const MarkedProjectItem = ({ markedMissions }) => {
@@ -11,17 +11,15 @@ const MarkedProjectItem = ({ markedMissions }) => {
   return (
     <Box>
         <BoxDiv>
-
       <Inbox>
         <img src={logoBox}></img>
       </Inbox>
       
       
-      <LinkText to="/projectdetail"><MissionText>{markedMissions.missionName}</MissionText></LinkText>
+      <Link to={"/projects/" + markedMissions.missionId}><MissionText>{markedMissions.missionName}</MissionText></Link>
       <Checkbox></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
-      
     </Box>
     
   );
@@ -38,16 +36,10 @@ const MissionText = styled.p`
   margin-left: 15px;
 `;
 
-const LinkText= styled(NavLink)`
-font-family: Roboto;
-font-weight: normal;
-font-size: 20px;
-letter-spacing: 0.02em;
-text-align: left;
-color: #302f2f;
 
 
-`
+
+
 const CompanyText = styled(MissionText)`
   font-size: 14px;
   font-family: Roboto;

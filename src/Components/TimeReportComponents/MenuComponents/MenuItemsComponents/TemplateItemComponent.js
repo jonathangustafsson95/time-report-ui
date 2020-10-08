@@ -1,9 +1,52 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import {
+  addTemplateRegistryToStore,
+  removeTemplateRegistriesFromStore,
+} from "../../../../Redux/Actions/RegistryActions";
 
-const TemplateItem = ({ week }) => {
+const TemplateItem = ({
+  week,
+  addRegistry,
+  hasLoadedFromTemplate,
+  removeTemplateRegistries,
+}) => {
+  const loadTemplate = () => {
+    if (hasLoadedFromTemplate) {
+      removeTemplateRegistriesFromStore();
+    }
+
+    week.week.forEach((registry) => {
+      var d = new Date();
+      var dayC = d.getDay();
+      var diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
+      d.setDate(diff);
+      if (registry.day === 0) {
+        d.setDate(d.getDate() + registry.day + 6);
+      } else {
+        d.setDate(d.getDate() + registry.day - 1);
+      }
+
+      const newRegistry = {
+        registryId: registry.registryId,
+        missionName: registry.missionName,
+        taskName: registry.taskName,
+        taskId: registry.taskId,
+        day: registry.day,
+        hours: registry.hours,
+        created: new Date().toJSON(),
+        date: d.toJSON(),
+        invoice: registry.invoice,
+        new: true,
+        isFromTemplate: true,
+      };
+      console.log(newRegistry);
+      addRegistry(newRegistry);
+    });
+  };
   return (
-    <Box>
+    <Box onClick={() => loadTemplate()}>
       <Icon src={require("./Icons/template.svg")} />
       <TextDiv>
         <Week>Week {week.weekNr}</Week>
@@ -53,4 +96,18 @@ const StartDate = styled(Week)`
   opacity: 0.85;
 `;
 
-export default TemplateItem;
+const mapStateToProps = (state) => {
+  return {
+    hasLoadedFromTemplate: state.registryData.hasLoadedFromTemplate,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addRegistry: (registry) => dispatch(addTemplateRegistryToStore(registry)),
+    removeTemplateRegistries: () =>
+      dispatch(removeTemplateRegistriesFromStore()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateItem);

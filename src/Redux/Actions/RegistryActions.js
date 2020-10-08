@@ -11,6 +11,13 @@ export const addRegistryToStore = (registryData) => {
   };
 };
 
+export const addTemplateRegistryToStore = (registry) => {
+  return {
+    type: Types.ADD_TEMPLATE_REGISTRY_TO_STORE,
+    payload: registry,
+  };
+};
+
 export const removeNewRegistryFromStore = (registry) => {
   return {
     type: Types.REMOVE_NEW_REGISTRY_FROM_STORE,
@@ -22,6 +29,12 @@ export const removeRegistryFromStore = (registry) => {
   return {
     type: Types.REMOVE_REGISTRY_FROM_STORE,
     payload: registry.registryId,
+  };
+};
+
+export const removeTemplateRegistriesFromStore = () => {
+  return {
+    type: Types.REMOVE_TEMPLATE_REGISTRIES_FROM_STORE,
   };
 };
 
@@ -81,6 +94,7 @@ export const fetchRegistriesByWeek = (token) => {
         const registries = response.data;
         registries.forEach((registry) => {
           registry.new = false;
+          registry.isFromTemplate = false;
         });
         dispatch(fetchRegistriesByWeekSuccess(registries));
       })
