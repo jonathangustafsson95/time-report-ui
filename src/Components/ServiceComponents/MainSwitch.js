@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import DashBoard from "../DashBoardComponents/DashBoard";
 import TimeReport from "../TimeReportComponents/TimeReportComponent";
 import Projects from "../ProjectsComponents/Projects";
-import ProjectDetails from"../ProjectsComponents/ProjectDetail";
+import ProjectDetails from "../ProjectsComponents/ProjectDetail";
 
 const MainSwitch = () => {
   return (
@@ -12,7 +12,7 @@ const MainSwitch = () => {
         <Route exact path="/" render={() => <DashBoard />} />
         <Route exact path="/timereport" render={() => <TimeReport />} />
         <Route exact path="/projects" render={() => <Projects />} />
-        <Route exact path="/projectdetail" render={()=><ProjectDetails/>}/>
+        <Route exact path="/projectdetail" render={() => <ProjectDetails />} />
       </Switch>
     </div>
   );

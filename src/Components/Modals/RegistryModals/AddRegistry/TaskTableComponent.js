@@ -30,11 +30,9 @@ const TaskTable = ({
       const mission = missions.find(
         (mission) => mission.missionId === missionId
       );
-      console.log(info);
       let selectedStatus = [];
       const rows = mission.tasks.map((task, index) => {
         if (info) {
-          console.log(task.taskId, currentTask);
           task.taskId === currentTask
             ? selectedStatus.push({
                 selected: true,
@@ -62,7 +60,6 @@ const TaskTable = ({
       });
       if (!info) {
         if (rows.length > 0) {
-          console.log("check");
           setCurrentTask(rows[0].id);
         }
       }

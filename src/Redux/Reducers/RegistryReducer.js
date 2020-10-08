@@ -6,6 +6,7 @@ const initialState = {
   registriesToReport: [],
   registriesToDelete: [],
   registriesToUpdate: [],
+  weeklyRegistries: [],
   errorMsg: "",
   error: false,
 };
@@ -121,6 +122,26 @@ const registryReducer = (state = initialState, action) => {
           registriesToReport: [...state.registriesToReport, regToReport1],
         };
       }
+    case Types.FETCH_REGISTRIES_LAST_WEEKS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_REGISTRIES_LAST_WEEKS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        weeklyRegistries: action.payload,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+      };
 
     default:
       return state;

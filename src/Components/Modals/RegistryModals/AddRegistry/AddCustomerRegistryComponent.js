@@ -23,7 +23,7 @@ const AddCustomerRegistry = ({
 
   useEffect(() => {
     fetchMissions(token);
-  }, []);
+  }, [fetchMissions, token]);
 
   useEffect(() => {
     if (missions.length > 0) {

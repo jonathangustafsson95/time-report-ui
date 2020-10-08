@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41">
+  <g id="Group_318" data-name="Group 318" transform="translate(-17.291 -17.436)">
+    <g id="Group_317" data-name="Group 317">
+      <rect id="Rectangle_225" data-name="Rectangle 225" width="40" height="41" rx="10" transform="translate(17.291 17.436)" fill="#ff2366" opacity="0.17"/>
+    </g>
+    <path id="Icon_awesome-calendar-day" data-name="Icon awesome-calendar-day" d="M0,21.787A2.254,2.254,0,0,0,2.254,24.04H18.782a2.254,2.254,0,0,0,2.254-2.254V9.015H0Zm3.005-9.015a.753.753,0,0,1,.751-.751H8.264a.753.753,0,0,1,.751.751v4.508a.753.753,0,0,1-.751.751H3.756a.753.753,0,0,1-.751-.751ZM18.782,3.005H16.528V.751A.753.753,0,0,0,15.776,0h-1.5a.753.753,0,0,0-.751.751V3.005H7.513V.751A.753.753,0,0,0,6.761,0h-1.5a.753.753,0,0,0-.751.751V3.005H2.254A2.254,2.254,0,0,0,0,5.259V7.513H21.035V5.259A2.254,2.254,0,0,0,18.782,3.005Z" transform="translate(26.471 26.025)" fill="#ff2366"/>
+  </g>
+</svg>
