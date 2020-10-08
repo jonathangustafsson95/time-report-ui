@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
+import Checkbox from '@material-ui/core/Checkbox';
 import { NavLink } from "react-router-dom";
 
 
@@ -14,8 +15,10 @@ const MarkedProjectItem = ({ markedMissions }) => {
       <Inbox>
         <img src={logoBox}></img>
       </Inbox>
+      
+      
       <LinkText to="/projectdetail"><MissionText>{markedMissions.missionName}</MissionText></LinkText>
-      <img src={iconStar} width="19.48px" height="18.53px"></img>
+      <Checkbox></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
       
@@ -23,9 +26,6 @@ const MarkedProjectItem = ({ markedMissions }) => {
     
   );
 };
-
-
-
 
 
 const MissionText = styled.p`
