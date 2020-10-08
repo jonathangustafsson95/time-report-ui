@@ -54,6 +54,14 @@ export const updateOldRegistryFromStore = (registries) => {
   };
 };
 
+export const commitRegistryFromTemplateToStore = (registry) => {
+  return {
+    type: Types.COMMIT_REGISTRY_FROM_TEMPLATE_TO_STORE,
+    payload: registry,
+    id: registry.uuid,
+  };
+};
+
 // API-ACTIONNS
 
 const fetchRegistriesByWeekRequest = () => {

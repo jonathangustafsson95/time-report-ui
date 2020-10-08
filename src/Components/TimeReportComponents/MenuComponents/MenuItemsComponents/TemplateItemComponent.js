@@ -5,6 +5,7 @@ import {
   addTemplateRegistryToStore,
   removeTemplateRegistriesFromStore,
 } from "../../../../Redux/Actions/RegistryActions";
+import { v4 as uuidv4 } from "uuid";
 
 const TemplateItem = ({
   week,
@@ -14,7 +15,7 @@ const TemplateItem = ({
 }) => {
   const loadTemplate = () => {
     if (hasLoadedFromTemplate) {
-      removeTemplateRegistriesFromStore();
+      removeTemplateRegistries();
     }
 
     week.week.forEach((registry) => {
@@ -27,9 +28,10 @@ const TemplateItem = ({
       } else {
         d.setDate(d.getDate() + registry.day - 1);
       }
+      const id = uuidv4();
 
       const newRegistry = {
-        registryId: registry.registryId,
+        registryId: id,
         missionName: registry.missionName,
         taskName: registry.taskName,
         taskId: registry.taskId,
@@ -68,6 +70,10 @@ const Box = styled.div`
   box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.1);
   margin-left: 30px;
   margin-bottom: 15px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02) perspective(1px);
+  }
 `;
 
 const Icon = styled.img`

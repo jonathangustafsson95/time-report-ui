@@ -102,6 +102,22 @@ const registryReducer = (state = initialState, action) => {
         };
       }
 
+    case Types.COMMIT_REGISTRY_FROM_TEMPLATE_TO_STORE:
+      let registries = state.registriesByWeek.slice();
+
+      registries.map((reg) => {
+        if (reg.registryId === action.id) {
+          reg.isFromTemplate = false;
+        }
+        return reg;
+      });
+
+      return {
+        ...state,
+        registriesToReport: [...state.registriesToReport, action.payload],
+        registriesByWeek: registries,
+      };
+
     // API state manipulators
     case Types.FETCH_REGISTRIES_BY_WEEK_REQUEST:
       return {
