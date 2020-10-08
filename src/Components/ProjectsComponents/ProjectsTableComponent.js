@@ -22,7 +22,7 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions }) =>
   useEffect(()=>{
     fetchMarkedMissions(token);
   },[]);
-  // use state för marked mission och all mission
+  // use state för marked mission 
   // useState()
   const handleClick=(e,chkbox)=>{
     console.log("test"+e.checked)
