@@ -102,11 +102,11 @@ const Button = styled.button`
 const BoxDiv = styled.div`
   border-radius: 8px;
   background: #fff;
-  @media (min-width: 2000px) {
-    transform: scale(1.2);
-    margin-top: 100px;
-    margin-bottom: 100px;
-  }
+  // @media (min-width: 2000px) {
+  //   transform: scale(1.2);
+  //   margin-top: 100px;
+  //   margin-bottom: 100px;
+  // }
   margin-bottom: 30px;
   filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
 `;

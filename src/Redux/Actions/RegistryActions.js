@@ -91,6 +91,49 @@ export const fetchRegistriesByWeek = (token) => {
   };
 };
 
+const fetchRegistriesLastWeeksRequest = () => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_REQUEST,
+  };
+};
+
+const fetchRegistriesLastWeeksSuccess = (weeks) => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_SUCCESS,
+    payload: weeks,
+  };
+};
+
+const fetchRegistriesLastWeeksFailure = (error) => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchRegistriesLastWeeks = (token) => {
+  return (dispatch) => {
+    const date = new Date();
+    const stringDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+    dispatch(fetchRegistriesLastWeeksRequest());
+    axios({
+      url: service.baseUrl + "/reporting/weekTemplates/" + stringDate,
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        dispatch(fetchRegistriesLastWeeksSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchRegistriesLastWeeksFailure(error.message));
+      });
+  };
+};
+
 const saveChangesRequest = () => {
   return {
     type: Types.SAVE_CHANGES_REQUEST,
