@@ -6,7 +6,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -15,9 +14,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import styled from "styled-components";
+import { Dashboard } from "@material-ui/icons";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { unAuthorize } from "../../Redux/Actions/AuthActions";
 
 const Tool = styled(Toolbar)`
   background-color: white;
@@ -87,10 +91,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewLeftSideBar = () => {
+const NewLeftSideBar = ({ user, signOut }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const logout = () => {
+    signOut(user);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -147,29 +155,56 @@ const NewLeftSideBar = () => {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          <Link to="/">
+            <ListItem button>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <Dashboard />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText>Dashboard</ListItemText>
             </ListItem>
-          ))}
+          </Link>
+          <Link to="/timereport">
+            <ListItem button>
+              <ListItemIcon>
+                <ScheduleIcon />
+              </ListItemIcon>
+              <ListItemText>Time report</ListItemText>
+            </ListItem>
+          </Link>
+
+          <Link to="/projects">
+            <ListItem button>
+              <ListItemIcon>
+                <ArchiveIcon />
+              </ListItemIcon>
+              <ListItemText>projects</ListItemText>
+            </ListItem>
+          </Link>
         </List>
-        <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <Divider />
+          <ListItem button onClick={() => logout()}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText>Sign out</ListItemText>
+          </ListItem>
         </List>
       </Drawer>
     </div>
   );
 };
 
-export default NewLeftSideBar;
+const mapStateToProps = (state) => {
+  return {
+    user: state.authData.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: (user) => dispatch(unAuthorize(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewLeftSideBar);
