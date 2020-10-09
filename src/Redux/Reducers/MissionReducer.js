@@ -5,6 +5,7 @@ const initialState = {
   missions: [],
   errorMsg: "",
   error: false,
+  foundMissions: [],
 };
 
 const missionReducer = (state = initialState, action) => {
@@ -58,7 +59,7 @@ const missionReducer = (state = initialState, action) => {
         return {
           ...state,
           loading: false,
-          missions: action.payload,
+          foundMissions: action.payload,
           errorMsg: "",
           error: false,
         };
