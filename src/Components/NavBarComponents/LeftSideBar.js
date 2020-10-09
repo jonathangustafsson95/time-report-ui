@@ -49,13 +49,6 @@ const NavBarText = styled(NavLink)`
   text-decoration: none;
   font-size: 17px;
   transition-duration: 0.4s;
-  &.active {
-    text-decoration: none;
-  }
-  &:hover {
-    opacity: 0.7;
-    text-decoration: none;
-  }
 `;
 
 const Icon = styled.img`

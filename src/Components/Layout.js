@@ -4,12 +4,15 @@ import LeftSideBar from "./NavBarComponents/LeftSideBar";
 import TopBar from "./NavBarComponents/TopBar";
 import MainSwitch from "./ServiceComponents/MainSwitch";
 import styled from "styled-components";
+import NewLeftSideBar from "./NavBarComponents/NewLeftSideBar";
 
 const Layout = () => {
   return (
     <BrowserRouter>
-      <TopBar />
+      {/* <TopBar /> */}
+
       <MainView>
+        {/* <NewLeftSideBar /> */}
         <LeftSideBar />
         <MainSwitch />
         <div></div>
