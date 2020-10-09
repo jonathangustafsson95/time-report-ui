@@ -3,16 +3,19 @@ import ProjectsTable from "./ProjectsTable";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { fetchUserMissions } from "../../Redux/Actions/MissionActions";
+import { fetchMissionsBySearchString } from "../../Redux/Actions/MissionActions";
 
-const ProjectsTableDiv = ({ missions, token, fetchMissions }) => {
+
+const ProjectsTableDiv = ({ missions, token, fetchMissions, fetchMissionsBySearchString }) => {
   useEffect(() => {
     fetchMissions(token);
+    fetchMissionsBySearchString();
   }, []);
   return (
     <div>
       <ProjectButtonsDiv>
         <button>Your projects</button>
-        <button>All projects</button>
+        <button>Search projects</button>
       </ProjectButtonsDiv>
 
 

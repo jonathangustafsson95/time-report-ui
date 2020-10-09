@@ -22,6 +22,26 @@ export const fetchUserMissionsFailure = (error) => {
   };
 };
 
+export const fetchMissionsBySearchStringRequest = () => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
+  };
+};
+
+export const fetchMissionsBySearchStringSuccess = (missions) => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_SUCCESS,
+    payload: missions,
+  };
+};
+
+export const fetchMissionsBySearchStringFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_FAILURE,
+    payload: error,
+  };
+};
+
 export const fetchUserMissions = (token) => {
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
@@ -35,6 +55,22 @@ export const fetchUserMissions = (token) => {
       })
       .catch((error) => {
         dispatch(fetchUserMissionsFailure(error));
+      });
+  };
+};
+
+export const fetchMissionsBySearchString = (searchString) => {
+  return (dispatch) => {
+    dispatch(fetchMissionsBySearchStringRequest());
+    axios({
+      url: service.baseUrl + "/mission/GetAllMissionsBySearchString/" + searchString,
+      method: "get"
+    })
+      .then((response) => {
+        dispatch(fetchMissionsBySearchStringSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMissionsBySearchStringFailure(error));
       });
   };
 };
