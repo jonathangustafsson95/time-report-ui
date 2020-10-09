@@ -61,6 +61,7 @@ const AddCustomerRegistry = ({
     const registry = {
       registryId: id,
       missionName: mission.missionName,
+      missionColor: mission.missionColor,
       taskName: task.name,
       taskId: currentTask,
       day: day,

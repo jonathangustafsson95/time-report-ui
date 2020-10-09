@@ -12,8 +12,8 @@ const Layout = () => {
       {/* <TopBar /> */}
 
       <MainView>
-        {/* <NewLeftSideBar /> */}
-        <LeftSideBar />
+        <NewLeftSideBar />
+        {/* <LeftSideBar /> */}
         <MainSwitch />
         <div></div>
       </MainView>

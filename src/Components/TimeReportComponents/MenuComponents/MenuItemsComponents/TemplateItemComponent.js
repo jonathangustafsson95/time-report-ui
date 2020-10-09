@@ -33,6 +33,7 @@ const TemplateItem = ({
       const newRegistry = {
         registryId: id,
         missionName: registry.missionName,
+        missionColor: registry.missionColor,
         taskName: registry.taskName,
         taskId: registry.taskId,
         day: registry.day,

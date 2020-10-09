@@ -3,6 +3,7 @@ import styled from "styled-components";
 import RegistryInfoModal from "../../Modals/RegistryModals/RegistryInfo/RegistryInfoModal";
 import { commitRegistryFromTemplateToStore } from "../../../Redux/Actions/RegistryActions";
 import { connect } from "react-redux";
+import Icon from "./IconComponent";
 
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
@@ -39,12 +40,14 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
       />
       <Box
         hours={registry.hours}
+        color={registry.taskId ? registry.missionColor : "#EB6D6D"}
         draggable
         onClick={() => handleClick()}
         opacity={registry.isFromTemplate ? 0.5 : 1}
       >
         <InfoDiv>
-          <RegisterImage src={require("./Images/register.svg")} />
+          {/* <RegisterImage src={require("./Images/register.svg")} /> */}
+          <Icon color={registry.taskId ? registry.missionColor : "#EB6D6D"} />
           <TextDiv>
             <ProjectText>{registry.missionName}</ProjectText>
             <TaskText>{registry.taskName}</TaskText>
@@ -62,7 +65,7 @@ const Box = styled.div`
   border-radius: 6px;
   text-align: center;
   background-color: #ffffff;
-  border: 4px solid #f08b7b;
+  border: 4px solid ${(props) => props.color};
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
   opacity: ${(props) => props.opacity};
   height: ${(props) => props.hours * 46}px;
