@@ -51,8 +51,7 @@ const Button = styled.button`
   padding: 0;
   margin-bottom: 15px;
   &.focus {
-    outline: none;
-    border: none;
+    outline:none;
   }
   &:hover {
     opacity: 0.8;
