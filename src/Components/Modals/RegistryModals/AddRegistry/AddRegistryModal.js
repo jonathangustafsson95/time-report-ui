@@ -19,7 +19,7 @@ const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
   };
 
   return (
-    <Modal
+    <StyledModal
       show={showModal}
       onHide={onCloseModal}
       dialogClassName="modal-90w"
@@ -53,9 +53,13 @@ const AddRegistryModal = ({ date, showModal, onCloseModal }) => {
           <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
         )}
       </Modal.Body>
-    </Modal>
+    </StyledModal>
   );
 };
+
+const StyledModal = styled(Modal)`
+  // margin-top: -100px;
+`;
 
 const IconButton = styled.button`
   padding: 0;
