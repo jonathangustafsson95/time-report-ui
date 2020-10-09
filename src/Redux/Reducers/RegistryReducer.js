@@ -6,6 +6,7 @@ const initialState = {
   registriesToReport: [],
   registriesToDelete: [],
   registriesToUpdate: [],
+  latestRegistries: [],
   weeklyRegistries: [],
   hasLoadedFromTemplate: false,
   errorMsg: "",
@@ -15,7 +16,6 @@ const initialState = {
 const registryReducer = (state = initialState, action) => {
   switch (action.type) {
     // LOCAL state manipulators
-
     case Types.ADD_REGISTRY_TO_STORE:
       return {
         ...state,
@@ -157,6 +157,25 @@ const registryReducer = (state = initialState, action) => {
     case Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE:
       return {
         ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+      };
+    case Types.FETCH_LATEST_REGISTRIES_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_LATEST_REGISTRIES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        latestRegistries: action.payload,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_LATEST_REGISTRIES_FAILURE:
+      return {
         loading: false,
         errorMsg: action.payload,
         error: true,

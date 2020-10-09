@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
-  console.log(registry);
 
   const onCloseModal = () => {
     setShowModal(false);
