@@ -156,6 +156,45 @@ export const fetchRegistriesLastWeeks = (token) => {
   };
 };
 
+const fetchLatestRegistriesRequest = () => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_REQUEST,
+  };
+};
+
+const fetchLatestRegistriesSuccess = (weeks) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_SUCCESS,
+    payload: weeks,
+  };
+};
+
+const fetchLatestRegistriesFailure = (error) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchLatestRegistries = (token) => {
+  return (dispatch) => {
+    dispatch(fetchLatestRegistriesRequest());
+    axios({
+      url: service.baseUrl + "/reporting/latestRegistries/",
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        dispatch(fetchLatestRegistriesSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchLatestRegistriesFailure(error.message));
+      });
+  };
+};
+
 const saveChangesRequest = () => {
   return {
     type: Types.SAVE_CHANGES_REQUEST,
