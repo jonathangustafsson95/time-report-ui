@@ -6,8 +6,11 @@ const LatestRegistryItemComponent = ({ registry }) => {
   const handleOnClick = () => {
     console.log("Click");
   };
+  const handleOnDrag = (e) => {
+    e.dataTransfer.setData("registry", JSON.stringify(registry));
+  }
   return (
-    <Box onClick={() => handleOnClick()}>
+    <Box onClick={() => handleOnClick()} draggable onDragStart={(e) => handleOnDrag(e)}>
       <Icon color={registry.missionColor} />
       <TextDiv>
         <Project>{registry.missionName}</Project>
