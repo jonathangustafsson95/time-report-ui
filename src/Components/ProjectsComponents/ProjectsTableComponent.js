@@ -1,45 +1,96 @@
-import React, { useEffect } from "react";
-import ProjectsTable from "./ProjectsTable";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
-import styled from "styled-components";
-import { fetchUserMissions } from "../../Redux/Actions/MissionActions";
-import { fetchMissionsBySearchString } from "../../Redux/Actions/MissionActions";
+import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions"
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
-const ProjectsTableDiv = ({ missions, token, fetchMissions, fetchMissionsBySearchString }) => {
-  useEffect(() => {
-    fetchMissions(token);
-    fetchMissionsBySearchString();
-  }, []);
+const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions }) => {
+  const classes = useStyles();
+  useEffect(()=>{
+    fetchMarkedMissions(token);
+  },[]);
+  // use state för marked mission 
+  // useState()
+  const handleClick=(e,chkbox)=>{
+    console.log("test"+e.checked)
+    //add eller remove favorite mission baserad om checked eller ej
+    //kalla på check favorite
+    // checkFavorite();
+
+  }
+  const checkFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  const addFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  const removeFavorite=({mission})=>{
+    return markedMissions.some((item) => item.missionId === mission.missionId)
+  };
+  // const[isChecked, setChecked]=useState()
   return (
     <div>
-      <ProjectButtonsDiv>
-        <button>Your projects</button>
-        <button>Search projects</button>
-      </ProjectButtonsDiv>
-
-
-      <ProjectsTable missions={missions} />
+       
+      <input></input>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox"></TableCell>
+              <TableCell>Mission Name</TableCell>
+              <TableCell align="right">Customer</TableCell>
+              {/* <TableCell align="right">Status</TableCell> */}
+              <TableCell align="right">StartDate</TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {missions.map((mission) => (
+              <TableRow key={mission.missionId}>
+                <TableCell >
+                  <Checkbox onClick={(e) => handleClick(e)} checked={ checkFavorite({mission})}></Checkbox>
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {mission.missionName}
+                </TableCell>
+                <TableCell align="right">{mission.customer}</TableCell>
+                {/* <TableCell align="right">{mission.Status}</TableCell> */}
+                <TableCell align="right">{mission.startDate}</TableCell>
+                <TableCell align="right">
+                  <button>Add Time</button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
 
-const ProjectButtonsDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
-const mapStateToProps = (state) => {
-  return {
-    missions: state.missionData.missions,
-    token: state.authData.user.token,
+const mapStateToProps=(state)=>{
+  return{
+    markedMissions:state.missionData.missions,
+    token:state.authData.user.token,
   };
 };
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchMissions: (token) => dispatch(fetchUserMissions(token)),
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
   };
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsTableDiv);
+export default connect(mapStateToProps,mapDispatchToProps)(ProjectsTable);

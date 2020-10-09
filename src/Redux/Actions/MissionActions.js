@@ -22,6 +22,25 @@ export const fetchUserMissionsFailure = (error) => {
   };
 };
 
+
+
+export const fetchUserMissions = (token) => {
+  return (dispatch) => {
+    dispatch(fetchUserMissionsRequest());
+    axios({
+      url: service.baseUrl + "/mission/UserMissions",
+      method: "get",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        dispatch(fetchUserMissionsSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchUserMissionsFailure(error));
+      });
+  };
+};
+
 export const fetchMissionsBySearchStringRequest = () => {
   return {
     type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
@@ -42,29 +61,15 @@ export const fetchMissionsBySearchStringFailure = (error) => {
   };
 };
 
-export const fetchUserMissions = (token) => {
-  return (dispatch) => {
-    dispatch(fetchUserMissionsRequest());
-    axios({
-      url: service.baseUrl + "/mission/UserMissions",
-      method: "get",
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((response) => {
-        dispatch(fetchUserMissionsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchUserMissionsFailure(error));
-      });
-  };
-};
-
-export const fetchMissionsBySearchString = (searchString) => {
+export const fetchMissionsBySearchString = (searchString, token) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
     axios({
       url: service.baseUrl + "/mission/GetAllMissionsBySearchString/" + searchString,
-      method: "get"
+      method: "get",
+      header: {
+        Authorization: "Bearer " + token
+      }
     })
       .then((response) => {
         dispatch(fetchMissionsBySearchStringSuccess(response.data));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";

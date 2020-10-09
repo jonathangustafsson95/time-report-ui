@@ -11,6 +11,13 @@ export const addRegistryToStore = (registryData) => {
   };
 };
 
+export const addTemplateRegistryToStore = (registry) => {
+  return {
+    type: Types.ADD_TEMPLATE_REGISTRY_TO_STORE,
+    payload: registry,
+  };
+};
+
 export const removeNewRegistryFromStore = (registry) => {
   return {
     type: Types.REMOVE_NEW_REGISTRY_FROM_STORE,
@@ -22,6 +29,12 @@ export const removeRegistryFromStore = (registry) => {
   return {
     type: Types.REMOVE_REGISTRY_FROM_STORE,
     payload: registry.registryId,
+  };
+};
+
+export const removeTemplateRegistriesFromStore = () => {
+  return {
+    type: Types.REMOVE_TEMPLATE_REGISTRIES_FROM_STORE,
   };
 };
 
@@ -38,6 +51,14 @@ export const updateOldRegistryFromStore = (registries) => {
     type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
     payload: registries,
     id: registries[0].registryId,
+  };
+};
+
+export const commitRegistryFromTemplateToStore = (registry) => {
+  return {
+    type: Types.COMMIT_REGISTRY_FROM_TEMPLATE_TO_STORE,
+    payload: registry,
+    id: registry.uuid,
   };
 };
 
@@ -81,12 +102,95 @@ export const fetchRegistriesByWeek = (token) => {
         const registries = response.data;
         registries.forEach((registry) => {
           registry.new = false;
+          registry.isFromTemplate = false;
         });
         dispatch(fetchRegistriesByWeekSuccess(registries));
       })
       .catch((error) => {
         const errorMsg = error.message;
         dispatch(fetchRegistriesByWeekFailure(errorMsg));
+      });
+  };
+};
+
+const fetchRegistriesLastWeeksRequest = () => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_REQUEST,
+  };
+};
+
+const fetchRegistriesLastWeeksSuccess = (weeks) => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_SUCCESS,
+    payload: weeks,
+  };
+};
+
+const fetchRegistriesLastWeeksFailure = (error) => {
+  return {
+    type: Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchRegistriesLastWeeks = (token) => {
+  return (dispatch) => {
+    const date = new Date();
+    const stringDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+    dispatch(fetchRegistriesLastWeeksRequest());
+    axios({
+      url: service.baseUrl + "/reporting/weekTemplates/" + stringDate,
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        dispatch(fetchRegistriesLastWeeksSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchRegistriesLastWeeksFailure(error.message));
+      });
+  };
+};
+
+const fetchLatestRegistriesRequest = () => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_REQUEST,
+  };
+};
+
+const fetchLatestRegistriesSuccess = (weeks) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_SUCCESS,
+    payload: weeks,
+  };
+};
+
+const fetchLatestRegistriesFailure = (error) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchLatestRegistries = (token) => {
+  return (dispatch) => {
+    dispatch(fetchLatestRegistriesRequest());
+    axios({
+      url: service.baseUrl + "/reporting/latestRegistries/",
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        dispatch(fetchLatestRegistriesSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchLatestRegistriesFailure(error.message));
       });
   };
 };

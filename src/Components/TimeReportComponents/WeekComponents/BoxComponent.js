@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
+import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import AddRegistryModal from "../../Modals/RegistryModals/AddRegistry/AddRegistryModal";
+import { addRegistryToStore } from "../../../Redux/Actions/RegistryActions";
 
-const DayBox = ({ day, dayConst, registries }) => {
+const DayBox = ({ day, dayConst, registries, addRegistry }) => {
   var d = new Date();
   var dayC = d.getDay(),
     diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
@@ -21,6 +23,47 @@ const DayBox = ({ day, dayConst, registries }) => {
   const onCloseAddModal = () => {
     setShowModal(false);
   };
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
+  const handleOnDrop = (e) => {
+    const registry = JSON.parse(e.dataTransfer.getData("registry"));
+    const id = uuidv4();
+    const d = new Date();
+    console.log(registry.missionName);
+
+    const registryToReport = {
+      registryId: 0,
+      taskId: registry.taskId,
+      userId: 1,
+      hours: registry.hours,
+      created: d.toJSON(),
+      date: date.toJSON(),
+      invoice: registry.invoice,
+      uuid: id,
+    };
+
+    let day = date.getDay();
+    if (day === 7) {
+      day = 0;
+    }
+
+    const newRegistry = {
+      registryId: id,
+      missionName: registry.missionName,
+      missionColor: registry.missionColor,
+      taskName: registry.taskName,
+      taskId: registry.taskId,
+      day: day,
+      hours: registry.hours,
+      created: d.toJSON(),
+      date: date.toJSON(),
+      invoice: registry.invoice,
+      new: true,
+      isFromTemplate: false
+    }
+    addRegistry([newRegistry, registryToReport])
+  };
 
   let registryList = [];
   registries.sort((a, b) => (a.hours < b.hours ? 1 : -1));
@@ -31,7 +74,10 @@ const DayBox = ({ day, dayConst, registries }) => {
   });
 
   return (
-    <Main>
+    <Main
+      onDrop={(e) => handleOnDrop(e)}
+      onDragOver={(e) => onDragOver(e)}
+    >
       <AddRegistryModal
         showModal={showModal}
         onCloseModal={onCloseAddModal}
@@ -122,4 +168,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(DayBox);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DayBox);

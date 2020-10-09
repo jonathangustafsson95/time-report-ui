@@ -23,7 +23,7 @@ const AddCustomerRegistry = ({
 
   useEffect(() => {
     fetchMissions(token);
-  }, []);
+  }, [fetchMissions, token]);
 
   useEffect(() => {
     if (missions.length > 0) {
@@ -61,6 +61,7 @@ const AddCustomerRegistry = ({
     const registry = {
       registryId: id,
       missionName: mission.missionName,
+      missionColor: mission.missionColor,
       taskName: task.name,
       taskId: currentTask,
       day: day,
@@ -69,6 +70,7 @@ const AddCustomerRegistry = ({
       date: date.toJSON(),
       invoice: 0,
       new: true,
+      isFromTemplate: false,
     };
 
     addRegistry([registry, registryToReport]);
