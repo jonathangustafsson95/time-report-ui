@@ -16,22 +16,39 @@ const useStyles = makeStyles({
   },
 });
 
-const MissionTable = ({ missions, currentMission, setCurrentMission }) => {
+const MissionTable = ({
+  missions,
+  currentMission,
+  setCurrentMission,
+  info = false,
+}) => {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
     let selectedStatus = [];
     const rows = missions.map((mission, index) => {
-      index === 0
-        ? selectedStatus.push({
-            selected: true,
-            id: mission.missionId,
-          })
-        : selectedStatus.push({
-            selected: false,
-            id: mission.missionId,
-          });
+      if (info) {
+        mission.missionId === currentMission
+          ? selectedStatus.push({
+              selected: true,
+              id: mission.missionId,
+            })
+          : selectedStatus.push({
+              selected: false,
+              id: mission.missionId,
+            });
+      } else {
+        index === 0
+          ? selectedStatus.push({
+              selected: true,
+              id: mission.missionId,
+            })
+          : selectedStatus.push({
+              selected: false,
+              id: mission.missionId,
+            });
+      }
 
       return {
         mission: mission.missionName,
@@ -41,7 +58,7 @@ const MissionTable = ({ missions, currentMission, setCurrentMission }) => {
     });
     setRows(rows);
     setSelectedStatus(selectedStatus);
-  }, [missions]);
+  }, [missions, currentMission]);
 
   const classes = useStyles();
 
@@ -105,12 +122,12 @@ const Title = styled.p`
 `;
 
 const TableHolder = styled.div`
-padding: 15px;
-padding-bottom: 0;
-border-radius: 10px;
-margin-right: 15px;
-background: #fff;
-filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
+  padding: 15px;
+  padding-bottom: 0;
+  border-radius: 10px;
+  margin-right: 15px;
+  background: #fff;
+  filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
 `;
 
 export default MissionTable;
