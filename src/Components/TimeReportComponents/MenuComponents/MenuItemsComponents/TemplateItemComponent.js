@@ -44,7 +44,6 @@ const TemplateItem = ({
         new: true,
         isFromTemplate: true,
       };
-      console.log(newRegistry);
       addRegistry(newRegistry);
     });
   };

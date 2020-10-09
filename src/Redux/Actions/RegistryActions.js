@@ -40,13 +40,14 @@ export const removeTemplateRegistriesFromStore = () => {
 
 export const updateNewRegistryFromStore = (registries) => {
   return {
-    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE,
+    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE, 
     payload: registries,
     id: registries[0].registryId,
   };
 };
 
 export const updateOldRegistryFromStore = (registries) => {
+  console.log(registries[0]);
   return {
     type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
     payload: registries,

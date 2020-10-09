@@ -64,6 +64,8 @@ const registryReducer = (state = initialState, action) => {
     case Types.UPDATE_NEW_REGISTRY_FROM_STORE:
       const updatedReg = action.payload[0];
       const regToReport = action.payload[1];
+      console.log(state.registriesByWeek);
+      console.log(updatedReg);
       return {
         ...state,
         registriesByWeek: state.registriesByWeek.map((registry) =>

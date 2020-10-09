@@ -31,6 +31,11 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
     }
   };
 
+  const handleOnDrag = (e) => {
+    e.dataTransfer.setData("registry", JSON.stringify(registry));
+    e.dataTransfer.setData("from", "boxComponent");
+  }
+
   return (
     <>
       <RegistryInfoModal
@@ -42,11 +47,11 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
         hours={registry.hours}
         color={registry.taskId ? registry.missionColor : "#EB6D6D"}
         draggable
+        onDragStart={(e) => handleOnDrag(e)}
         onClick={() => handleClick()}
         opacity={registry.isFromTemplate ? 0.5 : 1}
       >
         <InfoDiv>
-          {/* <RegisterImage src={require("./Images/register.svg")} /> */}
           <Icon color={registry.taskId ? registry.missionColor : "#EB6D6D"} />
           <TextDiv>
             <ProjectText>{registry.missionName}</ProjectText>
@@ -101,12 +106,6 @@ const TaskText = styled.h4`
   text-align: left;
   color: #585656;
   margin: 0;
-`;
-
-const RegisterImage = styled.img`
-  opacity: 1;
-  margin-left: 2%;
-  margin-right: 5px;
 `;
 
 const mapPropsToState = (state) => {
