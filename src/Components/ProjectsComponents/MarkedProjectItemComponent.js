@@ -4,6 +4,7 @@ import logoBox from "./Images/Group156.png"
 import iconStar from "./Images/IconFeather-star.png"
 import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from "react-router-dom";
+import ProjectDetailComponent from "./ProjectDetailComponent"
 
 
 const MarkedProjectItem = ({ markedMissions }) => {
@@ -15,11 +16,12 @@ const MarkedProjectItem = ({ markedMissions }) => {
         <img src={logoBox}></img>
       </Inbox>
       
-      
       <Link to={"/projects/" + markedMissions.missionId}><MissionText>{markedMissions.missionName}</MissionText></Link>
+
       <Checkbox></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
+     
     </Box>
     
   );

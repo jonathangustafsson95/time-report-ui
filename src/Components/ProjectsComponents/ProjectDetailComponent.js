@@ -6,9 +6,10 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import IconArrow from "./Images/Group247.png";
 
-const ProjectDetail = () => {
+const ProjectDetail = ({props}) => {
   const { missionId } = useParams();
-  console.log(missionId);
+  const{mission}=props;
+  console.log(mission);
   return (
     <div>
       <BackDiv className="align-baseline">
@@ -19,7 +20,7 @@ const ProjectDetail = () => {
           </Button>
         </LinkText>
       </BackDiv>
-      <text> Mission Details Here </text>
+  <p>{mission.description}</p>
     </div>
   );
 };

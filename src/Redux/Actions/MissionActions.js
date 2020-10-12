@@ -155,46 +155,46 @@ export const fetchUserMarkedMissions = (token) => {
       });
   };
 };
-// export const markMission = (favoriteMissionsToPost, token) => {
-//   return (dispatch) => {
-//     const postPayload = {
-//       favoriteMissionsToPost: favoriteMissionsToPost
-//     };
+export const markMission = (favoriteMissionsToPost, token) => {
+  return (dispatch) => {
+    const postPayload = {
+      favoriteMissionsToPost: favoriteMissionsToPost
+    };
    
-//     dispatch(unmarkMissionRequest());
-//         axios({
-//           url: service.baseUrl + "/mission/AddFavoriteMission",
-//           method: "post",
-//           data: postPayload,
-//           headers: { Authorization: "Bearer " + token },
-//         })
-//       .then(() => {
-//         dispatch(markMission());
-//       })
-//       .catch((error) => {
-//         dispatch(markMission(error.message));
-//       });
-//   };
-// };
-// export const unmarkMission = (favoriteMissionsToDelete, token) => {
-//   return (dispatch) => {
-//     const deletePayload = {
-//       favoriteMissionsToDelete: favoriteMissionsToDelete
-//     };
+    dispatch(unmarkMissionRequest());
+        axios({
+          url: service.baseUrl + "/mission/AddFavoriteMission",
+          method: "post",
+          data: postPayload,
+          headers: { Authorization: "Bearer " + token },
+        })
+      .then(() => {
+        dispatch(markMission());
+      })
+      .catch((error) => {
+        dispatch(markMission(error.message));
+      });
+  };
+};
+export const unmarkMission = (favoriteMissionsToDelete, token) => {
+  return (dispatch) => {
+    const deletePayload = {
+      favoriteMissionsToDelete: favoriteMissionsToDelete
+    };
    
-//     dispatch(unmarkMissionRequest());
-//         axios({
-//           url: service.baseUrl + "/mission/FavoriteMission",
-//           method: "delete",
-//           data: deletePayload,
-//           headers: { Authorization: "Bearer " + token },
-//         })
-//       .then(() => {
-//         dispatch(unmarkMission());
-//       })
-//       .catch((error) => {
-//         dispatch(unmarkMission(error.message));
-//       });
-//   };
-// };
+    dispatch(unmarkMissionRequest());
+        axios({
+          url: service.baseUrl + "/mission/FavoriteMission",
+          method: "delete",
+          data: deletePayload,
+          headers: { Authorization: "Bearer " + token },
+        })
+      .then(() => {
+        dispatch(unmarkMission());
+      })
+      .catch((error) => {
+        dispatch(unmarkMission(error.message));
+      });
+  };
+};
 
