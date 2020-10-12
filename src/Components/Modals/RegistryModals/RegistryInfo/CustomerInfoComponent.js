@@ -47,6 +47,8 @@ const CustomerInfo = ({
     updatedReg.hours = time;
     updatedReg.taskId = currentTask;
     updatedReg.taskName = task.name;
+    updatedReg.missionName = mission.missionName;
+    updatedReg.missionColor = mission.missionColor;
 
     updateRegistry(updatedReg);
   };
@@ -58,6 +60,7 @@ const CustomerInfo = ({
           missions={missions}
           currentMission={currentMission}
           setCurrentMission={(id) => setCurrentMission(id)}
+          info={true}
         />
         <TaskTable
           missionId={currentMission}

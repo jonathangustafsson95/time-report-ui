@@ -40,13 +40,14 @@ export const removeTemplateRegistriesFromStore = () => {
 
 export const updateNewRegistryFromStore = (registries) => {
   return {
-    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE,
+    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE, 
     payload: registries,
     id: registries[0].registryId,
   };
 };
 
 export const updateOldRegistryFromStore = (registries) => {
+  console.log(registries[0]);
   return {
     type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
     payload: registries,
@@ -152,6 +153,45 @@ export const fetchRegistriesLastWeeks = (token) => {
       })
       .catch((error) => {
         dispatch(fetchRegistriesLastWeeksFailure(error.message));
+      });
+  };
+};
+
+const fetchLatestRegistriesRequest = () => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_REQUEST,
+  };
+};
+
+const fetchLatestRegistriesSuccess = (weeks) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_SUCCESS,
+    payload: weeks,
+  };
+};
+
+const fetchLatestRegistriesFailure = (error) => {
+  return {
+    type: Types.FETCH_LATEST_REGISTRIES_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchLatestRegistries = (token) => {
+  return (dispatch) => {
+    dispatch(fetchLatestRegistriesRequest());
+    axios({
+      url: service.baseUrl + "/reporting/latestRegistries/",
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => {
+        dispatch(fetchLatestRegistriesSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchLatestRegistriesFailure(error.message));
       });
   };
 };

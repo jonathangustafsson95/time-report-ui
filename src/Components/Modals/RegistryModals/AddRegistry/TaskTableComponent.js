@@ -103,10 +103,10 @@ const TaskTable = ({
             );
             return (
               <TableRow key={row.id} onClick={(e) => handleClick(e, row.id)}>
-                <TableCell>
+                <TableCell size="small">
                   <Checkbox checked={isItemSelected} />
                 </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
+                <TableCell size="small" align="right">{row.name}</TableCell>
               </TableRow>
             );
           })}
@@ -134,6 +134,8 @@ const TableHolder = styled.div`
   border-radius: 10px;
   background: #fff;
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
+  max-height: 300px;
+  overflow: scroll;
 `;
 
 export default TaskTable;

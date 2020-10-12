@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
+import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import AddRegistryModal from "../../Modals/RegistryModals/AddRegistry/AddRegistryModal";
+import { addRegistryToStore, updateNewRegistryFromStore, updateOldRegistryFromStore } from "../../../Redux/Actions/RegistryActions";
 
-const DayBox = ({ day, dayConst, registries }) => {
+const DayBox = ({ day, dayConst, registries, addRegistry, updateNewRegistry, updateOldRegistry }) => {
   var d = new Date();
   var dayC = d.getDay(),
     diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
@@ -21,18 +23,70 @@ const DayBox = ({ day, dayConst, registries }) => {
   const onCloseAddModal = () => {
     setShowModal(false);
   };
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
+  const handleOnDrop = (e) => {
+    let registry = JSON.parse(e.dataTransfer.getData("registry"));
+    const from = e.dataTransfer.getData("from");
+    const d = new Date();
+    let day = date.getDay();
+    if (day === 7) {
+      day = 0;
+    }
+    registry.day = day;
+    registry.date = date.toJSON();
+    registry.isFromTemplate = false;
+
+    let registryToReport = {
+      registryId: registry.id,
+      taskId: registry.taskId,
+      userId: 1,
+      hours: registry.hours,
+      created: d.toJSON(),
+      date: date.toJSON(),
+      invoice: registry.invoice,
+    };
+
+    switch (from) {
+      case "boxComponent":
+        registryToReport.registryId = registry.new ? 0 : registry.registryId;
+        registryToReport.uuid = registry.registryId;
+        registryToReport.created = registry.created;
+
+        registry.new
+          ? updateNewRegistry([registry, registryToReport])
+          : updateOldRegistry([registry, registryToReport]);
+
+        break;
+      case "latestRegistries":
+        const id = uuidv4();
+        registry.registryId = id;
+        registryToReport.uuid = id;
+        registryToReport.registryId = 0;
+        registry.created = d.toJSON();
+        registry.new = true;
+
+        addRegistry([registry, registryToReport]);
+        break;
+
+      default:
+        break;
+    }
+    e.dataTransfer.clearData(["registry"]);
+    e.dataTransfer.clearData(["from"]);
+  };
 
   let registryList = [];
   registries.sort((a, b) => (a.hours < b.hours ? 1 : -1));
   registries.forEach((registry) => {
-    console.log("check");
     registryList.push(
       <BoxItem registry={registry} key={registry.registryId} />
     );
   });
 
   return (
-    <Main>
+    <Main onDrop={(e) => handleOnDrop(e)} onDragOver={(e) => onDragOver(e)}>
       <AddRegistryModal
         showModal={showModal}
         onCloseModal={onCloseAddModal}
@@ -123,4 +177,13 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(DayBox);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
+    updateNewRegistry: (registries) => dispatch(updateNewRegistryFromStore(registries)),
+    updateOldRegistry: (registries) => dispatch(updateOldRegistryFromStore(registries)),
+
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DayBox);

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { fetchRegistriesLastWeeks } from "../../../Redux/Actions/RegistryActions";
+import {
+  fetchLatestRegistries,
+  fetchRegistriesLastWeeks,
+} from "../../../Redux/Actions/RegistryActions";
 import styled from "styled-components";
 import Templates from "./MenuItemsComponents/TemplatesComponent";
+import LatestRegistries from "./MenuItemsComponents/LatestRegistriesComponent";
 
-const Menu = ({ token, fetchWeeklyRegistries }) => {
+const Menu = ({ token, fetchWeeklyRegistries, fetchLatestRegistries }) => {
   const [showMenuItems, setShowMenuItems] = useState({
     template: false,
     latestReports: false,
@@ -12,6 +16,7 @@ const Menu = ({ token, fetchWeeklyRegistries }) => {
   });
   useEffect(() => {
     fetchWeeklyRegistries(token);
+    fetchLatestRegistries(token);
   }, []);
 
   const toggleMenuItem = (buttonName) => {
@@ -28,7 +33,7 @@ const Menu = ({ token, fetchWeeklyRegistries }) => {
       <Button onClick={() => toggleMenuItem("latestReports")}>
         Latest reports
       </Button>
-      {showMenuItems.latestReports && <p>latestreports</p>}
+      {showMenuItems.latestReports && <LatestRegistries />}
 
       <Button onClick={() => toggleMenuItem("markedMissions")}>
         Marked missions
@@ -51,7 +56,7 @@ const Button = styled.button`
   padding: 0;
   margin-bottom: 15px;
   &.focus {
-    outline:none;
+    outline: none;
   }
   &:hover {
     opacity: 0.8;
@@ -74,6 +79,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchWeeklyRegistries: (token) => dispatch(fetchRegistriesLastWeeks(token)),
+    fetchLatestRegistries: (token) => dispatch(fetchLatestRegistries(token)),
   };
 };
 

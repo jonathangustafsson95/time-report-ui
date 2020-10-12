@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
-import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions"
+import {fetchUserMarkedMissions, markMission,} from "../../Redux/Actions/MissionActions"
 
 const useStyles = makeStyles({
   table: {
@@ -17,16 +17,26 @@ const useStyles = makeStyles({
   },
 });
 
-const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions }) => {
+const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,postMarkedMissions }) => {
   const classes = useStyles();
   useEffect(()=>{
     fetchMarkedMissions(token);
   },[]);
   // use state för marked mission 
   // useState()
-  const handleClick=(e,chkbox)=>{
-    console.log("test"+e.checked)
-    //add eller remove favorite mission baserad om checked eller ej
+  const handleClick=(e)=>{
+    console.log("test"+" "+e.target.checked)
+    // if(!e.target.checked)
+    // {
+    //   postMarkedMissions(token)
+    //   //remove marked mission 
+    //   e.checked=false;
+
+    // }
+    // else
+    //add marked mission
+
+    
     //kalla på check favorite
     // checkFavorite();
 
@@ -91,6 +101,8 @@ const mapStateToProps=(state)=>{
 const mapDispatchToProps=(dispatch)=>{
   return{
     fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
+    // postMarkedMissions:(token)=>dispatch(markMission(token)),
+    // deleteMarkedMissions:(token)=>dispatch(deleteMarkedMissions(token))
   };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(ProjectsTable);

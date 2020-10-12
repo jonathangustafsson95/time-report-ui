@@ -3,10 +3,10 @@ import styled from "styled-components";
 import RegistryInfoModal from "../../Modals/RegistryModals/RegistryInfo/RegistryInfoModal";
 import { commitRegistryFromTemplateToStore } from "../../../Redux/Actions/RegistryActions";
 import { connect } from "react-redux";
+import Icon from "./IconComponent";
 
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
-  console.log(registry);
 
   const onCloseModal = () => {
     setShowModal(false);
@@ -31,6 +31,11 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
     }
   };
 
+  const handleOnDrag = (e) => {
+    e.dataTransfer.setData("registry", JSON.stringify(registry));
+    e.dataTransfer.setData("from", "boxComponent");
+  }
+
   return (
     <>
       <RegistryInfoModal
@@ -40,12 +45,14 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
       />
       <Box
         hours={registry.hours}
+        color={registry.taskId ? registry.missionColor : "#EB6D6D"}
         draggable
+        onDragStart={(e) => handleOnDrag(e)}
         onClick={() => handleClick()}
         opacity={registry.isFromTemplate ? 0.5 : 1}
       >
         <InfoDiv>
-          <RegisterImage src={require("./Images/register.svg")} />
+          <Icon color={registry.taskId ? registry.missionColor : "#EB6D6D"} />
           <TextDiv>
             <ProjectText>{registry.missionName}</ProjectText>
             <TaskText>{registry.taskName}</TaskText>
@@ -63,7 +70,7 @@ const Box = styled.div`
   border-radius: 6px;
   text-align: center;
   background-color: #ffffff;
-  border: 4px solid #f08b7b;
+  border: 4px solid ${(props) => props.color};
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
   opacity: ${(props) => props.opacity};
   height: ${(props) => props.hours * 46}px;
@@ -99,12 +106,6 @@ const TaskText = styled.h4`
   text-align: left;
   color: #585656;
   margin: 0;
-`;
-
-const RegisterImage = styled.img`
-  opacity: 1;
-  margin-left: 2%;
-  margin-right: 5px;
 `;
 
 const mapPropsToState = (state) => {
