@@ -22,6 +22,25 @@ export const fetchUserMissionsFailure = (error) => {
   };
 };
 
+export const markMissionRequest = () => {
+  return {
+    type: Types.MARK_MISSION_REQUEST,
+  };
+};
+
+export const markMissionSuccess = (missions) => {
+  return {
+    type: Types.MARK_MISSION_SUCCESS,
+    payload: missions,
+  };
+};
+
+export const markMissionFailure = (error) => {
+  return {
+    type: Types.MARK_MISSION_FAILURE,
+    payload: error,
+  };
+};
 export const fetchUserMissions = (token) => {
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
@@ -75,3 +94,27 @@ export const fetchUserMarkedMissions = (token) => {
       });
   };
 };
+export const markMission = (registriesToReport, registriesToDelete, token) => {
+  return (dispatch) => {
+    const postPayload = {
+      registriesToReport: registriesToReport,
+    };
+    const deletePayload = {
+      registriesToDelete: registriesToDelete,
+    };
+    dispatch(markMissionRequest());
+        axios({
+          url: service.baseUrl + "/reporting/TimeReport",
+          method: "post",
+          data: postPayload,
+          headers: { Authorization: "Bearer " + token },
+        })
+      .then(() => {
+        dispatch(markMission());
+      })
+      .catch((error) => {
+        dispatch(markMission(error.message));
+      });
+  };
+};
+

@@ -1,3 +1,4 @@
+import { types } from "util";
 import * as Types from "../Types/MissionTypes";
 
 const initialState = {
@@ -49,7 +50,29 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+    case Types.MARK_MISSION_REQUEST:
+      return{
+        ...state,
+        loading: true,
 
+      }
+    case Types.MARK_MISSION_SUCCESS:
+      return{
+        ...state,
+        loading: false,
+        missions: [],
+        errorMsg: "",
+        error: false,
+        
+      }
+    case Types.MARK_MISSION_FAILURE:
+      return{
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+        
+      }
     default:
       return state;
   }
