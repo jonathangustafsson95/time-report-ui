@@ -157,6 +157,7 @@ export const fetchUserMarkedMissions = (token) => {
 };
 export const markMission = (favoriteMissionsToPost, token) => {
   return (dispatch) => {
+    console.log(token)
     const postPayload = {
       favoriteMissionsToPost: favoriteMissionsToPost
     };

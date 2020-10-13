@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   },
 });
 const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,deleteMarkedMissions,postMarkedMissions,userId }) => {
+
   const [checkStatus, setCheckStatus] = useState([]);
   const classes = useStyles();
   useEffect(()=>{
@@ -36,6 +37,7 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
     return markedMissions.some((item) => item.missionId === mission.missionId)
   };
   const handleClick=(e,id)=>{
+    console.log(token)
     // console.log("test"+" "+e.target.checked)
     // console.log(id)
     // setCheckStatus([
@@ -46,7 +48,6 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
     {
       //remove marked mission 
       e.checked=false;
-      
     }
     else
     {
@@ -82,7 +83,6 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
                 <TableCell >
-
                   <Checkbox onClick={(e) => handleClick(e,mission.missionId)} checked={ checkFavorite({mission})}></Checkbox>
                 </TableCell>
                 <TableCell component="th" scope="row">
