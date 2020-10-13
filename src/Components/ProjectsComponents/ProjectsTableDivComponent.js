@@ -1,47 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProjectsTable from "./ProjectsTableComponent";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { fetchMissionsBySearchString, fetchUserMissions } from "../../Redux/Actions/MissionActions";
+import {
+  fetchMissionsBySearchString,
+  resetMissionsFromStore,
+  fetchUserMissions,
+} from "../../Redux/Actions/MissionActions";
 
-const ProjectsTableDiv = ({ missions, token, fetchMissions, foundMissions, fetchBySearch }) => {
+const ProjectsTableDiv = ({
+  token,
+  fetchBySearch,
+  resetMissions,
+  fetchUserMissions,
+}) => {
   const [tableType, setTableType] = useState({
     yourProjects: true,
-    allProjects: false
+    allProjects: false,
   });
-  const[searchString, setSearchString] = useState("");
-  console.log(foundMissions);
-  useEffect(() => {
-    fetchMissions(token);
-  }, [fetchMissions]);
+  console.log(token);
+
+  const [searchString, setSearchString] = useState("");
+
   const handleClick = (type) => {
+    resetMissions();
+    type === "yourProjects" && fetchUserMissions(token);
+
     setTableType({
-      [type]: !tableType[type] 
-    })
-
+      [type]: !tableType[type],
+    });
   };
-  const handleOnValueChange = (e) =>{
+
+  const handleOnValueChange = (e) => {
     setSearchString(e.target.value);
-
   };
+
   const handleSearch = () => {
-    fetchBySearch(searchString, token)
-
+    tableType.allProjects && fetchBySearch(searchString, token);
   };
+
   return (
     <div>
       <ProjectButtonsDiv>
         <input onChange={(e) => handleOnValueChange(e)}></input>
         <button onClick={() => handleSearch()}>Search</button>
-        <button onClick={() => handleClick("yourProjects")}>Your projects</button>
+        <button onClick={() => handleClick("yourProjects")}>
+          Your projects
+        </button>
         <button onClick={() => handleClick("allProjects")}>All projects</button>
       </ProjectButtonsDiv>
 
-      {tableType.yourProjects ? 
-      <ProjectsTable missions={missions} />
-      : 
-      <h1>hej</h1>
-    }
+      {tableType.yourProjects ? (
+        <ProjectsTable type="userProjects" />
+      ) : (
+        <ProjectsTable type="allProjects" />
+      )}
     </div>
   );
 };
@@ -53,7 +66,6 @@ const ProjectButtonsDiv = styled.div`
 
 const mapStateToProps = (state) => {
   return {
-    missions: state.missionData.missions,
     token: state.authData.user.token,
     foundMissions: state.missionData.foundMissions,
   };
@@ -61,8 +73,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissions: (token) => dispatch(fetchUserMissions(token)),
-    fetchBySearch: (searchString) => dispatch(fetchMissionsBySearchString(searchString))
+    fetchBySearch: (searchString, token) =>
+      dispatch(fetchMissionsBySearchString(searchString, token)),
+    resetMissions: () => dispatch(resetMissionsFromStore()),
+    fetchUserMissions: (token) => dispatch(fetchUserMissions(token)),
   };
 };
 
