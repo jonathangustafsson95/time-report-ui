@@ -9,6 +9,7 @@ import ProjectDetailComponent from "./ProjectDetailComponent"
 
 const MarkedProjectItem = ({ markedMissions }) => {
   console.log(markedMissions);
+
   return (
     <Box>
         <BoxDiv>
@@ -18,9 +19,11 @@ const MarkedProjectItem = ({ markedMissions }) => {
       
       <Link to={"/projects/" + markedMissions.missionId}><MissionText>{markedMissions.missionName}</MissionText></Link>
 
-      <Checkbox></Checkbox>
+      <Checkbox checked="true"></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
+    
+      
      
     </Box>
     
