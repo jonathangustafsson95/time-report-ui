@@ -12,7 +12,7 @@ const ProjectsTableDiv = ({
   token,
   fetchBySearch,
   resetMissions,
-  fetchUserMissions
+  fetchUserMissions,
 }) => {
   const [tableType, setTableType] = useState({
     yourProjects: true,
