@@ -125,10 +125,10 @@ export const fetchUserMarkedMissionsRequest = () => {
   };
 };
 
-export const fetchUserMarkedMissionsSuccess = (missions) => {
+export const fetchUserMarkedMissionsSuccess = (markedMissions) => {
   return {
     type: Types.FETCH_USER_MARKED_MISSIONS_SUCCESS,
-    payload: missions,
+    payload: markedMissions,
   };
 };
 

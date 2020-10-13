@@ -8,6 +8,7 @@ const MarkedProjectsComponentDiv =({markedMissions,token,fetchMarkedMissions})=>
   useEffect(()=>{
     fetchMarkedMissions(token);
   },[]);
+  console.log(markedMissions);
 return(
   <div>
   <Title>Marked Projects</Title>
