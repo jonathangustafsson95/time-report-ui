@@ -16,21 +16,15 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-<<<<<<< HEAD
-const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,deleteMarkedMissions,postMarkedMissions,userId }) => {
-
-  const [checkStatus, setCheckStatus] = useState([]);
-=======
 const ProjectsTable = ({
   missions,
   markedMissions,
   token,
-  unmarkMission,
   markMission,
   userId,
+  unmarkMission,
   type,
 }) => {
->>>>>>> b754731aae3dab1090171674cda0fc0677219d26
   const classes = useStyles();
 
   const checkFavorite = ({ mission }) => {
@@ -45,36 +39,7 @@ const ProjectsTable = ({
       ? markMission(favoriteMission, token)
       : unmarkMission(favoriteMission, token);
   };
-<<<<<<< HEAD
-  const handleClick=(e,id)=>{
-    console.log(token)
-    // console.log("test"+" "+e.target.checked)
-    // console.log(id)
-    // setCheckStatus([
-    //   ...checkStatus,
 
-    // ])
-    if(!e.target.checked)
-    {
-      //remove marked mission 
-      e.checked=false;
-    }
-    else
-    {
-      // add marked mission
-      const FavoriteMission={
-        userId:userId,
-        missionId:id
-      }
-      postMarkedMissions(FavoriteMission,token);
-      e.checked=true
-    }
-   console.log(checkStatus)
-  }
- 
-=======
-
->>>>>>> b754731aae3dab1090171674cda0fc0677219d26
   return (
     <div>
       <input></input>
@@ -93,16 +58,11 @@ const ProjectsTable = ({
           <TableBody>
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
-<<<<<<< HEAD
-                <TableCell >
-                  <Checkbox onClick={(e) => handleClick(e,mission.missionId)} checked={ checkFavorite({mission})}></Checkbox>
-=======
                 <TableCell>
                   <Checkbox
                     onClick={(e) => handleClick(e, mission.missionId)}
                     checked={checkFavorite({ mission })}
                   ></Checkbox>
->>>>>>> b754731aae3dab1090171674cda0fc0677219d26
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {mission.missionName}
