@@ -12,6 +12,7 @@ const TemplateItem = ({
   addRegistry,
   hasLoadedFromTemplate,
   removeTemplateRegistries,
+  date
 }) => {
   const loadTemplate = () => {
     if (hasLoadedFromTemplate) {
@@ -19,7 +20,7 @@ const TemplateItem = ({
     }
 
     week.week.forEach((registry) => {
-      var d = new Date();
+      var d = new Date(date.valueOf());
       var dayC = d.getDay();
       var diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
       d.setDate(diff);
@@ -105,6 +106,7 @@ const StartDate = styled(Week)`
 const mapStateToProps = (state) => {
   return {
     hasLoadedFromTemplate: state.registryData.hasLoadedFromTemplate,
+    date: state.settings.date,
   };
 };
 

@@ -8,6 +8,7 @@ const initialState = {
   registriesToUpdate: [],
   latestRegistries: [],
   weeklyRegistries: [],
+  isSuccesfullySaved: false,
   hasLoadedFromTemplate: false,
   errorMsg: "",
   error: false,
@@ -119,70 +120,39 @@ const registryReducer = (state = initialState, action) => {
         registriesToReport: [...state.registriesToReport, action.payload],
         registriesByWeek: registries,
       };
+    case Types.RESET_IS_SUCCESFULLY_SAVED_FROM_STORE:
+      return {
+        ...state,
+        isSuccesfullySaved: false,
+      };
 
     // API state manipulators
-    case Types.FETCH_REGISTRIES_BY_WEEK_REQUEST:
+    case Types.FETCH_TIME_REPORT_DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case Types.FETCH_REGISTRIES_BY_WEEK_SUCCESS:
+    case Types.FETCH_TIME_REPORT_DATA_SUCCESS:
       return {
         ...state,
         loading: false,
-        registriesByWeek: action.payload,
+        registriesByWeek: action.payload[0].data,
+        weeklyRegistries: action.payload[1].data,
+        latestRegistries: action.payload[2].data,
         errorMsg: "",
         error: false,
       };
-    case Types.FETCH_REGISTRIES_BY_WEEK_FAILURE:
+    case Types.FETCH_TIME_REPORT_DATA_FAILURE:
       return {
         ...state,
         loading: false,
         registriesByWeek: [],
+        latestRegistries: [],
+        weeklyRegistries: [],
         errorMsg: action.payload,
         error: true,
       };
-
-    case Types.FETCH_REGISTRIES_LAST_WEEKS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case Types.FETCH_REGISTRIES_LAST_WEEKS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        weeklyRegistries: action.payload,
-        errorMsg: "",
-        error: false,
-      };
-    case Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        errorMsg: action.payload,
-        error: true,
-      };
-    case Types.FETCH_LATEST_REGISTRIES_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case Types.FETCH_LATEST_REGISTRIES_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        latestRegistries: action.payload,
-        errorMsg: "",
-        error: false,
-      };
-    case Types.FETCH_LATEST_REGISTRIES_FAILURE:
-      return {
-        loading: false,
-        errorMsg: action.payload,
-        error: true,
-      };
-
+      
     case Types.SAVE_CHANGES_REQUEST:
       return {
         ...state,
@@ -195,6 +165,7 @@ const registryReducer = (state = initialState, action) => {
         registriesByWeek: [],
         registriesToReport: [],
         registriesToDelete: [],
+        isSuccesfullySaved: true,
         errorMsg: "",
         error: false,
       };

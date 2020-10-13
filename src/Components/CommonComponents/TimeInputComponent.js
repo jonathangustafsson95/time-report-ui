@@ -1,7 +1,30 @@
 import React from "react";
 import styled from "styled-components";
 
-const TimeInput = ({ setHours, setMinutes, hours, minutes, titleContent }) => {
+const TimeInput = ({
+  setHours,
+  setMinutes,
+  hours,
+  minutes,
+  titleContent,
+  setIsValid,
+}) => {
+  const validate = (e, type) => {
+    if (type === "hours") {
+      if (e.target.value > 0 && e.target.value < 12) {
+        if (Number.isInteger(e.target.value)) {
+          setIsValid(true);
+          return;
+        }
+      }
+    } else {
+      if (e.target.value > 15 && e.target.value < 60) {
+        setIsValid(true);
+        return;
+      }
+    }
+    setIsValid(false);
+  };
   return (
     <div>
       <Title>{titleContent}</Title>
@@ -17,6 +40,7 @@ const TimeInput = ({ setHours, setMinutes, hours, minutes, titleContent }) => {
           id="hours"
           value={hours}
           onChange={(e) => setHours(e.target.value)}
+          // onBlur={(e) => validate(e, "hours")}
         />
         <Line></Line>
         <Input
@@ -24,6 +48,7 @@ const TimeInput = ({ setHours, setMinutes, hours, minutes, titleContent }) => {
           id="minutes"
           value={minutes}
           onChange={(e) => setMinutes(e.target.value)}
+          // onBlur={(e) => validate(e, "minutes")}
         />
       </InputDiv>
     </div>

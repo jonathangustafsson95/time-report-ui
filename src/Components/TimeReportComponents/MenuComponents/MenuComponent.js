@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import {
-  fetchLatestRegistries,
-  fetchRegistriesLastWeeks,
-} from "../../../Redux/Actions/RegistryActions";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Templates from "./MenuItemsComponents/TemplatesComponent";
 import LatestRegistries from "./MenuItemsComponents/LatestRegistriesComponent";
 
-const Menu = ({ token, fetchWeeklyRegistries, fetchLatestRegistries }) => {
+const Menu = () => {
   const [showMenuItems, setShowMenuItems] = useState({
     template: false,
     latestReports: false,
     markedMissions: false,
   });
-  useEffect(() => {
-    fetchWeeklyRegistries(token);
-    fetchLatestRegistries(token);
-  }, []);
 
   const toggleMenuItem = (buttonName) => {
     setShowMenuItems({
@@ -70,17 +61,4 @@ const Main = styled.div`
   width: 220px;
 `;
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.authData.user.token,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchWeeklyRegistries: (token) => dispatch(fetchRegistriesLastWeeks(token)),
-    fetchLatestRegistries: (token) => dispatch(fetchLatestRegistries(token)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default Menu;

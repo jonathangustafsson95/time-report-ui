@@ -28,7 +28,7 @@ const MissionTable = ({
   useEffect(() => {
     let selectedStatus = [];
     const rows = missions.map((mission, index) => {
-      if (info) {
+      if (currentMission !== null) {
         mission.missionId === currentMission
           ? selectedStatus.push({
               selected: true,
@@ -98,8 +98,12 @@ const MissionTable = ({
                 <TableCell size="small">
                   <Checkbox checked={isItemSelected} />
                 </TableCell>
-                <TableCell align="right" size="small">{row.mission}</TableCell>
-                <TableCell align="right" size="small">{row.customer}</TableCell>
+                <TableCell align="right" size="small">
+                  {row.mission}
+                </TableCell>
+                <TableCell align="right" size="small">
+                  {row.customer}
+                </TableCell>
               </TableRow>
             );
           })}

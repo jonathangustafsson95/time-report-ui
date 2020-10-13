@@ -40,14 +40,13 @@ export const removeTemplateRegistriesFromStore = () => {
 
 export const updateNewRegistryFromStore = (registries) => {
   return {
-    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE, 
+    type: Types.UPDATE_NEW_REGISTRY_FROM_STORE,
     payload: registries,
     id: registries[0].registryId,
   };
 };
 
 export const updateOldRegistryFromStore = (registries) => {
-  console.log(registries[0]);
   return {
     type: Types.UPDATE_OLD_REGISTRY_FROM_STORE,
     payload: registries,
@@ -63,135 +62,70 @@ export const commitRegistryFromTemplateToStore = (registry) => {
   };
 };
 
+export const resetIsSuccesfullySaved = () => {
+  return {
+    type: Types.RESET_IS_SUCCESFULLY_SAVED_FROM_STORE,
+  };
+};
+
 // API-ACTIONNS
 
-const fetchRegistriesByWeekRequest = () => {
+const fetchTimeReportDataRequest = () => {
   return {
-    type: Types.FETCH_REGISTRIES_BY_WEEK_REQUEST,
+    type: Types.FETCH_TIME_REPORT_DATA_REQUEST,
   };
 };
 
-const fetchRegistriesByWeekSuccess = (registries) => {
+const fetchTimeReportDataSuccess = (timeReportData) => {
   return {
-    type: Types.FETCH_REGISTRIES_BY_WEEK_SUCCESS,
-    payload: registries,
+    type: Types.FETCH_TIME_REPORT_DATA_SUCCESS,
+    payload: timeReportData,
   };
 };
 
-const fetchRegistriesByWeekFailure = (error) => {
+const fetchTimeReportDataFailure = (error) => {
   return {
-    type: Types.FETCH_REGISTRIES_BY_WEEK_FAILURE,
+    type: Types.FETCH_TIME_REPORT_DATA_FAILURE,
     payload: error,
   };
 };
 
-export const fetchRegistriesByWeek = (token) => {
+export const fetchTimeReportData = (token, date) => {
   return (dispatch) => {
-    const date = new Date();
+    const d = new Date();
+    const stringDateForWeekTemp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
     const stringDate =
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-
-    dispatch(fetchRegistriesByWeekRequest());
-    axios({
-      url: service.baseUrl + "/reporting/week/" + stringDate,
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    dispatch(fetchTimeReportDataRequest());
+    axios
+      .all([
+        axios({
+          url: service.baseUrl + "/reporting/week/" + stringDate,
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }),
+        axios({
+          url: service.baseUrl + "/reporting/weekTemplates/" + stringDateForWeekTemp,
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }),
+        axios({
+          url: service.baseUrl + "/reporting/latestRegistries/",
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }),
+      ])
       .then((response) => {
-        const registries = response.data;
-        registries.forEach((registry) => {
-          registry.new = false;
-          registry.isFromTemplate = false;
-        });
-        dispatch(fetchRegistriesByWeekSuccess(registries));
+        dispatch(fetchTimeReportDataSuccess(response));
       })
       .catch((error) => {
-        const errorMsg = error.message;
-        dispatch(fetchRegistriesByWeekFailure(errorMsg));
-      });
-  };
-};
-
-const fetchRegistriesLastWeeksRequest = () => {
-  return {
-    type: Types.FETCH_REGISTRIES_LAST_WEEKS_REQUEST,
-  };
-};
-
-const fetchRegistriesLastWeeksSuccess = (weeks) => {
-  return {
-    type: Types.FETCH_REGISTRIES_LAST_WEEKS_SUCCESS,
-    payload: weeks,
-  };
-};
-
-const fetchRegistriesLastWeeksFailure = (error) => {
-  return {
-    type: Types.FETCH_REGISTRIES_LAST_WEEKS_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchRegistriesLastWeeks = (token) => {
-  return (dispatch) => {
-    const date = new Date();
-    const stringDate =
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-
-    dispatch(fetchRegistriesLastWeeksRequest());
-    axios({
-      url: service.baseUrl + "/reporting/weekTemplates/" + stringDate,
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((response) => {
-        dispatch(fetchRegistriesLastWeeksSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchRegistriesLastWeeksFailure(error.message));
-      });
-  };
-};
-
-const fetchLatestRegistriesRequest = () => {
-  return {
-    type: Types.FETCH_LATEST_REGISTRIES_REQUEST,
-  };
-};
-
-const fetchLatestRegistriesSuccess = (weeks) => {
-  return {
-    type: Types.FETCH_LATEST_REGISTRIES_SUCCESS,
-    payload: weeks,
-  };
-};
-
-const fetchLatestRegistriesFailure = (error) => {
-  return {
-    type: Types.FETCH_LATEST_REGISTRIES_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchLatestRegistries = (token) => {
-  return (dispatch) => {
-    dispatch(fetchLatestRegistriesRequest());
-    axios({
-      url: service.baseUrl + "/reporting/latestRegistries/",
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((response) => {
-        dispatch(fetchLatestRegistriesSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchLatestRegistriesFailure(error.message));
+        dispatch(fetchTimeReportDataFailure(error.message));
       });
   };
 };
