@@ -4,6 +4,7 @@ import * as Types from "../Types/MissionTypes";
 const initialState = {
   loading: false,
   missions: [],
+  markedMissions:[],
   errorMsg: "",
   error: false,
   foundMissions: [],
@@ -40,7 +41,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        missions: action.payload,
+        markedMissions: action.payload,
         errorMsg: "",
         error: false,
       };
@@ -81,7 +82,7 @@ const missionReducer = (state = initialState, action) => {
         return{
           ...state,
           loading: false,
-          missions: [],
+          markedMissions: [],
           errorMsg: "",
           error: false,
           
@@ -103,7 +104,7 @@ const missionReducer = (state = initialState, action) => {
           return{
             ...state,
             loading: false,
-            missions: [],
+            markedMissions: [],
             errorMsg: "",
             error: false,
             

@@ -21,7 +21,7 @@ return(
 };
 const mapStateToProps=(state)=>{
   return{
-    markedMissions:state.missionData.missions,
+    markedMissions:state.missionData.markedMissions,
     token:state.authData.user.token,
   };
 };

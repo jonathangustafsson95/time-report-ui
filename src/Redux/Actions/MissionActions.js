@@ -160,7 +160,7 @@ export const markMission = (favoriteMissionsToPost, token) => {
     const postPayload = {
       favoriteMissionsToPost: favoriteMissionsToPost
     };
-   
+  //  console.log(postPayload.favoriteMissionsToPost)
     dispatch(unmarkMissionRequest());
         axios({
           url: service.baseUrl + "/mission/AddFavoriteMission",
