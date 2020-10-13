@@ -9,61 +9,39 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
-import {fetchUserMarkedMissions, fetchUserMissions, markMission,} from "../../Redux/Actions/MissionActions"
+import { markMission, unmarkMission } from "../../Redux/Actions/MissionActions";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
-const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,deleteMarkedMissions,postMarkedMissions,userId }) => {
-  const [checkStatus, setCheckStatus] = useState([]);
+const ProjectsTable = ({
+  missions,
+  markedMissions,
+  token,
+  unmarkMission,
+  markMission,
+  userId,
+  type,
+}) => {
   const classes = useStyles();
-  useEffect(()=>{
-    fetchMarkedMissions(token);
-    
-    // let initialCheck=[]
-    // missions.map=(mission)=>{
-    //   initialCheck.push(checkFavorite(mission))
-      
-    // }
-    // setCheckStatus(initialCheck)
-  },[fetchMarkedMissions]);
-  
-  // console.log(markedMissions)
-  const checkFavorite=({mission})=>{
-    
-    return markedMissions.some((item) => item.missionId === mission.missionId)
-  };
-  const handleClick=(e,id)=>{
-    // console.log("test"+" "+e.target.checked)
-    // console.log(id)
-    // setCheckStatus([
-    //   ...checkStatus,
 
-    // ])
-    if(!e.target.checked)
-    {
-      //remove marked mission 
-      e.checked=false;
-      
-    }
-    else
-    {
-      // add marked mission
-      const FavoriteMission={
-        userId:userId,
-        missionId:id
-      }
-      postMarkedMissions(FavoriteMission,token);
-      e.checked=true
-    }
-   console.log(checkStatus)
-  }
- 
+  const checkFavorite = ({ mission }) => {
+    return markedMissions.some((item) => item.missionId === mission.missionId);
+  };
+  const handleClick = (e, id) => {
+    const favoriteMission = {
+      UserId: userId,
+      MissionId: id,
+    };
+    e.target.checked
+      ? markMission(favoriteMission, token)
+      : unmarkMission(favoriteMission, token);
+  };
+
   return (
     <div>
-       
       <input></input>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -78,12 +56,13 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
             </TableRow>
           </TableHead>
           <TableBody>
-
             {missions.map((mission) => (
               <TableRow key={mission.missionId}>
-                <TableCell >
-
-                  <Checkbox onClick={(e) => handleClick(e,mission.missionId)} checked={ checkFavorite({mission})}></Checkbox>
+                <TableCell>
+                  <Checkbox
+                    onClick={(e) => handleClick(e, mission.missionId)}
+                    checked={checkFavorite({ mission })}
+                  ></Checkbox>
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {mission.missionName}
@@ -92,7 +71,7 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
                 {/* <TableCell align="right">{mission.Status}</TableCell> */}
                 <TableCell align="right">{mission.startDate}</TableCell>
                 <TableCell align="right">
-                  <button>Add Time</button>
+                  <button>{type === "userProjects" ? "Leave" : "Join"}</button>
                 </TableCell>
               </TableRow>
             ))}
@@ -100,23 +79,23 @@ const ProjectsTable = ({ missions,markedMissions,token,fetchMarkedMissions,delet
         </Table>
       </TableContainer>
     </div>
-    
   );
 };
 
-
-const mapStateToProps=(state)=>{
-  return{
-    markedMissions:state.missionData.markedMissions,
-    token:state.authData.user.token,
-    userId:state.authData.user.userDetails.userId,
+const mapStateToProps = (state) => {
+  return {
+    markedMissions: state.missionData.markedMissions,
+    missions: state.missionData.missions,
+    token: state.authData.user.token,
+    userId: state.authData.user.userDetails.userId,
   };
 };
-const mapDispatchToProps=(dispatch)=>{
-  return{
-    fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
-    postMarkedMissions:(FavoriteMission,token)=>dispatch(markMission(FavoriteMission,token)),
-    // deleteMarkedMissions:(token)=>dispatch(unmarkMission(token))
+const mapDispatchToProps = (dispatch) => {
+  return {
+    markMission: (favoriteMission, token) =>
+      dispatch(markMission(favoriteMission, token)),
+    unmarkMission: (favoriteMission, token) =>
+      dispatch(unmarkMission(favoriteMission, token)),
   };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(ProjectsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsTable);
