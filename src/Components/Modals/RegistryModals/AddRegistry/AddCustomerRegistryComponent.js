@@ -7,10 +7,13 @@ import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
 import MissionTable from "./MissionTableComponent";
 import TaskTable from "./TaskTableComponent";
 import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
+import { BeatLoader } from "react-spinners";
+import Alert from "@material-ui/lab/Alert";
 
 const AddCustomerRegistry = ({
   date,
   onCloseModal,
+  missionData,
   missions,
   fetchMissions,
   token,
@@ -20,6 +23,7 @@ const AddCustomerRegistry = ({
   const [currentTask, setCurrentTask] = useState(null);
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
+  const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     fetchMissions(token);
@@ -79,27 +83,37 @@ const AddCustomerRegistry = ({
 
   return (
     <Root>
-      <Main>
-        <MissionTable
-          missions={missions}
-          currentMission={currentMission}
-          setCurrentMission={(id) => setCurrentMission(id)}
-        />
-        <TaskTable
-          missionId={currentMission}
-          missions={missions}
-          currentTask={currentTask}
-          setCurrentTask={(id) => setCurrentTask(id)}
-        ></TaskTable>
-      </Main>
+      {missionData.loading ? (
+        <BeatLoader color={"#585656"} />
+      ) : missionData.error ? (
+        <Alert severity="error">
+          Could not load missions... Check your connection.
+        </Alert>
+      ) : (
+        <Main>
+          <MissionTable
+            missions={missions}
+            currentMission={currentMission}
+            setCurrentMission={(id) => setCurrentMission(id)}
+          />
+          <TaskTable
+            missionId={currentMission}
+            missions={missions}
+            currentTask={currentTask}
+            setCurrentTask={(id) => setCurrentTask(id)}
+          />
+        </Main>
+      )}
+
       <TimeInput
         setHours={(value) => setHours(value)}
         setMinutes={(value) => setMinutes(value)}
         hours={hours}
         minutes={minutes}
         titleContent="Add time"
+        setIsValid={(x) => setIsValid(x)}
       />
-      <Button onClick={onAddRegistry}>Add</Button>
+      <Button disabled={!isValid} onClick={onAddRegistry}>Add</Button>
     </Root>
   );
 };
@@ -131,6 +145,7 @@ const mapStateToProps = (state) => {
   return {
     missions: state.missionData.missions,
     token: state.authData.user.token,
+    missionData: state.missionData,
   };
 };
 

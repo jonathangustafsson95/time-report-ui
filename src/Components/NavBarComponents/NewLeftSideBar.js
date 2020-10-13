@@ -177,7 +177,7 @@ const NewLeftSideBar = ({ user, signOut }) => {
               <ListItemIcon>
                 <ArchiveIcon />
               </ListItemIcon>
-              <ListItemText>projects</ListItemText>
+              <ListItemText>Missions</ListItemText>
             </ListItem>
           </Link>
         </List>

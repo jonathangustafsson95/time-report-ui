@@ -4,11 +4,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import registryReducer from "./Reducers/RegistryReducer";
 import authReducer from "./Reducers/AuthReducer";
 import missionReducer from "./Reducers/MissionReducer";
+import settingsReducer from "./Reducers/SettingsReducer";
 
 const rootReducer = combineReducers({
   registryData: registryReducer,
   authData: authReducer,
   missionData: missionReducer,
+  settings: settingsReducer,
 });
 
 const store = createStore(

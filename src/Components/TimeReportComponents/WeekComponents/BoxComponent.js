@@ -1,25 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import AddRegistryModal from "../../Modals/RegistryModals/AddRegistry/AddRegistryModal";
-import { addRegistryToStore, updateNewRegistryFromStore, updateOldRegistryFromStore } from "../../../Redux/Actions/RegistryActions";
+import {
+  addRegistryToStore,
+  updateNewRegistryFromStore,
+  updateOldRegistryFromStore,
+} from "../../../Redux/Actions/RegistryActions";
 
-const DayBox = ({ day, dayConst, registries, addRegistry, updateNewRegistry, updateOldRegistry }) => {
-  var d = new Date();
-  var dayC = d.getDay(),
-    diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
-  d.setDate(diff);
-  if (dayConst === 0) {
-    d.setDate(d.getDate() + dayConst + 6);
-  } else {
-    d.setDate(d.getDate() + dayConst - 1);
-  }
-
+const DayBox = ({
+  day,
+  dayConst,
+  registries,
+  addRegistry,
+  updateNewRegistry,
+  updateOldRegistry,
+  storeDate,
+}) => {
   const [showModal, setShowModal] = useState(false);
-  const [date] = useState(d);
+  const [date, setDate] = useState(storeDate);
 
+  useEffect(() => {
+    var d = new Date(storeDate.valueOf());
+    var dayC = d.getDay(),
+      diff = d.getDate() - dayC + (dayC === 0 ? -6 : 1);
+    d.setDate(diff);
+    if (dayConst === 0) {
+      d.setDate(d.getDate() + dayConst + 6);
+    } else {
+      d.setDate(d.getDate() + dayConst - 1);
+    }
+    setDate(d);
+  }, [storeDate]);
+  
   const onCloseAddModal = () => {
     setShowModal(false);
   };
@@ -174,15 +189,17 @@ const mapStateToProps = (state, ownProps) => {
     registries: state.registryData.registriesByWeek.filter(
       (registry) => registry.day === ownProps.dayConst
     ),
+    storeDate: state.settings.date,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
-    updateNewRegistry: (registries) => dispatch(updateNewRegistryFromStore(registries)),
-    updateOldRegistry: (registries) => dispatch(updateOldRegistryFromStore(registries)),
-
+    updateNewRegistry: (registries) =>
+      dispatch(updateNewRegistryFromStore(registries)),
+    updateOldRegistry: (registries) =>
+      dispatch(updateOldRegistryFromStore(registries)),
   };
 };
 

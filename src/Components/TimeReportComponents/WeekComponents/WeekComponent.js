@@ -5,10 +5,16 @@ import DayBox from "./BoxComponent";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import {
-  fetchRegistriesByWeek,
+  fetchTimeReportData,
+  resetIsSuccesfullySaved,
   saveChanges,
 } from "../../../Redux/Actions/RegistryActions";
+import { setDate } from "../../../Redux/Actions/SettingsActions";
+import SnackBar from "../../Modals/SnackBars/SnackBarComponent";
 import { Redirect } from "react-router-dom";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import IconButton from "@material-ui/core/IconButton";
 
 const override = css`
   position: absolute;
@@ -18,12 +24,22 @@ const override = css`
   margin: auto;
 `;
 
-const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
-  useEffect(() => {
-    fetchRegistries(authData.user.token);
-  }, [fetchRegistries, authData.user.token]);
+const Week = ({
+  fetchData,
+  registryData,
+  authData,
+  saveChanges,
+  resetIsSuccesfullySaved,
+  setDate,
+  date,
+}) => {
+  const [showSnackBar, setShowSnackBar] = useState(true);
+  const [isReporting, setIsReporting] = useState(false);
 
-  const [reportSuccess, setreportSuccess] = useState(false);
+  useEffect(() => {
+    resetIsSuccesfullySaved();
+    fetchData(authData.user.token, date);
+  }, [fetchData, authData.user.token, date]);
 
   const onReportRegistries = (token) => {
     saveChanges(
@@ -31,59 +47,84 @@ const Week = ({ registryData, fetchRegistries, saveChanges, authData }) => {
       registryData.registriesToDelete,
       token
     );
-    if (!registryData.error) {
-      setreportSuccess(true);
-    }
+    setShowSnackBar(true);
+    setIsReporting(true);
   };
 
-  if (reportSuccess) {
-    return <Redirect to="/" />;
+  if (isReporting && !registryData.loading) {
+    if (!registryData.error) {
+      return <Redirect to="/" />;
+    }
+    setIsReporting(false);
   }
 
   const getMonAndSun = () => {
-    let d = new Date();
+    let dM = new Date(date.valueOf());
+    let dS = new Date(date.valueOf());
 
-    const mon = d.getDay(),
-      diff = d.getDate() - mon + (mon === 0 ? -6 : 1);
-    d.setDate(diff);
-    const monday = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
-    d.setDate(d.getDay() + 10);
-    const sunday = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+    const mon = dM.getDay();
+    const diff = dM.getDate() - mon + (mon === 0 ? -6 : 1);
+    dM.setDate(diff);
+    dS.setDate(dS.getDate() - mon + 7);
+    const monday = `${dM.getFullYear()}.${dM.getMonth() + 1}.${dM.getDate()}`;
+    const sunday = `${dS.getFullYear()}.${dS.getMonth() + 1}.${dS.getDate()}`;
 
     return `${monday} - ${sunday}`;
+  };
+
+  const switchWeek = (e, type) => {
+    setDate(type);
   };
 
   return (
     <div>
       <BoxDiv>
         <Text>{getMonAndSun()}</Text>
-        <BoxHolder>
-          <DayBox day="Mon" dayConst={1}></DayBox>
-          <DayBox day="Tue" dayConst={2}></DayBox>
-          <DayBox day="Wed" dayConst={3}></DayBox>
-          <DayBox day="Thu" dayConst={4}></DayBox>
-          <DayBox day="Fri" dayConst={5}></DayBox>
-          <DayBox day="Sat" dayConst={6}></DayBox>
-          <DayBox day="Sun" dayConst={0}></DayBox>
-
-          <BeatLoader
-            loading={registryData.loading}
-            css={override}
-            color={"#585656"}
-          ></BeatLoader>
-        </BoxHolder>
-        {registryData.error && (
-          <ErrorMsg>
-            Sorry something went wrong... "{registryData.errorMsg}"
-          </ErrorMsg>
-        )}
+        <Inner>
+          <IconButton onClick={(e) => switchWeek(e, "back")}>
+            <ArrowBackIosIcon />
+          </IconButton>
+          <BoxHolder>
+            <DayBox day="Mon" dayConst={1}></DayBox>
+            <DayBox day="Tue" dayConst={2}></DayBox>
+            <DayBox day="Wed" dayConst={3}></DayBox>
+            <DayBox day="Thu" dayConst={4}></DayBox>
+            <DayBox day="Fri" dayConst={5}></DayBox>
+            <DayBox day="Sat" dayConst={6}></DayBox>
+            <DayBox day="Sun" dayConst={0}></DayBox>
+            <BeatLoader
+              loading={registryData.loading}
+              css={override}
+              color={"#585656"}
+            ></BeatLoader>
+          </BoxHolder>
+          <IconButton onClick={(e) => switchWeek(e, "forward")}>
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </Inner>
       </BoxDiv>
       <Button onClick={() => onReportRegistries(authData.user.token)}>
         Save Changes
       </Button>
+
+      {registryData.error && (
+        <SnackBar
+          show={showSnackBar}
+          hide={() => setShowSnackBar(false)}
+          error={true}
+        />
+      )}
     </div>
   );
 };
+
+const Inner = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+`;
 
 const Button = styled.button`
   font-family: Roboto;
@@ -115,8 +156,8 @@ const BoxHolder = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 10px;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
   //margin-bottom: 50px;
 `;
 
@@ -131,22 +172,21 @@ const Text = styled.p`
   text-align: center;
 `;
 
-const ErrorMsg = styled(Text)`
-  color: #ff2366; ;
-`;
-
 const mapStateToProps = (state) => {
   return {
     authData: state.authData,
     registryData: state.registryData,
+    date: state.settings.date,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchRegistries: (token) => dispatch(fetchRegistriesByWeek(token)),
+    fetchData: (token, date) => dispatch(fetchTimeReportData(token, date)),
     saveChanges: (registriesToReport, registriesToDelete, token) =>
       dispatch(saveChanges(registriesToReport, registriesToDelete, token)),
+    resetIsSuccesfullySaved: () => dispatch(resetIsSuccesfullySaved()),
+    setDate: (type) => dispatch(setDate(type)),
   };
 };
 
