@@ -22,6 +22,45 @@ export const fetchUserMissionsFailure = (error) => {
   };
 };
 
+export const markMissionRequest = () => {
+  return {
+    type: Types.MARK_MISSION_REQUEST,
+  };
+};
+
+export const markMissionSuccess = (missions) => {
+  return {
+    type: Types.MARK_MISSION_SUCCESS,
+    payload: missions,
+  };
+};
+
+export const markMissionFailure = (error) => {
+  return {
+    type: Types.MARK_MISSION_FAILURE,
+    payload: error,
+  };
+};
+
+export const unmarkMissionRequest = () => {
+  return {
+    type: Types.UNMARK_MISSION_REQUEST,
+  };
+};
+
+export const unmarkMissionSuccess = (missions) => {
+  return {
+    type: Types.UNMARK_MISSION_SUCCESS,
+    payload: missions,
+  };
+};
+
+export const unmarkMissionFailure = (error) => {
+  return {
+    type: Types.UNMARK_MISSION_FAILURE,
+    payload: error,
+  };
+};
 
 
 export const fetchUserMissions = (token) => {
@@ -116,3 +155,46 @@ export const fetchUserMarkedMissions = (token) => {
       });
   };
 };
+export const markMission = (favoriteMissionsToPost, token) => {
+  return (dispatch) => {
+    const postPayload = {
+      favoriteMissionsToPost: favoriteMissionsToPost
+    };
+  //  console.log(postPayload.favoriteMissionsToPost)
+    dispatch(unmarkMissionRequest());
+        axios({
+          url: service.baseUrl + "/mission/AddFavoriteMission",
+          method: "post",
+          data: postPayload,
+          headers: { Authorization: "Bearer " + token },
+        })
+      .then(() => {
+        dispatch(markMission());
+      })
+      .catch((error) => {
+        dispatch(markMission(error.message));
+      });
+  };
+};
+export const unmarkMission = (favoriteMissionsToDelete, token) => {
+  return (dispatch) => {
+    const deletePayload = {
+      favoriteMissionsToDelete: favoriteMissionsToDelete
+    };
+   
+    dispatch(unmarkMissionRequest());
+        axios({
+          url: service.baseUrl + "/mission/FavoriteMission",
+          method: "delete",
+          data: deletePayload,
+          headers: { Authorization: "Bearer " + token },
+        })
+      .then(() => {
+        dispatch(unmarkMission());
+      })
+      .catch((error) => {
+        dispatch(unmarkMission(error.message));
+      });
+  };
+};
+

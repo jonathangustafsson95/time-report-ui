@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import IconArrow from "./Images/Group247.png";
+import { connect } from "react-redux";
+import Media from 'react-bootstrap/Media';
+import StatisticsItemComponent from "./StatisticsItemComponent";
+import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions";
 
-const ProjectDetail = () => {
+const ProjectDetail = ({mission,token,fetchMarkedMissions}) => {
   const { missionId } = useParams();
-  console.log(missionId);
+  const Id={missionId};
+  useEffect(()=>{
+    fetchMarkedMissions(token);
+  },[]);
+  console.log(mission);
+  console.log(Id.missionId);
+  const textt=findArrayElementByTitle(mission,Id.missionId);
+  console.log(textt);
+  //findArrayElementByTitle(mission,missionId);
   return (
     <div>
       <BackDiv className="align-baseline">
@@ -19,10 +31,46 @@ const ProjectDetail = () => {
           </Button>
         </LinkText>
       </BackDiv>
-      <text> Mission Details Here </text>
+  <Media>
+  <Media.Body>
+    <h5>{textt.missionName}</h5>
+    <p>
+  <p>Customer name: {textt.customer}</p>
+  <h5>Mission description</h5>
+    <p>{textt.description}</p>
+      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
+      ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at,
+      tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+      Donec lacinia congue felis in faucibus.
+    </p>
+  </Media.Body>
+</Media>
+<StatisticsItemComponent></StatisticsItemComponent>
     </div>
   );
 };
+const mapStateToProps=(state)=>{
+  return{
+    mission:state.missionData.missions,
+    token:state.authData.user.token,
+  
+    
+  };
+};
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
+  };
+};
+function findArrayElementByTitle(array, Id) {
+  for (const element of array) {
+   console.log(Id);
+    if(element.missionId==Id){
+      console.log(element);
+      return element;
+    }
+  }
+}
 
 const BackDiv = styled.div`
   display: flex;
@@ -39,4 +87,4 @@ const LinkText = styled(NavLink)`
   text-align: left;
   color: #302f2f;
 `;
-export default ProjectDetail;
+export default connect(mapStateToProps,mapDispatchToProps) (ProjectDetail);
