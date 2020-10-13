@@ -19,7 +19,7 @@ const MarkedProjectItem = ({ markedMissions }) => {
       
       <Link to={"/projects/" + markedMissions.missionId}><MissionText>{markedMissions.missionName}</MissionText></Link>
 
-      <Checkbox></Checkbox>
+      <Checkbox checked="true"></Checkbox>
       </BoxDiv>
       <CompanyText>{markedMissions.customer}</CompanyText>
     
