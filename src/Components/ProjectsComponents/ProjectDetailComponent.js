@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import Media from 'react-bootstrap/Media';
 import StatisticsItemComponent from "./StatisticsItemComponent";
 import {fetchUserMarkedMissions} from "../../Redux/Actions/MissionActions";
-
+import MissionTasksComponent from "./MissionTasksComponent";
 const ProjectDetail = ({mission,token,fetchMarkedMissions}) => {
   const { missionId } = useParams();
   const Id={missionId};
@@ -18,11 +18,10 @@ const ProjectDetail = ({mission,token,fetchMarkedMissions}) => {
   },[]);
   console.log(mission);
   console.log(Id.missionId);
-  const textt=findArrayElementByTitle(mission,Id.missionId);
+  const textt=findArrayElementById(mission,Id.missionId);
   console.log(textt);
-  //findArrayElementByTitle(mission,missionId);
   return (
-    <div>
+    <DivContainer>
       <BackDiv className="align-baseline">
         <LinkText to="/projects">
           <Button variant="light" color="#f00a6b">
@@ -33,7 +32,7 @@ const ProjectDetail = ({mission,token,fetchMarkedMissions}) => {
       </BackDiv>
   <Media>
   <Media.Body>
-    <h5>{textt.missionName}</h5>
+    <h1>{textt.missionName}</h1>
     <p>
   <p>Customer name: {textt.customer}</p>
   <h5>Mission description</h5>
@@ -46,7 +45,9 @@ const ProjectDetail = ({mission,token,fetchMarkedMissions}) => {
   </Media.Body>
 </Media>
 <StatisticsItemComponent></StatisticsItemComponent>
-    </div>
+<MissionTasksComponent></MissionTasksComponent>
+
+    </DivContainer>
   );
 };
 const mapStateToProps=(state)=>{
@@ -62,7 +63,7 @@ const mapDispatchToProps=(dispatch)=>{
     fetchMarkedMissions:(token)=>dispatch(fetchUserMarkedMissions(token)),
   };
 };
-function findArrayElementByTitle(array, Id) {
+function findArrayElementById(array, Id) {
   for (const element of array) {
    console.log(Id);
     if(element.missionId==Id){
@@ -72,6 +73,10 @@ function findArrayElementByTitle(array, Id) {
   }
 }
 
+const DivContainer=styled.div`
+display: flex;
+flex-direction: row;
+`
 const BackDiv = styled.div`
   display: flex;
   flex-direction: row;

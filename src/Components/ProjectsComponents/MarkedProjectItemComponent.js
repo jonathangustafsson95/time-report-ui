@@ -49,7 +49,13 @@ const Box = styled.div`
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
   margin-right: 15px;
   border-left-style: solid;
-  border-color: #f00a6b;
+  border-color:#f00a6b;
+  box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.1);
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02) perspective(1px);
+  }
+  
 `;
 const Inbox = styled.div`
   margin-left: 15px;
