@@ -9,7 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
-import { markMission, unmarkMission } from "../../Redux/Actions/MissionActions";
+import {
+  markMission,
+  unmarkMission,
+  addMissionMembership,
+  removeMissionMembership,
+} from "../../Redux/Actions/MissionActions";
 
 const useStyles = makeStyles({
   table: {
@@ -23,7 +28,8 @@ const ProjectsTable = ({
   markMission,
   userId,
   unmarkMission,
-  type,
+  addMembership,
+  removeMembership,
 }) => {
   const classes = useStyles();
 
@@ -39,6 +45,14 @@ const ProjectsTable = ({
       ? markMission(favoriteMission, token)
       : unmarkMission(favoriteMission, token);
   };
+  const handleMemberStatus = (mission) => {
+    mission.isMember
+      ? removeMembership(token, userId, mission.missionId)
+      : addMembership(token, {
+          UserId: userId,
+          MissionId: mission.missionId,
+        });
+  };
 
   return (
     <div>
@@ -50,7 +64,6 @@ const ProjectsTable = ({
               <TableCell padding="checkbox"></TableCell>
               <TableCell>Mission Name</TableCell>
               <TableCell align="right">Customer</TableCell>
-              {/* <TableCell align="right">Status</TableCell> */}
               <TableCell align="right">StartDate</TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
@@ -68,10 +81,11 @@ const ProjectsTable = ({
                   {mission.missionName}
                 </TableCell>
                 <TableCell align="right">{mission.customer}</TableCell>
-                {/* <TableCell align="right">{mission.Status}</TableCell> */}
                 <TableCell align="right">{mission.startDate}</TableCell>
                 <TableCell align="right">
-                  <button>{type === "userProjects" ? "Leave" : "Join"}</button>
+                  <button onClick={() => handleMemberStatus(mission)}>
+                    {mission.isMember ? "Leave" : "Join"}
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
@@ -96,6 +110,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(markMission(favoriteMission, token)),
     unmarkMission: (favoriteMission, token) =>
       dispatch(unmarkMission(favoriteMission, token)),
+    addMembership: (token, _missionMember) =>
+      dispatch(addMissionMembership(token, _missionMember)),
+    removeMembership: (token, userId, missionId) =>
+      dispatch(removeMissionMembership(token, userId, missionId)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectsTable);

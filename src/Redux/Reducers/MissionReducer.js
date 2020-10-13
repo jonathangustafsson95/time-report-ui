@@ -145,6 +145,46 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+    case Types.REMOVE_MISSION_MEMBERSHIP_REQUEST:
+    return{
+      ...state,
+      loading: true,
+    }
+    case Types.REMOVE_MISSION_MEMBERSHIP_SUCCESS:
+    return{
+      ...state,
+      loading: false,
+      errorMsg: "",
+      error: false,
+      isMissionStatusUpdated: true,
+    }
+    case Types.REMOVE_MISSION_MEMBERSHIP_FAILURE:
+    return{
+      ...state,
+      loading: false,
+      errorMsg: action.payload,
+      error: true,
+    }
+    case Types.ADD_MISSION_MEMBERSHIP_REQUEST:
+    return{
+      ...state,
+      loading: true,
+    }
+    case Types.ADD_MISSION_MEMBERSHIP_SUCCESS:
+    return{
+      ...state,
+      loading: false,
+      errorMsg: "",
+      error: false,
+      isMissionStatusUpdated: true,
+    }
+    case Types.ADD_MISSION_MEMBERSHIP_FAILURE:
+    return{
+      ...state,
+      loading: false,
+      errorMsg: action.payload,
+      error: true,
+    }
     default:
       return state;
   }

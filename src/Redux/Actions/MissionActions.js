@@ -5,23 +5,23 @@ import * as service from "../ApiService/Service";
 export const resetMissionsFromStore = () => {
   return {
     type: Types.RESET_MISSIONS_FROM_STORE,
-  }
-}
+  };
+};
 
-export const fetchUserMissionsRequest = () => {
+const fetchUserMissionsRequest = () => {
   return {
     type: Types.FETCH_USER_MISSIONS_REQUEST,
   };
 };
 
-export const fetchUserMissionsSuccess = (missions) => {
+const fetchUserMissionsSuccess = (missions) => {
   return {
     type: Types.FETCH_USER_MISSIONS_SUCCESS,
     payload: missions,
   };
 };
 
-export const fetchUserMissionsFailure = (error) => {
+const fetchUserMissionsFailure = (error) => {
   return {
     type: Types.FETCH_USER_MISSIONS_FAILURE,
     payload: error,
@@ -45,19 +45,19 @@ export const fetchUserMissions = (token) => {
   };
 };
 
-export const markMissionRequest = () => {
+const markMissionRequest = () => {
   return {
     type: Types.MARK_MISSION_REQUEST,
   };
 };
 
-export const markMissionSuccess = () => {
+const markMissionSuccess = () => {
   return {
     type: Types.MARK_MISSION_SUCCESS,
   };
 };
 
-export const markMissionFailure = (error) => {
+const markMissionFailure = (error) => {
   return {
     type: Types.MARK_MISSION_FAILURE,
     payload: error,
@@ -82,19 +82,19 @@ export const markMission = (favoriteMission, token) => {
   };
 };
 
-export const unmarkMissionRequest = () => {
+const unmarkMissionRequest = () => {
   return {
     type: Types.UNMARK_MISSION_REQUEST,
   };
 };
 
-export const unmarkMissionSuccess = () => {
+const unmarkMissionSuccess = () => {
   return {
     type: Types.UNMARK_MISSION_SUCCESS,
   };
 };
 
-export const unmarkMissionFailure = (error) => {
+const unmarkMissionFailure = (error) => {
   return {
     type: Types.UNMARK_MISSION_FAILURE,
     payload: error,
@@ -119,20 +119,20 @@ export const unmarkMission = (favoriteMission, token) => {
   };
 };
 
-export const fetchMissionDataRequest = () => {
+const fetchMissionDataRequest = () => {
   return {
     type: Types.FETCH_MISSION_DATA_REQUEST,
   };
 };
 
-export const fetchMissionDataSuccess = (missions) => {
+const fetchMissionDataSuccess = (missions) => {
   return {
     type: Types.FETCH_MISSION_DATA_SUCCESS,
     payload: missions,
   };
 };
 
-export const fetchMissionDataFailure = (error) => {
+const fetchMissionDataFailure = (error) => {
   return {
     type: Types.FETCH_MISSION_DATA_FAILURE,
     payload: error,
@@ -153,8 +153,8 @@ export const fetchMissionData = (token) => {
           url: service.baseUrl + "/mission/GetFavoriteMissions",
           method: "get",
           headers: { Authorization: "Bearer " + token },
-        })]
-      )
+        }),
+      ])
       .then((response) => {
         dispatch(fetchMissionDataSuccess(response));
       })
@@ -165,20 +165,20 @@ export const fetchMissionData = (token) => {
   };
 };
 
-export const fetchMissionsBySearchStringRequest = () => {
+const fetchMissionsBySearchStringRequest = () => {
   return {
     type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
   };
 };
 
-export const fetchMissionsBySearchStringSuccess = (missions) => {
+const fetchMissionsBySearchStringSuccess = (missions) => {
   return {
     type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_SUCCESS,
     payload: missions,
   };
 };
 
-export const fetchMissionsBySearchStringFailure = (error) => {
+const fetchMissionsBySearchStringFailure = (error) => {
   return {
     type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_FAILURE,
     payload: error,
@@ -186,7 +186,6 @@ export const fetchMissionsBySearchStringFailure = (error) => {
 };
 
 export const fetchMissionsBySearchString = (searchString, token) => {
-  console.log(token);
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
     axios({
@@ -207,20 +206,20 @@ export const fetchMissionsBySearchString = (searchString, token) => {
   };
 };
 
-export const fetchUserMarkedMissionsRequest = () => {
+const fetchUserMarkedMissionsRequest = () => {
   return {
     type: Types.FETCH_USER_MARKED_MISSIONS_REQUEST,
   };
 };
 
-export const fetchUserMarkedMissionsSuccess = (markedMissions) => {
+const fetchUserMarkedMissionsSuccess = (markedMissions) => {
   return {
     type: Types.FETCH_USER_MARKED_MISSIONS_SUCCESS,
     payload: markedMissions,
   };
 };
 
-export const fetchUserMarkedMissionsFailure = (error) => {
+const fetchUserMarkedMissionsFailure = (error) => {
   return {
     type: Types.FETCH_USER_MARKED_MISSIONS_FAILURE,
     payload: error,
@@ -241,5 +240,78 @@ export const fetchUserMarkedMissions = (token) => {
       .catch((error) => {
         dispatch(fetchUserMarkedMissionsFailure(error.message));
       });
+  };
+};
+
+const removeMissionMembershipRequest = () => {
+  return {
+    type: Types.REMOVE_MISSION_MEMBERSHIP_REQUEST,
+  };
+};
+
+const removeMissionMembershipSuccess = () => {
+  return {
+    type: Types.REMOVE_MISSION_MEMBERSHIP_SUCCESS,
+  };
+};
+
+const removeMissionMembershipFailure = (error) => {
+  return {
+    type: Types.REMOVE_MISSION_MEMBERSHIP_FAILURE,
+    payload: error,
+  };
+};
+
+export const removeMissionMembership = (token, userId, missionId) => {
+  return (dispatch) => {
+    dispatch(removeMissionMembershipRequest());
+    axios({
+      url: service.baseUrl + "/mission/DeleteMissionMember/" + userId + "/" + missionId,
+      method: "delete",
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then(() => {
+      dispatch(removeMissionMembershipSuccess());
+    })
+    .catch((error) => {
+      dispatch(removeMissionMembershipFailure(error.message));
+    });
+  };
+};
+
+const addMissionMembershipRequest = () => {
+  return {
+    type: Types.ADD_MISSION_MEMBERSHIP_REQUEST,
+  };
+};
+
+const addMissionMembershipSuccess = () => {
+  return {
+    type: Types.ADD_MISSION_MEMBERSHIP_SUCCESS,
+  };
+};
+
+const addMissionMembershipFailure = (error) => {
+  return {
+    type: Types.ADD_MISSION_MEMBERSHIP_FAILURE,
+    payload: error,
+  };
+};
+
+export const addMissionMembership = (token, _missionMember) => {
+  return (dispatch) => {
+    dispatch(addMissionMembershipRequest());
+    axios({
+      url: service.baseUrl + "/mission/AddMissionMember",
+      method: "post",
+      data: _missionMember,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then(() => {
+      dispatch(addMissionMembershipSuccess());
+    })
+    .catch((error) => {
+      dispatch(addMissionMembershipFailure(error.message));
+    });
   };
 };
