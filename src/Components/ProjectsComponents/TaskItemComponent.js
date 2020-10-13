@@ -1,22 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-import projImag from "./Images/Group323.png";
+import projImag from "./Images/Group323.png"
 
-const TaskItemComponent = ({ tasks }) => {
-  console.log(tasks);
-  return (
-    <Box>
-      <BoxDiv>
-        <img width={40} height={41} src={projImag}></img>
-        <par>{tasks.name}</par>
-      </BoxDiv>
-    </Box>
-  );
-};
+const TaskItemComponent=({tasks})=>{
+    console.log(tasks);
+    return(
+        <Box>
+            <BoxDiv>
+            <Image src={projImag}></Image>
+                <Para>{tasks.name}</Para>
+            </BoxDiv>
+        </Box>
 
-const par = styled.p`
-  margin-bottom: 25px;
-`;
+    )
+}
+const Image=styled.img`
+width: 40px;
+height: 41px;
+border-radius: 10px;
+margin-right: 15px;
+margin-left:15px;
+margin-top:15px;
+`
+const Para=styled.p`
+margin-bottom: 25px;
+margin-top:25px;
+`
 const Box = styled.div`
   width: 226px;
   height: 74px;
