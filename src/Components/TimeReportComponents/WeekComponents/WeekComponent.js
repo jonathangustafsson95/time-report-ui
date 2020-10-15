@@ -10,7 +10,7 @@ import {
   saveChanges,
 } from "../../../Redux/Actions/RegistryActions";
 import { setDate } from "../../../Redux/Actions/SettingsActions";
-import SnackBar from "../../Modals/SnackBars/SnackBarComponent";
+import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";

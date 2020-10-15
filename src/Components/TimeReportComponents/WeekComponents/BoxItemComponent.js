@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RegistryInfoModal from "../../Modals/RegistryModals/RegistryInfo/RegistryInfoModal";
+import RegistryInfoModal from "../../ModalComponents/RegistryComponents/RegistryInfoComponents/RegistryInfoComponent";
 import { commitRegistryFromTemplateToStore } from "../../../Redux/Actions/RegistryActions";
 import { connect } from "react-redux";
 import Icon from "./IconComponent";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
+const renderTooltip = (props) => (
+  <Tooltip id="button-tooltip" {...props}>
+    missionName
+  </Tooltip>
+);
 
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +41,7 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const handleOnDrag = (e) => {
     e.dataTransfer.setData("registry", JSON.stringify(registry));
     e.dataTransfer.setData("from", "boxComponent");
-  }
+  };
 
   return (
     <>
@@ -43,22 +50,34 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
         showModal={showModal}
         registry={registry}
       />
-      <Box
-        hours={registry.hours}
-        color={registry.taskId ? registry.missionColor : "#EB6D6D"}
-        draggable
-        onDragStart={(e) => handleOnDrag(e)}
-        onClick={() => handleClick()}
-        opacity={registry.isFromTemplate ? 0.5 : 1}
+      <OverlayTrigger
+        placement="right"
+        delay={{ show: 250, hide: 100 }}
+        overlay={renderTooltip}
+        registry={registry}
       >
-        <InfoDiv>
-          <Icon color={registry.taskId ? registry.missionColor : "#EB6D6D"} />
-          <TextDiv>
-            <ProjectText>{registry.missionName}</ProjectText>
-            <TaskText>{registry.taskName}</TaskText>
-          </TextDiv>
-        </InfoDiv>
-      </Box>
+        <Box
+          hours={registry.hours}
+          color={registry.taskId ? registry.missionColor : "#EB6D6D"}
+          registry={registry}
+          draggable
+          onDragStart={(e) => handleOnDrag(e)}
+          onClick={() => handleClick()}
+          opacity={registry.isFromTemplate ? 0.5 : 1}
+        >
+          {registry.hours >= 1 ? (
+            <InfoDiv>
+              <Icon
+                color={registry.taskId ? registry.missionColor : "#EB6D6D"}
+              />
+              <TextDiv>
+                <ProjectText>{registry.missionName}</ProjectText>
+                <TaskText>{registry.taskName}</TaskText>
+              </TextDiv>
+            </InfoDiv>
+          ) : null}
+        </Box>
+      </OverlayTrigger>
     </>
   );
 };
@@ -69,7 +88,8 @@ const Box = styled.div`
   margin-left: 6%;
   border-radius: 6px;
   text-align: center;
-  background-color: #ffffff;
+  background-color: ${(props) =>
+    props.registry.hours >= 1 ? "white" : props.color};
   border: 4px solid ${(props) => props.color};
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
   opacity: ${(props) => props.opacity};
@@ -82,10 +102,15 @@ const Box = styled.div`
 const InfoDiv = styled.div`
   margin-top: 4px;
   margin-left: 4px;
+  padding-left: 5px;
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 `;
 
-const TextDiv = styled.div``;
+const TextDiv = styled.div`
+  margin-left: 5px;
+`;
 
 const ProjectText = styled.h3`
   font-family: Roboto;

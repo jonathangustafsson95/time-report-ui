@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   missions: [],
   markedMissions: [],
+  mission: null,
   errorMsg: "",
   error: false,
   isMissionStatusUpdated: false,
@@ -17,7 +18,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         missions: [],
-      }
+      };
 
     // API reducers
     case Types.FETCH_USER_MISSIONS_REQUEST:
@@ -61,26 +62,6 @@ const missionReducer = (state = initialState, action) => {
         loading: false,
         missions: [],
         markedMissions: [],
-        errorMsg: action.payload,
-        error: true,
-      };
-    case Types.FETCH_USER_MARKED_MISSIONS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case Types.FETCH_USER_MARKED_MISSIONS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        markedMissions: action.payload,
-        errorMsg: "",
-        error: false,
-      };
-    case Types.FETCH_USER_MARKED_MISSIONS_FAILURE:
-      return {
-        ...state,
-        loading: false,
         errorMsg: action.payload,
         error: true,
       };
@@ -146,45 +127,67 @@ const missionReducer = (state = initialState, action) => {
         error: true,
       };
     case Types.REMOVE_MISSION_MEMBERSHIP_REQUEST:
-    return{
-      ...state,
-      loading: true,
-    }
+      return {
+        ...state,
+        loading: true,
+      };
     case Types.REMOVE_MISSION_MEMBERSHIP_SUCCESS:
-    return{
-      ...state,
-      loading: false,
-      errorMsg: "",
-      error: false,
-      isMissionStatusUpdated: true,
-    }
+      return {
+        ...state,
+        loading: false,
+        errorMsg: "",
+        error: false,
+        isMissionStatusUpdated: true,
+      };
     case Types.REMOVE_MISSION_MEMBERSHIP_FAILURE:
-    return{
-      ...state,
-      loading: false,
-      errorMsg: action.payload,
-      error: true,
-    }
+      return {
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+      };
     case Types.ADD_MISSION_MEMBERSHIP_REQUEST:
-    return{
-      ...state,
-      loading: true,
-    }
+      return {
+        ...state,
+        loading: true,
+      };
     case Types.ADD_MISSION_MEMBERSHIP_SUCCESS:
-    return{
-      ...state,
-      loading: false,
-      errorMsg: "",
-      error: false,
-      isMissionStatusUpdated: true,
-    }
+      return {
+        ...state,
+        loading: false,
+        errorMsg: "",
+        error: false,
+        isMissionStatusUpdated: true,
+      };
     case Types.ADD_MISSION_MEMBERSHIP_FAILURE:
-    return{
-      ...state,
-      loading: false,
-      errorMsg: action.payload,
-      error: true,
-    }
+      return {
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        error: true,
+      };
+    case Types.FETCH_MISSION_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_MISSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mission: action.payload,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_MISSION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errorMsg: action.payload,
+        mission: null,
+        error: true,
+      };
+
     default:
       return state;
   }

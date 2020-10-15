@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SnackBar from "../Modals/SnackBars/SnackBarComponent";
+import SnackBar from "../SnackBarComponents/SnackBarComponent";
 import { connect } from "react-redux";
 
 const DashBoard = ({ isSuccesfullySaved }) => {

@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Icon = ({ color }) => {
+const Icon = ({ color, size="standard" }) => {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/Svg"
       width="25.061"
       height="26.197"
       viewBox="0 0 25.061 26.197"
+      s={size}
     >
       <g
         id="Group_320"
@@ -83,11 +84,7 @@ const Icon = ({ color }) => {
 };
 
 const Svg = styled.svg`
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 20px;
-  margin-left: 10px;
-  transform: scale(1.6);
+  transform: scale(${props => props.s === "standard" ? 1.0 : 1.6});
 `;
 
 export default Icon;

@@ -2,11 +2,15 @@ import * as Types from "../Types/MissionTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 
+// LOCAL actions
+
 export const resetMissionsFromStore = () => {
   return {
     type: Types.RESET_MISSIONS_FROM_STORE,
   };
 };
+
+// API actions
 
 const fetchUserMissionsRequest = () => {
   return {
@@ -28,11 +32,12 @@ const fetchUserMissionsFailure = (error) => {
   };
 };
 
-export const fetchUserMissions = (token) => {
+export const fetchUserMissions = (token, taskId) => {
+  console.log(taskId);
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
-      url: service.baseUrl + "/mission/UserMissions",
+      url: service.baseUrl + "/mission/UserMissions/" + taskId,
       method: "get",
       headers: { Authorization: "Bearer " + token },
     })
@@ -40,7 +45,94 @@ export const fetchUserMissions = (token) => {
         dispatch(fetchUserMissionsSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(fetchUserMissionsFailure(error));
+        dispatch(fetchUserMissionsFailure(error.message));
+      });
+  };
+};
+
+const fetchMissionDataRequest = () => {
+  return {
+    type: Types.FETCH_MISSION_DATA_REQUEST,
+  };
+};
+
+const fetchMissionDataSuccess = (missions) => {
+  return {
+    type: Types.FETCH_MISSION_DATA_SUCCESS,
+    payload: missions,
+  };
+};
+
+const fetchMissionDataFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSION_DATA_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMissionData = (token) => {
+  return (dispatch) => {
+    dispatch(fetchMissionDataRequest());
+    axios
+      .all([
+        axios({
+          url: service.baseUrl + "/mission/UserMissions/" + 0,
+          method: "get",
+          headers: { Authorization: "Bearer " + token },
+        }),
+        axios({
+          url: service.baseUrl + "/mission/GetFavoriteMissions",
+          method: "get",
+          headers: { Authorization: "Bearer " + token },
+        }),
+      ])
+      .then((response) => {
+        dispatch(fetchMissionDataSuccess(response));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(fetchMissionDataFailure(error.message));
+      });
+  };
+};
+
+const fetchMissionsBySearchStringRequest = () => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
+  };
+};
+
+const fetchMissionsBySearchStringSuccess = (missions) => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_SUCCESS,
+    payload: missions,
+  };
+};
+
+const fetchMissionsBySearchStringFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMissionsBySearchString = (searchString, token) => {
+  return (dispatch) => {
+    dispatch(fetchMissionsBySearchStringRequest());
+    axios({
+      url:
+        service.baseUrl +
+        "/mission/GetAllMissionsBySearchString/" +
+        searchString,
+      method: "get",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        console.log(response.data);
+        dispatch(fetchMissionsBySearchStringSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMissionsBySearchStringFailure(error));
       });
   };
 };
@@ -119,130 +211,6 @@ export const unmarkMission = (favoriteMission, token) => {
   };
 };
 
-const fetchMissionDataRequest = () => {
-  return {
-    type: Types.FETCH_MISSION_DATA_REQUEST,
-  };
-};
-
-const fetchMissionDataSuccess = (missions) => {
-  return {
-    type: Types.FETCH_MISSION_DATA_SUCCESS,
-    payload: missions,
-  };
-};
-
-const fetchMissionDataFailure = (error) => {
-  return {
-    type: Types.FETCH_MISSION_DATA_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchMissionData = (token) => {
-  return (dispatch) => {
-    dispatch(fetchMissionDataRequest());
-    axios
-      .all([
-        axios({
-          url: service.baseUrl + "/mission/UserMissions",
-          method: "get",
-          headers: { Authorization: "Bearer " + token },
-        }),
-        axios({
-          url: service.baseUrl + "/mission/GetFavoriteMissions",
-          method: "get",
-          headers: { Authorization: "Bearer " + token },
-        }),
-      ])
-      .then((response) => {
-        dispatch(fetchMissionDataSuccess(response));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(fetchMissionDataFailure(error.message));
-      });
-  };
-};
-
-const fetchMissionsBySearchStringRequest = () => {
-  return {
-    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
-  };
-};
-
-const fetchMissionsBySearchStringSuccess = (missions) => {
-  return {
-    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_SUCCESS,
-    payload: missions,
-  };
-};
-
-const fetchMissionsBySearchStringFailure = (error) => {
-  return {
-    type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchMissionsBySearchString = (searchString, token) => {
-  return (dispatch) => {
-    dispatch(fetchMissionsBySearchStringRequest());
-    axios({
-      url:
-        service.baseUrl +
-        "/mission/GetAllMissionsBySearchString/" +
-        searchString,
-      method: "get",
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((response) => {
-        console.log(response.data);
-        dispatch(fetchMissionsBySearchStringSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchMissionsBySearchStringFailure(error));
-      });
-  };
-};
-
-const fetchUserMarkedMissionsRequest = () => {
-  return {
-    type: Types.FETCH_USER_MARKED_MISSIONS_REQUEST,
-  };
-};
-
-const fetchUserMarkedMissionsSuccess = (markedMissions) => {
-  return {
-    type: Types.FETCH_USER_MARKED_MISSIONS_SUCCESS,
-    payload: markedMissions,
-  };
-};
-
-const fetchUserMarkedMissionsFailure = (error) => {
-  return {
-    type: Types.FETCH_USER_MARKED_MISSIONS_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchUserMarkedMissions = (token) => {
-  return (dispatch) => {
-    dispatch(fetchUserMarkedMissionsRequest());
-    axios({
-      url: service.baseUrl + "/mission/GetFavoriteMissions",
-      method: "get",
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((response) => {
-        dispatch(fetchUserMarkedMissionsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchUserMarkedMissionsFailure(error.message));
-      });
-  };
-};
-
 const removeMissionMembershipRequest = () => {
   return {
     type: Types.REMOVE_MISSION_MEMBERSHIP_REQUEST,
@@ -315,3 +283,40 @@ export const addMissionMembership = (token, _missionMember) => {
     });
   };
 };
+
+const fetchMissionRequest = () => {
+  return {
+    type: Types.FETCH_MISSION_REQUEST,
+  };
+};
+
+const fetchMissionSuccess = (mission) => {
+  return {
+    type: Types.FETCH_MISSION_SUCCESS,
+    payload: mission
+  };
+};
+
+const fetchMissionFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSION_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMission = (token, missionId) => {
+  return (dispatch) => {
+    dispatch(fetchMissionRequest());
+    axios({
+      url: service.baseUrl + "/mission/SpecificMission/" + missionId,
+      method: "get",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        dispatch(fetchMissionSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMissionFailure(error));
+      });
+  };
+}

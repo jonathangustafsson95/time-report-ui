@@ -16,7 +16,7 @@ const LatestRegistryItemComponent = ({ registry }) => {
       draggable
       onDragStart={(e) => handleOnDrag(e)}
     >
-      <Icon color={registry.missionColor} />
+      <Icon color={registry.missionColor} size="large"/>
       <TextDiv>
         <Project>{registry.missionName}</Project>
         <Mission>{registry.taskName}</Mission>
@@ -28,11 +28,11 @@ const LatestRegistryItemComponent = ({ registry }) => {
 const Box = styled.div`
   display: flex;
   flex-direction: row;
-  text-align: center;
+  align-items: center;
   border-radius: 10px;
   width: 190px;
   height: 65px;
-  padding-left: 10px;
+  padding-left: 20px;
   background: #fff;
   box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.1);
   margin-left: 30px;
@@ -47,6 +47,7 @@ const TextDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 20px;
 `;
 
 const Project = styled.p`

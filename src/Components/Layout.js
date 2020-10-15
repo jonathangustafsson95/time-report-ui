@@ -1,19 +1,14 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import LeftSideBar from "./NavBarComponents/LeftSideBar";
-import TopBar from "./NavBarComponents/TopBar";
-import MainSwitch from "./ServiceComponents/MainSwitch";
+import MainSwitch from "./ServiceComponents/MainSwitchComponent";
 import styled from "styled-components";
-import NewLeftSideBar from "./NavBarComponents/NewLeftSideBar";
 
 const Layout = () => {
   return (
     <BrowserRouter>
-      {/* <TopBar /> */}
-
       <MainView>
-        <NewLeftSideBar />
-        {/* <LeftSideBar /> */}
+        <LeftSideBar />
         <MainSwitch />
         <div></div>
       </MainView>

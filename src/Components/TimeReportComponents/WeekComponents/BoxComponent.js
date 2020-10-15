@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
-import AddRegistryModal from "../../Modals/RegistryModals/AddRegistry/AddRegistryModal";
+import AddRegistryModal from "../../ModalComponents/RegistryComponents/AddRegistryComponents/AddRegistryComponent";
 import {
   addRegistryToStore,
   updateNewRegistryFromStore,
