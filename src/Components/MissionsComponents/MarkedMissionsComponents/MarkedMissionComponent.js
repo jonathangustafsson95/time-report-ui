@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { useHistory } from "react-router-dom";
 import MissionIcon from "../IconComponents/MissionIconComponent";
 
-const MarkedMissionItem = ({ markedMission }) => {
+const MarkedMission = ({ markedMission }) => {
   let history = useHistory();
   return (
     <Box onClick={() => history.push("/missions/" + markedMission.missionId)}>
@@ -13,7 +13,6 @@ const MarkedMissionItem = ({ markedMission }) => {
         <MissionText>{markedMission.missionName}</MissionText>
         <CompanyText>{markedMission.missionCustomerName}</CompanyText>
       </TextDiv>
-
       <Checkbox checked="true" />
     </Box>
   );
@@ -58,4 +57,4 @@ const Box = styled.div`
   }
 `;
 
-export default MarkedMissionItem;
+export default MarkedMission;

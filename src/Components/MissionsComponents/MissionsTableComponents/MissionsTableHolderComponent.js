@@ -128,7 +128,6 @@ const MissionButtonDiv = styled.div`
 const mapStateToProps = (state) => {
   return {
     token: state.authData.user.token,
-    foundMissions: state.missionData.foundMissions,
   };
 };
 

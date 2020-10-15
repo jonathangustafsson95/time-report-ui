@@ -13,8 +13,9 @@ import Alert from "@material-ui/lab/Alert";
 const AddCustomerRegistry = ({
   date,
   onCloseModal,
-  missionData,
   missions,
+  loading,
+  error,
   fetchMissions,
   token,
   addRegistry,
@@ -33,7 +34,7 @@ const AddCustomerRegistry = ({
     if (missions.length > 0) {
       setCurrentMission(missions[0].missionId);
     }
-  }, [missions]);
+  }, []);
 
   const onAddRegistry = () => {
     const mins = parseFloat(minutes) / 60;
@@ -83,9 +84,9 @@ const AddCustomerRegistry = ({
 
   return (
     <Root>
-      {missionData.loading ? (
+      {loading ? (
         <BeatLoader color={"#585656"} />
-      ) : missionData.error ? (
+      ) : error ? (
         <Alert severity="error">
           Could not load missions... Check your connection.
         </Alert>
@@ -143,9 +144,10 @@ const Button = styled.button`
 
 const mapStateToProps = (state) => {
   return {
-    missions: state.missionData.missions,
     token: state.authData.user.token,
-    missionData: state.missionData,
+    missions: state.missionData.missions,
+    loading: state.missionData.loading,
+    error: state.missionData.error,
   };
 };
 

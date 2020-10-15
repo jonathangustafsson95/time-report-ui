@@ -109,10 +109,10 @@ const Button = styled.button`
 
 const mapStateToProps = (state) => {
   return {
-    markedMissions: state.missionData.markedMissions,
-    missions: state.missionData.missions,
     token: state.authData.user.token,
     userId: state.authData.user.userDetails.userId,
+    markedMissions: state.missionData.markedMissions,
+    missions: state.missionData.missions,
   };
 };
 const mapDispatchToProps = (dispatch) => {

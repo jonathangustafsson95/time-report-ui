@@ -1,5 +1,5 @@
 import React from "react";
-import MarkedMissionItem from "./MarkedMissionItemComponent";
+import MarkedMission from "./MarkedMissionComponent";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
@@ -9,7 +9,7 @@ const MarkedMissions = ({ markedMissions }) => {
       <Title>Marked missions</Title>
       <MarkedMissionHolder>
         {markedMissions.map((markedMission) => (
-          <MarkedMissionItem
+          <MarkedMission
             key={markedMission.MissionId}
             markedMission={markedMission}
           />

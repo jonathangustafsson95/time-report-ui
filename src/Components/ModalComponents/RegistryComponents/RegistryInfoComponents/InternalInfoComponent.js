@@ -7,7 +7,6 @@ const InternalInfo = ({ registry, updateRegistry }) => {
   const tmpMinutes = (registry.hours - tmpHour) * 60;
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
-  console.log("Internal info");
 
   const update = () => {
     const updatedReg = JSON.parse(JSON.stringify(registry));

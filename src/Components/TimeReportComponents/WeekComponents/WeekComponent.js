@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import DayBox from "./BoxComponent";
+import DayBox from "./DayBoxComponent";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import {

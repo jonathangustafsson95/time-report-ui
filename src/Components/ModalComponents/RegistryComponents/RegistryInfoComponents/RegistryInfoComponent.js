@@ -71,15 +71,6 @@ const RegistryInfo = ({
   );
 };
 
-// const DeleteBtn = styled.input`
-//   &:hover {
-//     transform: scale(1.07) perspective(1px);
-//   }
-//   &:focus {
-//     outline: 0;
-//   }
-// `;
-
 const Text = styled.h1`
   font-family: Roboto;
   font-weight: normal;
