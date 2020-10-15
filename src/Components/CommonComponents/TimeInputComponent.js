@@ -9,22 +9,33 @@ const TimeInput = ({
   titleContent,
   setIsValid,
 }) => {
-  const validate = (e, type) => {
-    if (type === "hours") {
-      if (e.target.value > 0 && e.target.value < 12) {
-        if (Number.isInteger(e.target.value)) {
-          setIsValid(true);
-          return;
-        }
-      }
-    } else {
-      if (e.target.value > 15 && e.target.value < 60) {
-        setIsValid(true);
-        return;
-      }
+
+  const validate = (e, inputType) => {
+    const value = e.target.value;
+    console.log(value);
+
+    if(inputType === "hours"){
+      setHours(value);
+    }else{
+      setMinutes(value);
     }
-    setIsValid(false);
-  };
+  }
+  // const validate = (e, type) => {
+  //   if (type === "hours") {
+  //     if (e.target.value > 0 && e.target.value < 12) {
+  //       if (Number.isInteger(e.target.value)) {
+  //         setIsValid(true);
+  //         return;
+  //       }
+  //     }
+  //   } else {
+  //     if (e.target.value > 15 && e.target.value < 60) {
+  //       setIsValid(true);
+  //       return;
+  //     }
+  //   }
+  //   setIsValid(false);
+  // };
   return (
     <div>
       <Title>{titleContent}</Title>
@@ -39,7 +50,8 @@ const TimeInput = ({
           type="number"
           id="hours"
           value={hours}
-          onChange={(e) => setHours(e.target.value)}
+          onChange={(e) => validate(e, "hours")}
+          // onChange={(e) => setHours(e.target.value)}
           // onBlur={(e) => validate(e, "hours")}
         />
         <Line></Line>
@@ -47,7 +59,8 @@ const TimeInput = ({
           type="number"
           id="minutes"
           value={minutes}
-          onChange={(e) => setMinutes(e.target.value)}
+          onChange={(e) => validate(e, "minutes")}
+          // onChange={(e) => setMinutes(e.target.value)}
           // onBlur={(e) => validate(e, "minutes")}
         />
       </InputDiv>

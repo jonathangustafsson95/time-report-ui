@@ -57,39 +57,43 @@ const MissionsTable = ({
 
   return (
     <div>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox"></TableCell>
-              <TableCell>Mission Name</TableCell>
-              <TableCell align="right">Customer</TableCell>
-              <TableCell align="right">StartDate</TableCell>
-              <TableCell align="right"></TableCell>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell padding="checkbox"></TableCell>
+            <TableCell>Mission Name</TableCell>
+            <TableCell align="right">Customer</TableCell>
+            <TableCell align="right">StartDate</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {missions.map((mission) => (
+            <TableRow key={mission.missionId}>
+              <TableCell>
+                <Checkbox
+                  onClick={(e) => handleClick(e, mission.missionId)}
+                  checked={checkFavorite({ mission })}
+                ></Checkbox>
+              </TableCell>
+              <TableCell
+                component="th"
+                scope="row"
+                onClick={() => history.push("/missions/" + mission.missionId)}
+              >
+                {mission.missionName}
+              </TableCell>
+              <TableCell align="right">{mission.customer}</TableCell>
+              <TableCell align="right">{mission.startDate}</TableCell>
+              <TableCell align="right">
+                <Button onClick={() => handleMemberStatus(mission)}>
+                  {mission.isMember ? "Leave" : "Join"}
+                </Button>
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {missions.map((mission) => (
-              <TableRow key={mission.missionId}>
-                <TableCell>
-                  <Checkbox
-                    onClick={(e) => handleClick(e, mission.missionId)}
-                    checked={checkFavorite({ mission })}
-                  ></Checkbox>
-                </TableCell>
-                <TableCell component="th" scope="row" onClick={() => history.push("/missions/" + mission.missionId)}>
-                  {mission.missionName}
-                </TableCell>
-                <TableCell align="right">{mission.customer}</TableCell>
-                <TableCell align="right">{mission.startDate}</TableCell>
-                <TableCell align="right">
-                  <Button onClick={() => handleMemberStatus(mission)}>
-                    {mission.isMember ? "Leave" : "Join"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
@@ -104,8 +108,14 @@ const Button = styled.button`
   border-radius: 6px;
   background: #585656;
   border: 2px solid #585656;
+  &:active {
+    outline: none;
+    border: 2px solid #585656;
+  }
+  &:focus {
+    -moz-outline-style: none;
+  }
 `;
-
 
 const mapStateToProps = (state) => {
   return {
