@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Templates from "./MenuItemsComponents/TemplatesComponent";
 import LatestRegistries from "./MenuItemsComponents/LatestRegistriesComponent";
+import { isMobile } from "react-device-detect";
 
 const Menu = () => {
   const [showMenuItems, setShowMenuItems] = useState({
@@ -15,23 +16,31 @@ const Menu = () => {
       [buttonName]: !showMenuItems[buttonName],
     });
   };
+  if (isMobile) {
+    return(
+      <Main>
+        <Button onClick={() => toggleMenuItem("latestReports")}>Latest reports</Button>
+        {showMenuItems.latestReports && <LatestRegistries />}        
+    </Main>    
+    );
+  }
+  else
+    return (
+      <Main>
+        <Button onClick={() => toggleMenuItem("latestReports")}>
+          Latest reports
+        </Button>
+        {showMenuItems.latestReports && <LatestRegistries />}
+        
+        <Button onClick={() => toggleMenuItem("template")}>Template</Button>
+        {showMenuItems.template && <Templates />}
 
-  return (
-    <Main>
-      <Button onClick={() => toggleMenuItem("template")}>Template</Button>
-      {showMenuItems.template && <Templates />}
-
-      <Button onClick={() => toggleMenuItem("latestReports")}>
-        Latest reports
-      </Button>
-      {showMenuItems.latestReports && <LatestRegistries />}
-
-      <Button onClick={() => toggleMenuItem("markedMissions")}>
-        Marked missions
-      </Button>
-      {showMenuItems.markedMissions && <p>markedprojects</p>}
-    </Main>
-  );
+        <Button onClick={() => toggleMenuItem("markedMissions")}>
+          Marked missions
+        </Button>
+        {showMenuItems.markedMissions && <p>markedprojects</p>}
+      </Main>
+    );
 };
 
 const Button = styled.button`
