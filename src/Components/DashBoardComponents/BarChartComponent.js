@@ -11,11 +11,7 @@ import {
   Legend,
 } from "recharts";
 
-const barStyle = {
-  fontFamily: "roboto",
-}
-
-const Statistic = ({ data }) => {
+const BarChartGraph = ({ data }) => {
   return (
     <Main>
       <Title>Hours spended on tasks</Title>
@@ -26,26 +22,31 @@ const Statistic = ({ data }) => {
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         barSize={15}
         strokeOpacity={0.7}
-        style={barStyle}
       >
         <CartesianGrid
           strokeLinecap="3 3"
           strokeOpacity={0.5}
           vertical={false}
         />
-        <XAxis dataKey="taskName" />
+        <XAxis dataKey="month" />
         <YAxis />
         <Tooltip />
         {/* <Legend /> */}
         <Bar
-          dataKey="actualHours"
+          dataKey="customerTime"
           fill="#FF2366"
           background={{ fill: "#eee" }}
         />
-        <Bar dataKey="estimatedHours" fill="#4791FF" />
+        <Bar dataKey="internalTime" fill="#4791FF" />
       </BarChart>
     </Main>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.statisticData.hoursOnCustomersInternal,
+  };
 };
 
 const Title = styled.p`
@@ -53,13 +54,14 @@ const Title = styled.p`
   font-family: Roboto;
   font-weight: normal;
   font-size: 14px;
-  margin-left: 56px;
   margin-bottom: 20px;
   letter-spacing: 0.02em;
   color: #585656;
 `;
 
 const Main = styled.div`
+  text-align: center;
+  height: 430px;
   border-radius: 10px;
   margin-left: 15px;
   background: #fafafa;
@@ -69,10 +71,4 @@ const Main = styled.div`
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.16));
 `;
 
-const mapStateToProps = (state) => {
-  return {
-    data: state.statisticData.taskHours,
-  };
-};
-
-export default connect(mapStateToProps)(Statistic);
+export default connect(mapStateToProps)(BarChartGraph);
