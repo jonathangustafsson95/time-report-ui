@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
 import MissionTable from "../TableComponents/MissionTableComponent";
 import TaskTable from "../TableComponents/TaskTableComponent";
-
+import Alert from "@material-ui/lab/Alert";
 const CustomerInfo = ({
   registry,
   updateRegistry,
@@ -19,6 +19,7 @@ const CustomerInfo = ({
   const tmpMinutes = (registry.hours - tmpHour) * 60;
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
+  const [isValid, setIsValid]=useState(true)
 
   useEffect(() => {
     fetchMissions(token, registry.taskId);
@@ -36,6 +37,10 @@ const CustomerInfo = ({
   }, [missions]);
 
   const update = () => {
+    if (hours === 0 && minutes === 0) {
+      setIsValid(false);
+      return;
+    }
     const updatedReg = JSON.parse(JSON.stringify(registry));
     const mins = parseFloat(minutes) / 60;
     const time = parseFloat(hours) + mins;
@@ -78,6 +83,7 @@ const CustomerInfo = ({
         minutes={minutes}
         titleContent="Change time"
       />
+      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
       <Button onClick={() => update()}>Update</Button>
     </Root>
   );
