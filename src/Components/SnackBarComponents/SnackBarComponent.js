@@ -19,7 +19,7 @@ const SnackBar = ({ show, hide, error=false }) => {
   };
 
   return (
-    <Snackbar open={show} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={show} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>

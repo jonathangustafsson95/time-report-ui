@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Table from "@material-ui/core/Table";
@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
+import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import styled from "styled-components";
 import {
   markMission,
@@ -16,11 +17,14 @@ import {
   removeMissionMembership,
 } from "../../../Redux/Actions/MissionActions";
 
+
+
 const useStyles = makeStyles({
   table: {
     minWidth: 1000,
   },
 });
+
 const MissionsTable = ({
   missions,
   markedMissions,
@@ -33,10 +37,10 @@ const MissionsTable = ({
 }) => {
   let history = useHistory();
   const classes = useStyles();
-
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
+  const[showSnackBar,setShowSnackBar]=useState(false);
   const handleClick = (e, id) => {
     const favoriteMission = {
       UserId: userId,
@@ -53,6 +57,7 @@ const MissionsTable = ({
           UserId: userId,
           MissionId: mission.missionId,
         });
+        setShowSnackBar(true);
   };
 
   return (
@@ -88,6 +93,12 @@ const MissionsTable = ({
               <TableCell align="right">
                 <Button onClick={() => handleMemberStatus(mission)}>
                   {mission.isMember ? "Leave" : "Join"}
+                <SnackBar
+                show={showSnackBar}
+                hide={()=>setShowSnackBar(false)}
+                severity="success"
+                >
+                </SnackBar>
                 </Button>
               </TableCell>
             </TableRow>
