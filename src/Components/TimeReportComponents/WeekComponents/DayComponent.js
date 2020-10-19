@@ -46,13 +46,19 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
     setIsReporting(false);
   }
 
+  const getCurrentDay = () => {
+    let thisDate = new Date(date.valueOf());
+    const currentDate = `${thisDate.getFullYear()}.${thisDate.getMonth() + 1}.${thisDate.getDate()}`;
+    return `${currentDate}`;
+  };
+
   const switchDay = (type) => {
     setDateMobile(type);
   };
 
   return (
     <div>
-        <Text>SOME DATE</Text>
+        <Text>{getCurrentDay()}</Text>
         <Inner>
           <IconButton onClick={() => switchDay("back")}>
             <ArrowBackIosIcon />
@@ -63,7 +69,7 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
               loading={registryData.loading}
               css={override}
               color={"#585656"}
-            ></BeatLoader>
+            />
           </BoxHolder>
           <IconButton onClick={() => switchDay("forward")}>
             <ArrowForwardIosIcon />
