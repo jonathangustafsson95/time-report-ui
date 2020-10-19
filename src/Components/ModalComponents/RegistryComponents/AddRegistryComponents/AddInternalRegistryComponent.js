@@ -4,12 +4,17 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
+import { Alert } from "@material-ui/lab";
 
 const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
-
+  const [isValid, setIsValid] = useState(true);
   const onAddRegistry = () => {
+    if (hours === 0 && minutes === 0) {
+      setIsValid(false);
+      return;
+    }
     const mins = parseFloat(minutes) / 60;
     const time = parseFloat(hours) + mins;
 
@@ -58,7 +63,10 @@ const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
         minutes={minutes}
         titleContent="Add time"
       />
-      <Button onClick={onAddRegistry}>Add</Button>
+      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
+      <Button onClick={onAddRegistry}>
+        Add
+      </Button>
     </Main>
   );
 };

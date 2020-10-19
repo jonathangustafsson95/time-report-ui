@@ -37,6 +37,10 @@ const AddCustomerRegistry = ({
   }, []);
 
   const onAddRegistry = () => {
+    if (hours === 0 && minutes === 0) {
+      setIsValid(false);
+      return;
+    }
     const mins = parseFloat(minutes) / 60;
     const time = parseFloat(hours) + mins;
     const id = uuidv4();
@@ -112,9 +116,11 @@ const AddCustomerRegistry = ({
         hours={hours}
         minutes={minutes}
         titleContent="Add time"
-        setIsValid={(x) => setIsValid(x)}
       />
-      <Button disabled={!isValid} onClick={onAddRegistry}>Add</Button>
+      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
+      <Button disabled={!isValid} onClick={onAddRegistry}>
+        Add
+      </Button>
     </Root>
   );
 };
@@ -153,7 +159,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissions: (token, taskId) => dispatch(fetchUserMissions(token, taskId)),
+    fetchMissions: (token, taskId) =>
+      dispatch(fetchUserMissions(token, taskId)),
     addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
   };
 };
