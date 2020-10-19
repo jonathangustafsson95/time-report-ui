@@ -97,14 +97,19 @@ const fetchTimeReportDayDataRequest = () => {
 };
 
 const fetchTimeReportDayDataSuccess = (timeReportData) => {
-  return {
+        console.log("doodie scuccess");
+        console.log(timeReportData);
+        return {
     type: Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS,
     payload: timeReportData,
   };
 };
 
 const fetchTimeReportDayDataFailure = (error) => {
-  return {
+        console.log("doodie failure");
+        console.log(error);
+
+        return {
     type: Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE,
     payload: error,
   };
@@ -136,6 +141,7 @@ export const fetchTimeReportDayData = (token, date) => {
         dispatch(fetchTimeReportDayDataSuccess(response));
       })
       .catch((error) => {
+        console.log(error);
         dispatch(fetchTimeReportDayDataFailure(error.message));
       });
   };

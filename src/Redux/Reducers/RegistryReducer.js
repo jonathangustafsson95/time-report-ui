@@ -158,7 +158,7 @@ const registryReducer = (state = initialState, action) => {
           loading: true,
         };
       case Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS:
-        console.log(action);
+        console.log(action)
         return {
           ...state,
           loading: false,
