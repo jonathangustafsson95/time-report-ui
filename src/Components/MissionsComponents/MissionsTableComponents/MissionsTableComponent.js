@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
 import MissionAlertDialog from "./MissionAlertDialog";
+import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import styled from "styled-components";
 import {
   markMission,
@@ -17,11 +18,14 @@ import {
   removeMissionMembership,
 } from "../../../Redux/Actions/MissionActions";
 
+
+
 const useStyles = makeStyles({
   table: {
     minWidth: 1000,
   },
 });
+
 const MissionsTable = ({
   missions,
   markedMissions,
@@ -42,6 +46,7 @@ const MissionsTable = ({
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
+  const[showSnackBar,setShowSnackBar]=useState(false);
   const handleClick = (e, id) => {
     const favoriteMission = {
       UserId: userId,
@@ -59,6 +64,7 @@ const MissionsTable = ({
           UserId: userId,
           MissionId: mission.missionId,
         });
+        setShowSnackBar(true);
   };
 
 
@@ -97,6 +103,12 @@ const MissionsTable = ({
               <TableCell align="right">
                 <Button onClick={() => handleMemberStatus(mission)}>
                   {mission.isMember ? "Leave" : "Join"}
+                <SnackBar
+                show={showSnackBar}
+                hide={()=>setShowSnackBar(false)}
+                severity="success"
+                >
+                </SnackBar>
                 </Button>
               </TableCell>
             </TableRow>

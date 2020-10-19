@@ -1,22 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { BeatLoader } from "react-spinners";
 import { connect } from "react-redux";
 import { fetchMission } from "../../Redux/Actions/MissionActions";
 import { IconButton } from "@material-ui/core";
+import { css } from "@emotion/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Statistic from "./StatisticComponent";
 import MissionMenu from "./MissionMenuComponents/MissionMenuComponent";
+import { fetchTaskStats } from "../../Redux/Actions/StatisticActions";
+import SnackBar from "../SnackBarComponents/SnackBarComponent";
 
-const Mission = ({ mission, token, fetchMission }) => {
+const override = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+`;
+
+const Mission = ({
+  mission,
+  token,
+  fetchMission,
+  fetchStats,
+  missionData,
+  statisticData,
+}) => {
   const { missionId } = useParams();
+  const [showSnackBar, setShowSnackBar] = useState(true);
+
   let history = useHistory();
   useEffect(() => {
     fetchMission(token, missionId);
-  }, [fetchMission, token, missionId]);
+    fetchStats(token, missionId);
+  }, [fetchMission, token, missionId, fetchTaskStats]);
 
   if (!mission) {
-    return null;
+    return (
+      <Root>
+        <BeatLoader
+          loading={missionData.loading}
+          css={override}
+          color={"#585656"}
+        ></BeatLoader>
+        {missionData.error ? (
+          <SnackBar
+            show={showSnackBar}
+            hide={() => setShowSnackBar(false)}
+            error={true}
+          />
+        ) : null}
+      </Root>
+    );
   } else {
     return (
       <Root>
@@ -119,6 +156,8 @@ const mapStateToProps = (state) => {
   return {
     mission: state.missionData.mission,
     token: state.authData.user.token,
+    missionData: state.missionData,
+    statisticData: state.statisticData,
   };
 };
 
@@ -126,6 +165,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMission: (token, missionId) =>
       dispatch(fetchMission(token, missionId)),
+    fetchStats: (token, missionId) =>
+      dispatch(fetchTaskStats(token, missionId)),
   };
 };
 

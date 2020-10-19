@@ -5,12 +5,14 @@ import registryReducer from "./Reducers/RegistryReducer";
 import authReducer from "./Reducers/AuthReducer";
 import missionReducer from "./Reducers/MissionReducer";
 import settingsReducer from "./Reducers/SettingsReducer";
+import statisticReducer from "./Reducers/StatisticReducer"
 
 const rootReducer = combineReducers({
   registryData: registryReducer,
   authData: authReducer,
   missionData: missionReducer,
   settings: settingsReducer,
+  statisticData: statisticReducer,
 });
 
 const store = createStore(
