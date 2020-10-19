@@ -20,7 +20,16 @@ const override = css`
   margin: auto;
 `;
 
-const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySaved,setDateMobile,date,}) => {
+
+
+const Day = ({fetchData,
+  registryData,
+  authData,
+  saveChanges,
+  resetIsSuccesfullySaved,
+  setDateMobile,
+  date,
+}) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   const [isReporting, setIsReporting] = useState(false);
 
@@ -52,6 +61,13 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
     return `${currentDate}`;
   };
 
+  const getDayNumber = () => {
+    const options = { weekday: 'long'};
+    const event = new Date(getCurrentDay());
+    console.log(event.toLocaleDateString(undefined, options));
+    return event.toLocaleDateString(undefined, options);
+  }
+
   const switchDay = (type) => {
     setDateMobile(type);
   };
@@ -63,8 +79,8 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
           <IconButton onClick={() => switchDay("back")}>
             <ArrowBackIosIcon />
           </IconButton>
-          <BoxHolder>
-            <DayBox day="TODAYS DATE" dayConst={1}></DayBox>
+          <BoxHolder >
+            <DayBox dayConst={getDayNumber()}/>
             <BeatLoader
               loading={registryData.loading}
               css={override}
@@ -113,7 +129,7 @@ const Button = styled.button`
 `;
 
 const BoxHolder = styled.div`
-
+  
 `;
 
 const Text = styled.p`

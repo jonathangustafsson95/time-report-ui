@@ -1,32 +1,26 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import LeftSideBar from "./NavBarComponents/LeftSideBar";
 import MobileMainSwitch from "./ServiceComponents/MobileMainSwitchComponent";
-import styled from "styled-components";
-
-//var MediaQuery = require('react-responsive');
-
-
-
+import Navbar from './NavBarComponents/MobileNavBar/Navbar'
+import DropdownMenu from './NavBarComponents/MobileNavBar/DropdownMenu'
+import './NavBarComponents/MobileNavBar/index.css'
 
 const MobileLayout = () => {
+
   return (
     <BrowserRouter>
-      <MainView>
-        <LeftSideBar />
-        <MobileMainSwitch />
-        <div></div>
-      </MainView>
-    </BrowserRouter>
-  );
-};
+        <div style={{height: '100%'}}>
+    
+          <Navbar>
+            <DropdownMenu />
+          </Navbar>
 
-const MainView = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  margin-top: 60px;
-`;
+          <main style={{ marginTop: '64px' }}>
+            <MobileMainSwitch />    
+          </main>
+        </div>
+    </BrowserRouter>
+  )
+};
 
 export default MobileLayout;

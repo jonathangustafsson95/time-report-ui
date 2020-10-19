@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { isMobile } from "react-device-detect";
 
 function App({ authData }) {
+
   if (!authData.user) {
     return (
       <div>
@@ -16,10 +17,7 @@ function App({ authData }) {
   else {
     if (isMobile) {
       return (
-        <div>
-          <h1>Det här skrivs ut på mobilversionen!</h1>
-          <MobileLayout />
-        </div>
+        <MobileLayout />
       );
     }
     return (
