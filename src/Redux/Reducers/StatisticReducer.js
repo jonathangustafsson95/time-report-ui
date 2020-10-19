@@ -1,8 +1,8 @@
-import * as Types from "../Types/SettingsType";
+import * as Types from "../Types/StatisticTypes";
 
 const initialState = {
   loading: false,
-  taskHours: [
+  taskStats: [
     {
       taskName: "task1",
       taskId: 1,
@@ -85,6 +85,27 @@ const initialState = {
 
 const statisticReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Types.FETCH_TASK_STATS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_TASK_STATS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        taskStats: action.payload,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_TASK_STATS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        taskStats: [],
+        errorMsg: action.payload,
+        error: true,
+      };
     default:
       return state;
   }

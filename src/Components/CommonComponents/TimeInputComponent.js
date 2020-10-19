@@ -1,31 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import Slider from "@material-ui/core/Slider";
-const TimeInput = ({
-  setHours,
-  hours,
-  minutes,
-  setMinutes,
-  titleContent,
-}) => {
+import { makeStyles } from "@material-ui/core/styles";
 
-  const handleOnChange = (e,value, inputType) => {
-    console.log(value)
-    inputType === "hours"
-      ? setHours(value)
-      : setMinutes(value);
+const useStyles = makeStyles({
+  root: {
+    color: "#FF2366",
+  },
+});
+
+const TimeInput = ({ setHours, hours, minutes, setMinutes, titleContent }) => {
+  const classes = useStyles();
+  const handleOnChange = (e, value, inputType) => {
+    console.log(value);
+    inputType === "hours" ? setHours(value) : setMinutes(value);
   };
 
   return (
     <Root>
       <Title>{titleContent}</Title>
-
       <TimeDiv>
         <Text>Pick hour</Text>
         <Slider
+          className={classes.root}
           defaultValue={hours}
           aria-labelledby="discrete-slider-small-steps"
-          onChange={(e,value) => handleOnChange(e,value, "hours")}
+          onChange={(e, value) => handleOnChange(e, value, "hours")}
           step={1}
           marks
           min={0}
@@ -34,8 +34,9 @@ const TimeInput = ({
         />
         <Text>Pick minute</Text>
         <Slider
+          className={classes.root}
           defaultValue={minutes}
-          onChange={(e,value) => handleOnChange(e, value,"minutes")}
+          onChange={(e, value) => handleOnChange(e, value, "minutes")}
           aria-labelledby="discrete-slider-small-steps"
           step={15}
           marks
@@ -47,6 +48,7 @@ const TimeInput = ({
     </Root>
   );
 };
+
 const TimeDiv = styled.div`
   width: 200px;
   display: flex;

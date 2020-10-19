@@ -71,7 +71,7 @@ const Main = styled.div`
 
 const mapStateToProps = (state) => {
   return {
-    data: state.statisticData.taskHours,
+    data: state.statisticData.taskStats,
   };
 };
 
