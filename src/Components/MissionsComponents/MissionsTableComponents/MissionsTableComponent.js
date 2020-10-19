@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Table from "@material-ui/core/Table";
@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
+import MissionAlertDialog from "./MissionAlertDialog";
 import styled from "styled-components";
 import {
   markMission,
@@ -33,7 +34,11 @@ const MissionsTable = ({
 }) => {
   let history = useHistory();
   const classes = useStyles();
-
+  const[open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    //removeMembership(token, userId, mission.missionId);
+    setOpen(true);
+}
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
@@ -47,13 +52,17 @@ const MissionsTable = ({
       : unmarkMission(favoriteMission, token);
   };
   const handleMemberStatus = (mission) => {
+    console.log(mission)
     mission.isMember
-      ? removeMembership(token, userId, mission.missionId)
+      ? handleClickOpen()
       : addMembership(token, {
           UserId: userId,
           MissionId: mission.missionId,
         });
   };
+
+
+
 
   return (
     <div>
@@ -94,6 +103,7 @@ const MissionsTable = ({
           ))}
         </TableBody>
       </Table>
+      <MissionAlertDialog setOpen={setOpen} missionId = {1} open = {open}/> 
     </div>
   );
 };
