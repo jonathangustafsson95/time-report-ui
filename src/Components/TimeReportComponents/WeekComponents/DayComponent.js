@@ -52,8 +52,7 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
 
   return (
     <div>
-      <BoxDiv>
-        <Text>SOME FUCKING DATE</Text>
+        <Text>SOME DATE</Text>
         <Inner>
           <IconButton onClick={() => switchDay("back")}>
             <ArrowBackIosIcon />
@@ -70,7 +69,6 @@ const Day = ({fetchData,registryData,authData,saveChanges,resetIsSuccesfullySave
             <ArrowForwardIosIcon />
           </IconButton>
         </Inner>
-      </BoxDiv>
       <Button onClick={() => onReportRegistries(authData.user.token)}>
         Save Changes
       </Button>
@@ -99,28 +97,17 @@ const Button = styled.button`
   font-weight: normal;
   font-size: 14px;
   color: #fff;
-  margin-left: 40%;
-  margin-right: 40%;
-  width: 189px;
+  margin-left: 15%;
+  margin-right: 15%;
+  width: 190px;
   height: 40px;
   border-radius: 8px;
   background: #585656;
   border: 2px solid #585656;
 `;
 
-const BoxDiv = styled.div`
-  border-radius: 8px;
-  background: #fff;
-  filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
-`;
-
 const BoxHolder = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 10px;
-  margin-left: 30px;
-  margin-right: 30px;
-  //margin-bottom: 50px;
+
 `;
 
 const Text = styled.p`
