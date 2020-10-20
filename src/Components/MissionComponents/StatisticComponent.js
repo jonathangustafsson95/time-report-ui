@@ -36,7 +36,7 @@ const Statistic = ({ data }) => {
         <XAxis dataKey="taskName" />
         <YAxis />
         <Tooltip />
-        {/* <Legend /> */}
+        <Legend />
         <Bar
           dataKey="actualHours"
           fill="#FF2366"

@@ -67,7 +67,7 @@ const TaskTable = ({
       setRows(rows);
       setSelectedStatus(selectedStatus);
     }
-  }, [missionId, missions]);
+  }, [missionId, missions, currentTask, info, setCurrentTask]);
 
   const classes = useStyles();
 

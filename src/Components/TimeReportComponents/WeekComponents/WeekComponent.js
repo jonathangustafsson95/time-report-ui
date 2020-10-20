@@ -39,7 +39,7 @@ const Week = ({
   useEffect(() => {
     resetIsSuccesfullySaved();
     fetchData(authData.user.token, date);
-  }, [fetchData, authData.user.token, date]);
+  }, [fetchData, authData.user.token, date, resetIsSuccesfullySaved]);
 
   const onReportRegistries = (token) => {
     saveChanges(
