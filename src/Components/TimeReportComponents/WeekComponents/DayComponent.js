@@ -5,11 +5,11 @@ import DayBox from "./DayBoxComponent";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import {
-  fetchTimeReportData,
+  fetchTimeReportDayData,
   resetIsSuccesfullySaved,
   saveChanges,
 } from "../../../Redux/Actions/RegistryActions";
-import { setDate } from "../../../Redux/Actions/SettingsActions";
+import { setDateMobile } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -24,13 +24,13 @@ const override = css`
   margin: auto;
 `;
 
-const Week = ({
+const Day = ({
   fetchData,
   registryData,
   authData,
   saveChanges,
   resetIsSuccesfullySaved,
-  setDate,
+  setDateMobile,
   date,
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
@@ -58,51 +58,42 @@ const Week = ({
     setIsReporting(false);
   }
 
-  const getMonAndSun = () => {
-    let dM = new Date(date.valueOf());
-    let dS = new Date(date.valueOf());
-
-    const mon = dM.getDay();
-    const diff = dM.getDate() - mon + (mon === 0 ? -6 : 1);
-    dM.setDate(diff);
-    dS.setDate(dS.getDate() - mon + 7);
-    const monday = `${dM.getFullYear()}.${dM.getMonth() + 1}.${dM.getDate()}`;
-    const sunday = `${dS.getFullYear()}.${dS.getMonth() + 1}.${dS.getDate()}`;
-
-    return `${monday} - ${sunday}`;
+  const getCurrentDay = () => {
+    let thisDate = new Date(date.valueOf());
+    const currentDate = `${thisDate.getFullYear()}.${
+      thisDate.getMonth() + 1
+    }.${thisDate.getDate()}`;
+    return `${currentDate}`;
   };
 
-  const switchWeek = (e, type) => {
-    setDate(type);
+  const getDayNumber = () => {
+    let thisDate = new Date(date.valueOf());
+    return thisDate.getDay();
+  };
+
+  const switchDay = (type) => {
+    setDateMobile(type);
   };
 
   return (
     <div>
-      <BoxDiv>
-        <Text>{getMonAndSun()}</Text>
-        <Inner>
-          <IconButton onClick={(e) => switchWeek(e, "back")}>
-            <ArrowBackIosIcon />
-          </IconButton>
-          <BoxHolder>
-            <DayBox day="Mon" dayConst={1}></DayBox>
-            <DayBox day="Tue" dayConst={2}></DayBox>
-            <DayBox day="Wed" dayConst={3}></DayBox>
-            <DayBox day="Thu" dayConst={4}></DayBox>
-            <DayBox day="Fri" dayConst={5}></DayBox>
-            <DayBox day="Sat" dayConst={6}></DayBox>
-            <DayBox day="Sun" dayConst={0}></DayBox>
-            <BeatLoader
-              loading={registryData.loading}
-              css={override}
-              color={"#585656"}
-            ></BeatLoader>
-          </BoxHolder>
-          <IconButton onClick={(e) => switchWeek(e, "forward")}>
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </Inner>
-      </BoxDiv>
+      <Text>{getCurrentDay()}</Text>
+      <Inner>
+        <IconButton onClick={() => switchDay("back")}>
+          <ArrowBackIosIcon />
+        </IconButton>
+        <BoxHolder>
+          <DayBox dayConst={getDayNumber()} />
+          <BeatLoader
+            loading={registryData.loading}
+            css={override}
+            color={"#585656"}
+          />
+        </BoxHolder>
+        <IconButton onClick={() => switchDay("forward")}>
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Inner>
       <Button onClick={() => onReportRegistries(authData.user.token)}>
         Save Changes
       </Button>
@@ -131,35 +122,16 @@ const Button = styled.button`
   font-weight: normal;
   font-size: 14px;
   color: #fff;
-  margin-left: 40%;
-  margin-right: 40%;
-  width: 189px;
+  margin-left: 15%;
+  margin-right: 15%;
+  width: 190px;
   height: 40px;
   border-radius: 8px;
   background: #585656;
   border: 2px solid #585656;
 `;
 
-const BoxDiv = styled.div`
-  border-radius: 8px;
-  background: #fff;
-  // @media (min-width: 2000px) {
-  //   transform: scale(1.2);
-  //   margin-top: 100px;
-  //   margin-bottom: 100px;
-  // }
-  margin-bottom: 30px;
-  filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
-`;
-
-const BoxHolder = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 10px;
-  margin-left: 30px;
-  margin-right: 30px;
-  //margin-bottom: 50px;
-`;
+const BoxHolder = styled.div``;
 
 const Text = styled.p`
   margin: 0;
@@ -182,12 +154,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (token, date) => dispatch(fetchTimeReportData(token, date)),
+    fetchData: (token, date) => dispatch(fetchTimeReportDayData(token, date)),
     saveChanges: (registriesToReport, registriesToDelete, token) =>
       dispatch(saveChanges(registriesToReport, registriesToDelete, token)),
     resetIsSuccesfullySaved: () => dispatch(resetIsSuccesfullySaved()),
-    setDate: (type) => dispatch(setDate(type)),
+    setDateMobile: (type) => dispatch(setDateMobile(type)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Week);
+export default connect(mapStateToProps, mapDispatchToProps)(Day);

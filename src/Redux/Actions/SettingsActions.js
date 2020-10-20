@@ -6,3 +6,10 @@ export const setDate = (type) => {
         payload: type,
     }
 }
+
+export const setDateMobile = (type) => {
+    return {
+        type: Types.SET_DATE_MOBILE,
+        payload: type,
+    }
+}

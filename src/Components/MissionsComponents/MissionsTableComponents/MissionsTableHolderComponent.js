@@ -8,6 +8,7 @@ import {
   fetchMissionsBySearchString,
   resetMissionsFromStore,
   fetchUserMissions,
+  filterMissionsBySearchstring,
 } from "../../../Redux/Actions/MissionActions";
 import { TextField } from "@material-ui/core";
 
@@ -16,6 +17,7 @@ const MissionsTableHolder = ({
   fetchBySearch,
   resetMissions,
   fetchUserMissions,
+  filterMissions
 }) => {
   const [tableType, setTableType] = useState({
     yourProjects: true,
@@ -25,12 +27,13 @@ const MissionsTableHolder = ({
   const [searchString, setSearchString] = useState("");
 
   const handleClick = (type) => {
+    type === "yourProjects"
+      ? setTableType({ yourProjects: true, allProjects: false })
+      : setTableType({ yourProjects: false, allProjects: true });
     resetMissions();
-    type === "yourProjects" && fetchUserMissions(token, 0);
-
-    setTableType({
-      [type]: !tableType[type],
-    });
+    type === "yourProjects"
+      ? fetchUserMissions(token, 0)
+      : searchString !== "" && fetchBySearch(searchString, token);
   };
 
   const handleOnValueChange = (e) => {
@@ -39,16 +42,27 @@ const MissionsTableHolder = ({
 
   const handleSearch = () => {
     tableType.allProjects && fetchBySearch(searchString, token);
+    if(tableType.yourProjects){
+      filterMissions(searchString);
+    }
   };
 
   return (
     <div>
       <MenuSwitch>
-        <Button onClick={() => handleClick("yourProjects")} act={tableType.yourProjects}>
+        <Button
+          onClick={() => handleClick("yourProjects")}
+          act={tableType.yourProjects}
+        >
           Your missions
         </Button>
         <Line />
-        <Button onClick={() => handleClick("allProjects")} act={tableType.allProjects}>All missions</Button>
+        <Button
+          onClick={() => handleClick("allProjects")}
+          act={tableType.allProjects}
+        >
+          All missions
+        </Button>
       </MenuSwitch>
       <TableDiv>
         <MissionButtonDiv>
@@ -64,9 +78,9 @@ const MissionsTableHolder = ({
         </MissionButtonDiv>
 
         {tableType.yourProjects ? (
-          <MissionsTable type="userProjects" />
+          <MissionsTable tableType="yourProjects" />
         ) : (
-          <MissionsTable type="allProjects" />
+          <MissionsTable tableType="allProjects" />
         )}
       </TableDiv>
     </div>
@@ -92,7 +106,7 @@ const Button = styled.button`
   letter-spacing: 0.08em;
   color: #585656;
   border: none;
-  opacity: ${props => props.act ? 1 : 0.6};
+  opacity: ${(props) => (props.act ? 1 : 0.6)};
   &:hover {
     color: #2b2a2a;
   }
@@ -136,8 +150,13 @@ const mapDispatchToProps = (dispatch) => {
     fetchBySearch: (searchString, token) =>
       dispatch(fetchMissionsBySearchString(searchString, token)),
     resetMissions: () => dispatch(resetMissionsFromStore()),
-    fetchUserMissions: (token, taskId) => dispatch(fetchUserMissions(token, taskId)),
+    fetchUserMissions: (token, taskId) =>
+      dispatch(fetchUserMissions(token, taskId)),
+      filterMissions: (searchValue) => dispatch(filterMissionsBySearchstring(searchValue)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MissionsTableHolder);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MissionsTableHolder);

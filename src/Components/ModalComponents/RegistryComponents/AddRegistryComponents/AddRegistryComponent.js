@@ -13,9 +13,12 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
   });
 
   const toggleButton = (buttonName) => {
-    setRegistryType({
-      [buttonName]: !registryType[buttonName],
-    });
+    buttonName === "internal"
+      ? setRegistryType({ internal: true, customer: false })
+      : setRegistryType({ internal: false, customer: true });
+    // setRegistryType({
+    //   [buttonName]: !registryType[buttonName],
+    // });
   };
 
   return (

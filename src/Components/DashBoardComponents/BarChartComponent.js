@@ -31,7 +31,7 @@ const BarChartGraph = ({ data }) => {
         <XAxis dataKey="month" />
         <YAxis />
         <Tooltip />
-        {/* <Legend /> */}
+        <Legend />
         <Bar
           dataKey="customerTime"
           fill="#FF2366"

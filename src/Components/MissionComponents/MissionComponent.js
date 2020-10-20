@@ -35,7 +35,7 @@ const Mission = ({
   useEffect(() => {
     fetchMission(token, missionId);
     fetchStats(token, missionId);
-  }, [fetchMission, token, missionId, fetchTaskStats]);
+  }, [fetchMission, token, missionId, fetchStats]);
 
   if (!mission) {
     return (

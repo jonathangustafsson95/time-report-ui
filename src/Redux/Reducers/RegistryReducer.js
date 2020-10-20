@@ -65,8 +65,6 @@ const registryReducer = (state = initialState, action) => {
     case Types.UPDATE_NEW_REGISTRY_FROM_STORE:
       const updatedReg = action.payload[0];
       const regToReport = action.payload[1];
-      console.log(state.registriesByWeek);
-      console.log(updatedReg);
       return {
         ...state,
         registriesByWeek: state.registriesByWeek.map((registry) =>
@@ -152,6 +150,29 @@ const registryReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          registriesByWeek: action.payload[0].data,
+          latestRegistries: action.payload[1].data,
+          errorMsg: "",
+          error: false,
+        };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          registriesByWeek: [],
+          latestRegistries: [],
+          errorMsg: action.payload,
+          error: true,
+        };
       
     case Types.SAVE_CHANGES_REQUEST:
       return {
@@ -176,7 +197,6 @@ const registryReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
-
     default:
       return state;
   }

@@ -23,7 +23,7 @@ const CustomerInfo = ({
 
   useEffect(() => {
     fetchMissions(token, registry.taskId);
-  }, []);
+  }, [token, registry.taskId, fetchMissions]);
 
   useEffect(() => {
     if (missions.length > 0) {
@@ -32,9 +32,8 @@ const CustomerInfo = ({
           mission.tasks.some((task) => task.taskId === currentTask) === true
       );
       mission && setCurrentMission(mission.missionId);
-      
     }
-  }, [missions]);
+  }, [missions, currentTask]);
 
   const update = () => {
     if (hours === 0 && minutes === 0) {

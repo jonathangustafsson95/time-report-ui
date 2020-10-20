@@ -34,7 +34,7 @@ const AddCustomerRegistry = ({
     if (missions.length > 0) {
       setCurrentMission(missions[0].missionId);
     }
-  }, []);
+  }, [missions]);
 
   const onAddRegistry = () => {
     if (hours === 0 && minutes === 0) {
