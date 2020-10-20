@@ -17,7 +17,6 @@ const AddCustomerRegistry = ({
   loading,
   error,
   fetchMissions,
-  token,
   addRegistry,
 }) => {
   const [currentMission, setCurrentMission] = useState(null);
@@ -27,8 +26,8 @@ const AddCustomerRegistry = ({
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    fetchMissions(token, 0);
-  }, [fetchMissions, token]);
+    fetchMissions(0);
+  }, [fetchMissions]);
 
   useEffect(() => {
     if (missions.length > 0) {
@@ -150,7 +149,6 @@ const Button = styled.button`
 
 const mapStateToProps = (state) => {
   return {
-    token: state.authData.user.token,
     missions: state.missionData.missions,
     loading: state.missionData.loading,
     error: state.missionData.error,
@@ -159,8 +157,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissions: (token, taskId) =>
-      dispatch(fetchUserMissions(token, taskId)),
+    fetchMissions: (taskId) =>
+      dispatch(fetchUserMissions(taskId)),
     addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
   };
 };

@@ -16,9 +16,6 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
     buttonName === "internal"
       ? setRegistryType({ internal: true, customer: false })
       : setRegistryType({ internal: false, customer: true });
-    // setRegistryType({
-    //   [buttonName]: !registryType[buttonName],
-    // });
   };
 
   return (

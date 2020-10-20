@@ -48,6 +48,7 @@ const fetchUserMissionsFailure = (error) => {
 };
 
 export const fetchUserMissions = (taskId) => {
+  console.log(taskId);
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
@@ -59,6 +60,42 @@ export const fetchUserMissions = (taskId) => {
       })
       .catch((error) => {
         dispatch(fetchUserMissionsFailure(error.message));
+      });
+  };
+};
+
+const fetchMissionRequest = () => {
+  return {
+    type: Types.FETCH_MISSION_REQUEST,
+  };
+};
+
+const fetchMissionSuccess = (mission) => {
+  return {
+    type: Types.FETCH_MISSION_SUCCESS,
+    payload: mission,
+  };
+};
+
+const fetchMissionFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSION_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMission = (missionId) => {
+  return (dispatch) => {
+    dispatch(fetchMissionRequest());
+    axios({
+      url: service.baseUrl + "/mission/SpecificMission/" + missionId,
+      method: "get",
+    })
+      .then((response) => {
+        dispatch(fetchMissionSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMissionFailure(error));
       });
   };
 };
@@ -309,42 +346,6 @@ export const addMissionMembership = (_missionMember) => {
       })
       .catch((error) => {
         dispatch(addMissionMembershipFailure(error.message));
-      });
-  };
-};
-
-const fetchMissionRequest = () => {
-  return {
-    type: Types.FETCH_MISSION_REQUEST,
-  };
-};
-
-const fetchMissionSuccess = (mission) => {
-  return {
-    type: Types.FETCH_MISSION_SUCCESS,
-    payload: mission,
-  };
-};
-
-const fetchMissionFailure = (error) => {
-  return {
-    type: Types.FETCH_MISSION_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchMission = (missionId) => {
-  return (dispatch) => {
-    dispatch(fetchMissionRequest());
-    axios({
-      url: service.baseUrl + "/mission/SpecificMission/" + missionId,
-      method: "get",
-    })
-      .then((response) => {
-        dispatch(fetchMissionSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchMissionFailure(error));
       });
   };
 };
