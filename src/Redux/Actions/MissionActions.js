@@ -131,7 +131,7 @@ export const fetchMissionData = (searchString, type) => {
     const allMissionConfig = {
       url:
         service.baseUrl +
-        "/mission/GetAllMissionsBySearchString/" +
+        "/mission/SearchMission/" +
         searchString,
       method: "get",
     };
@@ -146,7 +146,7 @@ export const fetchMissionData = (searchString, type) => {
             : userMissioConfig
         ),
         axios({
-          url: service.baseUrl + "/mission/GetFavoriteMissions",
+          url: service.baseUrl + "/mission/FavoriteMissions",
           method: "get",
         }),
       ])
@@ -186,7 +186,7 @@ export const fetchMissionsBySearchString = (searchString) => {
     axios({ 
       url:
         service.baseUrl +
-        "/mission/GetAllMissionsBySearchString/" +
+        "/mission/SearchMission/" +
         searchString,
       method: "get",
     })
@@ -224,7 +224,7 @@ export const markMission = (favoriteMission) => {
   return (dispatch) => {
     dispatch(markMissionRequest());
     axios({
-      url: service.baseUrl + "/mission/AddFavoriteMission",
+      url: service.baseUrl + "/mission/FavoriteMission",
       method: "post",
       data: favoriteMission
     })
@@ -298,7 +298,7 @@ export const removeMissionMembership = (userId, missionId) => {
     axios({
       url:
         service.baseUrl +
-        "/mission/DeleteMissionMember/" +
+        "/mission/MissionMember/" +
         userId +
         "/" +
         missionId,
@@ -336,7 +336,7 @@ export const addMissionMembership = (_missionMember) => {
   return (dispatch) => {
     dispatch(addMissionMembershipRequest());
     axios({
-      url: service.baseUrl + "/mission/AddMissionMember",
+      url: service.baseUrl + "/mission/MissionMember",
       method: "post",
       data: _missionMember,
     })

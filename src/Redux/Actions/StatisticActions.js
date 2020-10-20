@@ -29,7 +29,7 @@ export const fetchTaskStats = (missionId) => {
   return (dispatch) => {
     dispatch(fetchTaskStatsRequest());
     axios({
-      url: service.baseUrl + "/statistics/GetTaskStats/" + missionId,
+      url: service.baseUrl + "/statistics/TaskStats/" + missionId,
       method: "get",
     })
       .then((response) => {
