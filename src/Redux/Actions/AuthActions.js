@@ -27,10 +27,11 @@ export const authorize = (userData) => {
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: "Bengt", password: "bengt123" },
+      data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userDetails", JSON.stringify(response.data.userDetails));
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
@@ -39,8 +40,17 @@ export const authorize = (userData) => {
   };
 };
 
+export const reAuthorize = (localStorageData) => {
+
+  return (dispatch) => {
+    console.log(localStorageData)
+    dispatch(authorizeSuccess(localStorageData));
+  }
+}
+
 export const unAuthorize = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("token")
+  localStorage.removeItem("userDetails")
   return {
     type: Types.UN_AUTHORIZATION,
   };
