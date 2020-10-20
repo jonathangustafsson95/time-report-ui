@@ -1,7 +1,7 @@
 import * as Types from "../Types/MissionTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
-import {unAuthorize} from './AuthActions'
+import { unAuthorize } from "./AuthActions";
 
 // LOCAL actions
 
@@ -15,15 +15,15 @@ export const filterMissionsBySearchstring = (searchString) => {
   return {
     type: Types.FILTER_MISSIONS_BY_SEARCHSTRING,
     payload: searchString,
-  }
-}
+  };
+};
 
 export const changeCurrentTableType = (type) => {
   return {
     type: Types.CHANGE_CURRENT_TABLE_TYPE,
     payload: type,
-  }
-}
+  };
+};
 
 // API actions
 
@@ -127,15 +127,10 @@ export const fetchMissionData = (searchString, type) => {
       url: service.baseUrl + "/mission/UserMissions/" + 0,
       method: "get",
     };
-
     const allMissionConfig = {
-      url:
-        service.baseUrl +
-        "/mission/SearchMission/" +
-        searchString,
+      url: service.baseUrl + "/mission/SearchMission/" + searchString,
       method: "get",
     };
-
     axios
       .all([
         axios(
@@ -183,11 +178,8 @@ const fetchMissionsBySearchStringFailure = (error) => {
 export const fetchMissionsBySearchString = (searchString) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
-    axios({ 
-      url:
-        service.baseUrl +
-        "/mission/SearchMission/" +
-        searchString,
+    axios({
+      url: service.baseUrl + "/mission/SearchMission/" + searchString,
       method: "get",
     })
       .then((response) => {
@@ -220,13 +212,12 @@ const markMissionFailure = (error) => {
   };
 };
 
-export const markMission = (favoriteMission) => {
+export const markMission = (missionId) => {
   return (dispatch) => {
     dispatch(markMissionRequest());
     axios({
-      url: service.baseUrl + "/mission/FavoriteMission",
+      url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "post",
-      data: favoriteMission
     })
       .then(() => {
         dispatch(markMissionSuccess());
@@ -256,13 +247,12 @@ const unmarkMissionFailure = (error) => {
   };
 };
 
-export const unmarkMission = (favoriteMission) => {
+export const unmarkMission = (missionId) => {
   return (dispatch) => {
     dispatch(unmarkMissionRequest());
     axios({
-      url: service.baseUrl + "/mission/FavoriteMission",
+      url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "delete",
-      data: favoriteMission,
     })
       .then(() => {
         dispatch(unmarkMissionSuccess());
@@ -292,16 +282,11 @@ const removeMissionMembershipFailure = (error) => {
   };
 };
 
-export const removeMissionMembership = (userId, missionId) => {
+export const removeMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(removeMissionMembershipRequest());
     axios({
-      url:
-        service.baseUrl +
-        "/mission/MissionMember/" +
-        userId +
-        "/" +
-        missionId,
+      url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "delete",
     })
       .then(() => {
@@ -332,13 +317,12 @@ const addMissionMembershipFailure = (error) => {
   };
 };
 
-export const addMissionMembership = (_missionMember) => {
+export const addMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(addMissionMembershipRequest());
     axios({
-      url: service.baseUrl + "/mission/MissionMember",
+      url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "post",
-      data: _missionMember,
     })
       .then(() => {
         dispatch(addMissionMembershipSuccess());
@@ -351,20 +335,24 @@ export const addMissionMembership = (_missionMember) => {
 
 // Request interceptor for API calls
 axios.interceptors.request.use(
-  async config => {
-    console.log(config)
-    config.headers.Authorization = "Bearer " + localStorage.getItem('token');
+  async (config) => {
+    console.log(config);
+    config.headers.Authorization = "Bearer " + localStorage.getItem("token");
     return config;
   },
-  error => {
-    Promise.reject(error)
-});
-// Response interceptor for API calls
-axios.interceptors.response.use((response) => {
-  return response
-}, async function (error) {
-  if (error.response.status === 401) {
-    unAuthorize();
+  (error) => {
+    Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
+// Response interceptor for API calls
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async function (error) {
+    if (error.response.status === 401) {
+      unAuthorize();
+    }
+    return Promise.reject(error);
+  }
+);

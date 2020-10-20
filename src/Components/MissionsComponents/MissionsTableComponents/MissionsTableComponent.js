@@ -28,7 +28,6 @@ const MissionsTable = ({
   missions,
   markedMissions,
   markMission,
-  userId,
   unmarkMission,
   addMembership,
   removeMembership,
@@ -47,23 +46,12 @@ const MissionsTable = ({
   const handleClose = () => {
     setShowDialog(false);
   };
-  const handleClick = (e, id) => {
-    const favoriteMission = {
-      UserId: userId,
-      MissionId: id,
-    };
-    e.target.checked
-      ? markMission(favoriteMission)
-      : unmarkMission(favoriteMission);
+  const handleClick = (e, missionId) => {
+    e.target.checked ? markMission(missionId) : unmarkMission(missionId);
   };
   const handleMemberStatus = (mission, type) => {
     setCurrentMission(mission);
-    mission.isMember
-      ? setShowDialog(true)
-      : addMembership({
-          UserId: userId,
-          MissionId: mission.missionId,
-        });
+    mission.isMember ? setShowDialog(true) : addMembership(mission.missionId);
 
     type === "Join" && setShowSnackBar(true);
     type === "Join"
@@ -132,7 +120,7 @@ const MissionsTable = ({
           open={showDialog}
           handleClose={handleClose}
           removeMembership={() => {
-            removeMembership(userId, currentMission.missionId);
+            removeMembership(currentMission.missionId);
           }}
         />
       </Table>
@@ -161,7 +149,6 @@ const Button = styled.button`
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.authData.user.userDetails.userId,
     markedMissions: state.missionData.markedMissions,
     missions: state.missionData.missions,
     missionData: state.missionData,
@@ -169,13 +156,11 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    markMission: (favoriteMission) => dispatch(markMission(favoriteMission)),
-    unmarkMission: (favoriteMission) =>
-      dispatch(unmarkMission(favoriteMission)),
-    addMembership: (_missionMember) =>
-      dispatch(addMissionMembership(_missionMember)),
-    removeMembership: (userId, missionId) =>
-      dispatch(removeMissionMembership(userId, missionId)),
+    markMission: (missionId) => dispatch(markMission(missionId)),
+    unmarkMission: (missionId) => dispatch(unmarkMission(missionId)),
+    addMembership: (missionId) => dispatch(addMissionMembership(missionId)),
+    removeMembership: (missionId) =>
+      dispatch(removeMissionMembership(missionId)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MissionsTable);
