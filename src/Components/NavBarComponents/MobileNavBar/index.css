@@ -69,7 +69,7 @@ a {
   visibility: hidden;
 }
 
-li a{color: #FF0000; }
+li a{color: black}
 
 .menu.active {
   opacity: 1;

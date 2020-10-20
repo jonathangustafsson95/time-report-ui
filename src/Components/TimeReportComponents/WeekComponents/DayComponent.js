@@ -62,10 +62,8 @@ const Day = ({fetchData,
   };
 
   const getDayNumber = () => {
-    const options = { weekday: 'long'};
-    const event = new Date(getCurrentDay());
-    console.log(event.toLocaleDateString(undefined, options));
-    return event.toLocaleDateString(undefined, options);
+    let thisDate = new Date(date.valueOf());
+    return thisDate.getDay();
   }
 
   const switchDay = (type) => {
