@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   isMissionStatusUpdated: false,
   updatedFrom: "yourProjects",
+  currentTableType: "yourMissions",
   searchString: "",
 };
 
@@ -33,6 +34,11 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         missions: missionsC,
+      }
+    case Types.CHANGE_CURRENT_TABLE_TYPE:
+      return {
+        ...state,
+        currentTableType: action.payload,
       }
 
     // API reducers
