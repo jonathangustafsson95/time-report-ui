@@ -33,7 +33,6 @@ const fetchUserMissionsFailure = (error) => {
 };
 
 export const fetchUserMissions = (token, taskId) => {
-  console.log(taskId);
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
@@ -73,8 +72,6 @@ const fetchMissionDataFailure = (error) => {
 export const fetchMissionData = (token, type, searchString) => {
   return (dispatch) => {
     dispatch(fetchMissionDataRequest());
-    console.log(type);
-    console.log(searchString);
 
     const userMissioConfig = {
       url: service.baseUrl + "/mission/UserMissions/" + 0,
@@ -110,7 +107,6 @@ export const fetchMissionData = (token, type, searchString) => {
         dispatch(fetchMissionDataSuccess(response));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(fetchMissionDataFailure(error.message));
       });
   };
@@ -148,7 +144,6 @@ export const fetchMissionsBySearchString = (searchString, token) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
-        console.log(response.data);
         dispatch(
           fetchMissionsBySearchStringSuccess(response.data, searchString)
         );
@@ -269,7 +264,6 @@ export const removeMissionMembership = (token, userId, missionId, type) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
-        console.log(type);
         dispatch(removeMissionMembershipSuccess(type));
       })
       .catch((error) => {
@@ -308,7 +302,6 @@ export const addMissionMembership = (token, _missionMember, type) => {
       headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
-        console.log(type);
         dispatch(addMissionMembershipSuccess(type));
       })
       .catch((error) => {

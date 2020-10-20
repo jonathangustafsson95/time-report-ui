@@ -25,7 +25,7 @@ const SignIn = ({ signIn, authData }) => {
   return (
     <div className="Login">
       <form onSubmit={onSignIn}>
-        <FormGroup bsSize="large">
+        <FormGroup>
           <FormLabel>Username</FormLabel>
           <FormControl
             autoFocus
@@ -33,7 +33,7 @@ const SignIn = ({ signIn, authData }) => {
             onChange={(e) => setUserName(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
+        <FormGroup controlId="password">
           <FormLabel>Password</FormLabel>
           <FormControl
             type="password"
@@ -43,7 +43,6 @@ const SignIn = ({ signIn, authData }) => {
         </FormGroup>
         <Button
           block
-          bsSize="large"
           disabled={!validateForm()}
           onClick={onSignIn}
         >
