@@ -22,8 +22,8 @@ const CustomerInfo = ({
   const [isValid, setIsValid]=useState(true)
 
   useEffect(() => {
-    fetchMissions(token, registry.taskId);
-  }, [token, registry.taskId, fetchMissions]);
+    fetchMissions(registry.taskId);
+  }, [registry.taskId, fetchMissions]);
 
   useEffect(() => {
     if (missions.length > 0) {
@@ -115,13 +115,12 @@ const Button = styled.button`
 const mapStateToProps = (state) => {
   return {
     missions: state.missionData.missions,
-    token: state.authData.user.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissions: (token, taskId) => dispatch(fetchUserMissions(token, taskId)),
+    fetchMissions: (taskId) => dispatch(fetchUserMissions(taskId)),
   };
 };
 

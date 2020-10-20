@@ -91,53 +91,7 @@ const fetchTimeReportDataFailure = (error) => {
   };
 };
 
-const fetchTimeReportDayDataRequest = () => {
-  return {
-    type: Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST,
-  };
-};
-
-const fetchTimeReportDayDataSuccess = (timeReportData) => {
-        return {
-    type: Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS,
-    payload: timeReportData,
-  };
-};
-
-const fetchTimeReportDayDataFailure = (error) => {
-        return {
-    type: Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchTimeReportDayData = (token, date) => {
-  return (dispatch) => {
-    const stringDate =
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    dispatch(fetchTimeReportDayDataRequest());
-    axios
-      .all([
-        axios({
-          url: service.baseUrl + "/reporting/day/" + stringDate,
-          method: "get",
-        }),
-        axios({
-          url: service.baseUrl + "/reporting/latestRegistries/",
-          method: "get",
-        }),
-      ])
-      .then((response) => {
-        dispatch(fetchTimeReportDayDataSuccess(response));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(fetchTimeReportDayDataFailure(error.message));
-      });
-  };
-};
-
-export const fetchTimeReportData = (token, date) => {
+export const fetchTimeReportData = (date) => {
   return (dispatch) => {
     const d = new Date();
     const stringDateForWeekTemp = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -168,6 +122,52 @@ export const fetchTimeReportData = (token, date) => {
   };
 };
 
+const fetchTimeReportDayDataRequest = () => {
+  return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST,
+  };
+};
+
+const fetchTimeReportDayDataSuccess = (timeReportData) => {
+        return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS,
+    payload: timeReportData,
+  };
+};
+
+const fetchTimeReportDayDataFailure = (error) => {
+        return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchTimeReportDayData = (date) => {
+  return (dispatch) => {
+    const stringDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    dispatch(fetchTimeReportDayDataRequest());
+    axios
+      .all([
+        axios({
+          url: service.baseUrl + "/reporting/day/" + stringDate,
+          method: "get",
+        }),
+        axios({
+          url: service.baseUrl + "/reporting/latestRegistries/",
+          method: "get",
+        }),
+      ])
+      .then((response) => {
+        dispatch(fetchTimeReportDayDataSuccess(response));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(fetchTimeReportDayDataFailure(error.message));
+      });
+  };
+};
+
 const saveChangesRequest = () => {
   return {
     type: Types.SAVE_CHANGES_REQUEST,
@@ -187,7 +187,7 @@ const saveChangesFailure = (error) => {
   };
 };
 
-export const saveChanges = (registriesToReport, registriesToDelete, token) => {
+export const saveChanges = (registriesToReport, registriesToDelete) => {
   return (dispatch) => {
     const postPayload = {
       registriesToReport: registriesToReport,

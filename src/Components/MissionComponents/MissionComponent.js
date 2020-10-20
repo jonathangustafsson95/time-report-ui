@@ -22,20 +22,18 @@ const override = css`
 
 const Mission = ({
   mission,
-  token,
   fetchMission,
   fetchStats,
   missionData,
-  statisticData,
 }) => {
   const { missionId } = useParams();
   const [showSnackBar, setShowSnackBar] = useState(true);
 
   let history = useHistory();
   useEffect(() => {
-    fetchMission(token, missionId);
-    fetchStats(token, missionId);
-  }, [fetchMission, token, missionId, fetchStats]);
+    fetchMission(missionId);
+    fetchStats(missionId);
+  }, [fetchMission, missionId, fetchStats]);
 
   if (!mission) {
     return (
@@ -163,10 +161,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMission: (token, missionId) =>
-      dispatch(fetchMission(token, missionId)),
-    fetchStats: (token, missionId) =>
-      dispatch(fetchTaskStats(token, missionId)),
+    fetchMission: (missionId) =>
+      dispatch(fetchMission(missionId)),
+    fetchStats: (missionId) =>
+      dispatch(fetchTaskStats(missionId)),
   };
 };
 

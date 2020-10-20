@@ -2,10 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import Checkbox from "@material-ui/core/Checkbox";
 import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import MissionIcon from "../IconComponents/MissionIconComponent";
+import { markMission, unmarkMission } from "../../../Redux/Actions/MissionActions";
 
 const MarkedMission = ({ markedMission }) => {
   let history = useHistory();
+  // const checkFavorite = ({ mission }) => {
+  //   return markedMissions.some((item) => item.missionId === mission.missionId);
+  // };
   return (
     <Box onClick={() => history.push("/missions/" + markedMission.missionId)}>
       <MissionIcon />
@@ -13,11 +18,14 @@ const MarkedMission = ({ markedMission }) => {
         <MissionText>{markedMission.missionName}</MissionText>
         <CompanyText>{markedMission.missionCustomerName}</CompanyText>
       </TextDiv>
-      <Checkbox checked={true} />
+      <Checkbox
+        // onClick={(e) => handleClick(e, mission.missionId)}
+        // checked={checkFavorite({ mission })}
+      />
     </Box>
   );
 };
- 
+
 const TextDiv = styled.div`
   margin-left: 10px;
   margin-right: 60px;
@@ -57,4 +65,18 @@ const Box = styled.div`
   }
 `;
 
-export default MarkedMission;
+const mapStateToProps = (state) => {
+  return {
+    token: state.authData.user.token,
+    markedMissions: state.missionData.markedMissions,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    markMission: (favoriteMission, token, type) => dispatch(markMission(favoriteMission, token, type)),
+    unmarkMission: (favoriteMission, token, type) => dispatch(unmarkMission(favoriteMission, token, type)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarkedMission);

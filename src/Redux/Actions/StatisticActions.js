@@ -25,7 +25,7 @@ export const fetchTaskStatsFailure = (error) => {
   };
 };
 
-export const fetchTaskStats = (token, missionId) => {
+export const fetchTaskStats = (missionId) => {
   return (dispatch) => {
     dispatch(fetchTaskStatsRequest());
     axios({

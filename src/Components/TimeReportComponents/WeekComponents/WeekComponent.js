@@ -27,7 +27,6 @@ const override = css`
 const Week = ({
   fetchData,
   registryData,
-  authData,
   saveChanges,
   resetIsSuccesfullySaved,
   setDate,
@@ -38,14 +37,13 @@ const Week = ({
 
   useEffect(() => {
     resetIsSuccesfullySaved();
-    fetchData(authData.user.token, date);
-  }, [fetchData, authData.user.token, date, resetIsSuccesfullySaved]);
+    fetchData(date);
+  }, [fetchData, date, resetIsSuccesfullySaved]);
 
-  const onReportRegistries = (token) => {
+  const onReportRegistries = () => {
     saveChanges(
       registryData.registriesToReport,
       registryData.registriesToDelete,
-      token
     );
     setShowSnackBar(true);
     setIsReporting(true);
@@ -103,7 +101,7 @@ const Week = ({
           </IconButton>
         </Inner>
       </BoxDiv>
-      <Button onClick={() => onReportRegistries(authData.user.token)}>
+      <Button onClick={() => onReportRegistries()}>
         Save Changes
       </Button>
 
@@ -174,7 +172,6 @@ const Text = styled.p`
 
 const mapStateToProps = (state) => {
   return {
-    authData: state.authData,
     registryData: state.registryData,
     date: state.settings.date,
   };
@@ -182,9 +179,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (token, date) => dispatch(fetchTimeReportData(token, date)),
-    saveChanges: (registriesToReport, registriesToDelete, token) =>
-      dispatch(saveChanges(registriesToReport, registriesToDelete, token)),
+    fetchData: (date) => dispatch(fetchTimeReportData(date)),
+    saveChanges: (registriesToReport, registriesToDelete) =>
+      dispatch(saveChanges(registriesToReport, registriesToDelete)),
     resetIsSuccesfullySaved: () => dispatch(resetIsSuccesfullySaved()),
     setDate: (type) => dispatch(setDate(type)),
   };
