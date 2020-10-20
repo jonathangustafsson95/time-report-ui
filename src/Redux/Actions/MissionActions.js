@@ -1,6 +1,7 @@
 import * as Types from "../Types/MissionTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
+import {unAuthorize} from './AuthActions'
 
 // LOCAL actions
 
@@ -45,7 +46,6 @@ export const fetchUserMissions = (token, taskId) => {
     axios({
       url: service.baseUrl + "/mission/UserMissions/" + taskId,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
         dispatch(fetchUserMissionsSuccess(response.data));
@@ -83,7 +83,6 @@ export const fetchMissionData = (token, type, searchString) => {
     const userMissioConfig = {
       url: service.baseUrl + "/mission/UserMissions/" + 0,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     };
 
     const allMissionConfig = {
@@ -92,7 +91,6 @@ export const fetchMissionData = (token, type, searchString) => {
         "/mission/GetAllMissionsBySearchString/" +
         searchString,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     };
 
     axios
@@ -107,7 +105,6 @@ export const fetchMissionData = (token, type, searchString) => {
         axios({
           url: service.baseUrl + "/mission/GetFavoriteMissions",
           method: "get",
-          headers: { Authorization: "Bearer " + token },
         }),
       ])
       .then((response) => {
@@ -149,7 +146,6 @@ export const fetchMissionsBySearchString = (searchString, token) => {
         "/mission/GetAllMissionsBySearchString/" +
         searchString,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
         dispatch(
@@ -189,7 +185,6 @@ export const markMission = (favoriteMission, token, type) => {
       url: service.baseUrl + "/mission/AddFavoriteMission",
       method: "post",
       data: favoriteMission,
-      headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
         dispatch(markMissionSuccess(type));
@@ -227,7 +222,6 @@ export const unmarkMission = (favoriteMission, token, type) => {
       url: service.baseUrl + "/mission/FavoriteMission",
       method: "delete",
       data: favoriteMission,
-      headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
         dispatch(unmarkMissionSuccess(type));
@@ -269,7 +263,6 @@ export const removeMissionMembership = (token, userId, missionId, type) => {
         "/" +
         missionId,
       method: "delete",
-      headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
         dispatch(removeMissionMembershipSuccess(type));
@@ -307,7 +300,6 @@ export const addMissionMembership = (token, _missionMember, type) => {
       url: service.baseUrl + "/mission/AddMissionMember",
       method: "post",
       data: _missionMember,
-      headers: { Authorization: "Bearer " + token },
     })
       .then(() => {
         dispatch(addMissionMembershipSuccess(type));
@@ -344,7 +336,6 @@ export const fetchMission = (token, missionId) => {
     axios({
       url: service.baseUrl + "/mission/SpecificMission/" + missionId,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
         dispatch(fetchMissionSuccess(response.data));
@@ -354,3 +345,23 @@ export const fetchMission = (token, missionId) => {
       });
   };
 };
+
+// Request interceptor for API calls
+axios.interceptors.request.use(
+  async config => {
+    console.log(config)
+    config.headers.Authorization = "Bearer " + localStorage.getItem('token');
+    return config;
+  },
+  error => {
+    Promise.reject(error)
+});
+// Response interceptor for API calls
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  if (error.response.status === 401) {
+    unAuthorize();
+  }
+  return Promise.reject(error);
+});

@@ -1,6 +1,7 @@
 import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
+import {unAuthorize} from './AuthActions'
 
 // LOCAL ACTIONS
 
@@ -97,8 +98,6 @@ const fetchTimeReportDayDataRequest = () => {
 };
 
 const fetchTimeReportDayDataSuccess = (timeReportData) => {
-        console.log("doodie scuccess");
-        console.log(timeReportData);
         return {
     type: Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS,
     payload: timeReportData,
@@ -106,9 +105,6 @@ const fetchTimeReportDayDataSuccess = (timeReportData) => {
 };
 
 const fetchTimeReportDayDataFailure = (error) => {
-        console.log("doodie failure");
-        console.log(error);
-
         return {
     type: Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE,
     payload: error,
@@ -125,16 +121,10 @@ export const fetchTimeReportDayData = (token, date) => {
         axios({
           url: service.baseUrl + "/reporting/day/" + stringDate,
           method: "get",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }),
         axios({
           url: service.baseUrl + "/reporting/latestRegistries/",
           method: "get",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }),
       ])
       .then((response) => {
@@ -159,23 +149,14 @@ export const fetchTimeReportData = (token, date) => {
         axios({
           url: service.baseUrl + "/reporting/week/" + stringDate,
           method: "get",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }),
         axios({
           url: service.baseUrl + "/reporting/weekTemplates/" + stringDateForWeekTemp,
           method: "get",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }),
         axios({
           url: service.baseUrl + "/reporting/latestRegistries/",
           method: "get",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }),
       ])
       .then((response) => {
@@ -221,13 +202,11 @@ export const saveChanges = (registriesToReport, registriesToDelete, token) => {
           url: service.baseUrl + "/reporting/TimeReport",
           method: "post",
           data: postPayload,
-          headers: { Authorization: "Bearer " + token },
         }),
         axios({
           url: service.baseUrl + "/reporting/TimeReport",
           method: "delete",
           data: deletePayload,
-          headers: { Authorization: "Bearer " + token },
         }),
       ])
       .then(() => {
@@ -238,3 +217,24 @@ export const saveChanges = (registriesToReport, registriesToDelete, token) => {
       });
   };
 };
+
+// Request interceptor for API calls
+axios.interceptors.request.use(
+  async config => {
+    console.log(config)
+    config.headers.Authorization = "Bearer " + localStorage.getItem('token');
+    return config;
+  },
+  error => {
+    Promise.reject(error)
+});
+
+// Response interceptor for API calls
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  if (error.response.status === 401) {
+    unAuthorize();
+  }
+  return Promise.reject(error);
+});
