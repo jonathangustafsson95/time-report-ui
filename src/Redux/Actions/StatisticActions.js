@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as Types from "../Types/StatisticTypes";
 import * as service from "../ApiService/Service";
+import {unAuthorize} from './AuthActions'
 
 // API actions
 
@@ -30,7 +31,6 @@ export const fetchTaskStats = (token, missionId) => {
     axios({
       url: service.baseUrl + "/statistics/GetTaskStats/" + missionId,
       method: "get",
-      headers: { Authorization: "Bearer " + token },
     })
       .then((response) => {
         dispatch(fetchTaskStatsSuccess(response.data));
@@ -40,3 +40,25 @@ export const fetchTaskStats = (token, missionId) => {
       });
   };
 };
+
+// Request interceptor for API calls
+axios.interceptors.request.use(
+  async config => {
+    console.log(config)
+    config.headers.Authorization = "Bearer " + localStorage.getItem('token');
+    return config;
+  },
+  error => {
+    Promise.reject(error)
+});
+
+// Response interceptor for API calls
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  if (error.response.status === 401) {
+    unAuthorize();
+  }
+  return Promise.reject(error);
+});
+

@@ -31,6 +31,7 @@ export const authorize = (userData) => {
       data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
+        localStorage.setItem("token", response.data.token);
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
@@ -40,6 +41,7 @@ export const authorize = (userData) => {
 };
 
 export const unAuthorize = () => {
+  localStorage.removeItem("token");
   return {
     type: Types.UN_AUTHORIZATION,
   };
