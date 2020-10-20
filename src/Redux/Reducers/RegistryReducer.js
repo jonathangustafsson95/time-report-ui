@@ -152,6 +152,30 @@ const registryReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS:
+        console.log(action)
+        return {
+          ...state,
+          loading: false,
+          registriesByWeek: action.payload[0].data,
+          latestRegistries: action.payload[1].data,
+          errorMsg: "",
+          error: false,
+        };
+      case Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          registriesByWeek: [],
+          latestRegistries: [],
+          errorMsg: action.payload,
+          error: true,
+        };
       
     case Types.SAVE_CHANGES_REQUEST:
       return {

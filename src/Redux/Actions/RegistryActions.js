@@ -90,6 +90,63 @@ const fetchTimeReportDataFailure = (error) => {
   };
 };
 
+const fetchTimeReportDayDataRequest = () => {
+  return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST,
+  };
+};
+
+const fetchTimeReportDayDataSuccess = (timeReportData) => {
+        console.log("doodie scuccess");
+        console.log(timeReportData);
+        return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS,
+    payload: timeReportData,
+  };
+};
+
+const fetchTimeReportDayDataFailure = (error) => {
+        console.log("doodie failure");
+        console.log(error);
+
+        return {
+    type: Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchTimeReportDayData = (token, date) => {
+  return (dispatch) => {
+    const stringDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    dispatch(fetchTimeReportDayDataRequest());
+    axios
+      .all([
+        axios({
+          url: service.baseUrl + "/reporting/day/" + stringDate,
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }),
+        axios({
+          url: service.baseUrl + "/reporting/latestRegistries/",
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }),
+      ])
+      .then((response) => {
+        dispatch(fetchTimeReportDayDataSuccess(response));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(fetchTimeReportDayDataFailure(error.message));
+      });
+  };
+};
+
 export const fetchTimeReportData = (token, date) => {
   return (dispatch) => {
     const d = new Date();
