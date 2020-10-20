@@ -8,6 +8,7 @@ import {
   fetchMissionsBySearchString,
   resetMissionsFromStore,
   fetchUserMissions,
+  filterMissionsBySearchstring,
 } from "../../../Redux/Actions/MissionActions";
 import { TextField } from "@material-ui/core";
 
@@ -16,6 +17,7 @@ const MissionsTableHolder = ({
   fetchBySearch,
   resetMissions,
   fetchUserMissions,
+  filterMissions
 }) => {
   const [tableType, setTableType] = useState({
     yourProjects: true,
@@ -40,6 +42,9 @@ const MissionsTableHolder = ({
 
   const handleSearch = () => {
     tableType.allProjects && fetchBySearch(searchString, token);
+    if(tableType.yourProjects){
+      filterMissions(searchString);
+    }
   };
 
   return (
@@ -147,6 +152,7 @@ const mapDispatchToProps = (dispatch) => {
     resetMissions: () => dispatch(resetMissionsFromStore()),
     fetchUserMissions: (token, taskId) =>
       dispatch(fetchUserMissions(token, taskId)),
+      filterMissions: (searchValue) => dispatch(filterMissionsBySearchstring(searchValue)),
   };
 };
 

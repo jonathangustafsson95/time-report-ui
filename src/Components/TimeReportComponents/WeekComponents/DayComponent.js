@@ -4,7 +4,11 @@ import styled from "styled-components";
 import DayBox from "./DayBoxComponent";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/core";
-import { fetchTimeReportDayData, resetIsSuccesfullySaved, saveChanges } from "../../../Redux/Actions/RegistryActions";
+import {
+  fetchTimeReportDayData,
+  resetIsSuccesfullySaved,
+  saveChanges,
+} from "../../../Redux/Actions/RegistryActions";
 import { setDateMobile } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
@@ -20,9 +24,8 @@ const override = css`
   margin: auto;
 `;
 
-
-
-const Day = ({fetchData,
+const Day = ({
+  fetchData,
   registryData,
   authData,
   saveChanges,
@@ -36,7 +39,7 @@ const Day = ({fetchData,
   useEffect(() => {
     resetIsSuccesfullySaved();
     fetchData(authData.user.token, date);
-  }, [fetchData, authData.user.token, date]);
+  }, [fetchData, authData.user.token, date, resetIsSuccesfullySaved]);
 
   const onReportRegistries = (token) => {
     saveChanges(
@@ -57,14 +60,16 @@ const Day = ({fetchData,
 
   const getCurrentDay = () => {
     let thisDate = new Date(date.valueOf());
-    const currentDate = `${thisDate.getFullYear()}.${thisDate.getMonth() + 1}.${thisDate.getDate()}`;
+    const currentDate = `${thisDate.getFullYear()}.${
+      thisDate.getMonth() + 1
+    }.${thisDate.getDate()}`;
     return `${currentDate}`;
   };
 
   const getDayNumber = () => {
     let thisDate = new Date(date.valueOf());
     return thisDate.getDay();
-  }
+  };
 
   const switchDay = (type) => {
     setDateMobile(type);
@@ -72,23 +77,23 @@ const Day = ({fetchData,
 
   return (
     <div>
-        <Text>{getCurrentDay()}</Text>
-        <Inner>
-          <IconButton onClick={() => switchDay("back")}>
-            <ArrowBackIosIcon />
-          </IconButton>
-          <BoxHolder >
-            <DayBox dayConst={getDayNumber()}/>
-            <BeatLoader
-              loading={registryData.loading}
-              css={override}
-              color={"#585656"}
-            />
-          </BoxHolder>
-          <IconButton onClick={() => switchDay("forward")}>
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </Inner>
+      <Text>{getCurrentDay()}</Text>
+      <Inner>
+        <IconButton onClick={() => switchDay("back")}>
+          <ArrowBackIosIcon />
+        </IconButton>
+        <BoxHolder>
+          <DayBox dayConst={getDayNumber()} />
+          <BeatLoader
+            loading={registryData.loading}
+            css={override}
+            color={"#585656"}
+          />
+        </BoxHolder>
+        <IconButton onClick={() => switchDay("forward")}>
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Inner>
       <Button onClick={() => onReportRegistries(authData.user.token)}>
         Save Changes
       </Button>
@@ -126,9 +131,7 @@ const Button = styled.button`
   border: 2px solid #585656;
 `;
 
-const BoxHolder = styled.div`
-  
-`;
+const BoxHolder = styled.div``;
 
 const Text = styled.p`
   margin: 0;

@@ -92,6 +92,7 @@ const MissionsTable = ({
         </TableHead>
         <TableBody>
           {missions.map((mission) => (
+            mission.show &&
             <TableRow key={mission.missionId}>
               <TableCell>
                 <Checkbox
@@ -178,10 +179,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    markMission: (favoriteMission, token) =>
-      dispatch(markMission(favoriteMission, token)),
-    unmarkMission: (favoriteMission, token) =>
-      dispatch(unmarkMission(favoriteMission, token)),
+    markMission: (favoriteMission, token, tableType) =>
+      dispatch(markMission(favoriteMission, token, tableType)),
+    unmarkMission: (favoriteMission, token, tableType) =>
+      dispatch(unmarkMission(favoriteMission, token, tableType)),
     addMembership: (token, _missionMember, tableType) =>
       dispatch(addMissionMembership(token, _missionMember, tableType)),
     removeMembership: (token, userId, missionId, tableType) =>

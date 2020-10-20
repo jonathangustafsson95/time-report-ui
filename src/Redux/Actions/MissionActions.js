@@ -10,6 +10,13 @@ export const resetMissionsFromStore = () => {
   };
 };
 
+export const filterMissionsBySearchstring = (searchString) => {
+  return {
+    type: Types.FILTER_MISSIONS_BY_SEARCHSTRING,
+    payload: searchString,
+  }
+}
+
 // API actions
 
 const fetchUserMissionsRequest = () => {
@@ -107,6 +114,7 @@ export const fetchMissionData = (token, type, searchString) => {
         dispatch(fetchMissionDataSuccess(response));
       })
       .catch((error) => {
+        console.log(error);
         dispatch(fetchMissionDataFailure(error.message));
       });
   };
@@ -135,7 +143,7 @@ const fetchMissionsBySearchStringFailure = (error) => {
 export const fetchMissionsBySearchString = (searchString, token) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
-    axios({
+    axios({ 
       url:
         service.baseUrl +
         "/mission/GetAllMissionsBySearchString/" +

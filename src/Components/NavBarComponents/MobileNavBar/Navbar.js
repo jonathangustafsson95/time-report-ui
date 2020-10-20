@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React from "react";
 
 const Navbar = (props) => {
-    
-    return (
-        <nav className="navbar">
-            <ul className="navbar-nav">
-                {props.children}
-            </ul>
-        </nav>
-    )
-}
+  return (
+    <nav className="navbar">
+      <ul className="navbar-nav">{props.children}</ul>
+    </nav>
+  );
+};
 
-
-export default (Navbar);
+export default Navbar;
