@@ -23,12 +23,11 @@ export const authorizeFailure = (error) => {
 
 export const authorize = (userData) => {
   return (dispatch) => {
-    // { userName: "John", password: "abc123" }
     dispatch(authorizeRequest());
     axios({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: userData.userName, password: userData.password },
+      data: { userName: "Bengt", password: "bengt123" },
     })
       .then((response) => {
         localStorage.setItem("token", response.data.token);

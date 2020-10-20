@@ -8,7 +8,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
-import MissionAlertDialog from "./MissionAlertDialog";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import styled from "styled-components";
 import Dialog from "../../DialogComponents/DialogComponent";
@@ -39,11 +38,6 @@ const MissionsTable = ({
 }) => {
   let history = useHistory();
   const classes = useStyles();
-  const[open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    //removeMembership(token, userId, mission.missionId);
-    setOpen(true);
-}
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
@@ -84,10 +78,6 @@ const MissionsTable = ({
       ? setMissionStatusType("joined")
       : setMissionStatusType("left");
   };
-
-
-
-
   return (
     <div>
       <Table className={classes.table} aria-label="simple table">
@@ -102,6 +92,7 @@ const MissionsTable = ({
         </TableHead>
         <TableBody>
           {missions.map((mission) => (
+            mission.show &&
             <TableRow key={mission.missionId}>
               <TableCell>
                 <Checkbox
@@ -154,7 +145,6 @@ const MissionsTable = ({
           }}
         />
       </Table>
-      <MissionAlertDialog setOpen={setOpen} missionId = {1} open = {open}/> 
     </div>
   );
 };
@@ -189,10 +179,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    markMission: (favoriteMission, token) =>
-      dispatch(markMission(favoriteMission, token)),
-    unmarkMission: (favoriteMission, token) =>
-      dispatch(unmarkMission(favoriteMission, token)),
+    markMission: (favoriteMission, token, tableType) =>
+      dispatch(markMission(favoriteMission, token, tableType)),
+    unmarkMission: (favoriteMission, token, tableType) =>
+      dispatch(unmarkMission(favoriteMission, token, tableType)),
     addMembership: (token, _missionMember, tableType) =>
       dispatch(addMissionMembership(token, _missionMember, tableType)),
     removeMembership: (token, userId, missionId, tableType) =>

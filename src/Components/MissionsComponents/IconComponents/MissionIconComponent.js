@@ -36,9 +36,10 @@ const MissionIcon = () => {
               transform="translate(-0.376 -0.939)"
               fill="none"
               stroke="#f00a6b"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              
             />
             <path
               id="Path_4"
@@ -47,9 +48,9 @@ const MissionIcon = () => {
               transform="translate(0)"
               fill="none"
               stroke="#f00a6b"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
             />
             <path
               id="Path_5"
@@ -58,9 +59,9 @@ const MissionIcon = () => {
               transform="translate(-1.691 -1.691)"
               fill="none"
               stroke="#f00a6b"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
             />
           </g>
         </g>

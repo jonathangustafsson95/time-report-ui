@@ -11,6 +11,13 @@ export const resetMissionsFromStore = () => {
   };
 };
 
+export const filterMissionsBySearchstring = (searchString) => {
+  return {
+    type: Types.FILTER_MISSIONS_BY_SEARCHSTRING,
+    payload: searchString,
+  }
+}
+
 // API actions
 
 const fetchUserMissionsRequest = () => {
@@ -34,7 +41,6 @@ const fetchUserMissionsFailure = (error) => {
 };
 
 export const fetchUserMissions = (token, taskId) => {
-  console.log(taskId);
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
@@ -73,8 +79,6 @@ const fetchMissionDataFailure = (error) => {
 export const fetchMissionData = (token, type, searchString) => {
   return (dispatch) => {
     dispatch(fetchMissionDataRequest());
-    console.log(type);
-    console.log(searchString);
 
     const userMissioConfig = {
       url: service.baseUrl + "/mission/UserMissions/" + 0,
@@ -136,7 +140,7 @@ const fetchMissionsBySearchStringFailure = (error) => {
 export const fetchMissionsBySearchString = (searchString, token) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
-    axios({
+    axios({ 
       url:
         service.baseUrl +
         "/mission/GetAllMissionsBySearchString/" +
@@ -144,7 +148,6 @@ export const fetchMissionsBySearchString = (searchString, token) => {
       method: "get",
     })
       .then((response) => {
-        console.log(response.data);
         dispatch(
           fetchMissionsBySearchStringSuccess(response.data, searchString)
         );
@@ -262,7 +265,6 @@ export const removeMissionMembership = (token, userId, missionId, type) => {
       method: "delete",
     })
       .then(() => {
-        console.log(type);
         dispatch(removeMissionMembershipSuccess(type));
       })
       .catch((error) => {
@@ -300,7 +302,6 @@ export const addMissionMembership = (token, _missionMember, type) => {
       data: _missionMember,
     })
       .then(() => {
-        console.log(type);
         dispatch(addMissionMembershipSuccess(type));
       })
       .catch((error) => {

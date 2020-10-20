@@ -10,7 +10,7 @@ const MarkedMissions = ({ markedMissions }) => {
       <MarkedMissionHolder>
         {markedMissions.map((markedMission) => (
           <MarkedMission
-            key={markedMission.MissionId}
+            key={markedMission.missionId}
             markedMission={markedMission}
           />
         ))}

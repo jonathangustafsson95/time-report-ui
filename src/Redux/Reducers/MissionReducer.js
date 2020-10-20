@@ -1,3 +1,4 @@
+import MissionsTableComponent from "../../Components/MissionsComponents/MissionsTableComponents/MissionsTableComponent";
 import * as Types from "../Types/MissionTypes";
 
 const initialState = {
@@ -20,6 +21,23 @@ const missionReducer = (state = initialState, action) => {
         ...state,
         missions: [],
       };
+    case Types.FILTER_MISSIONS_BY_SEARCHSTRING:
+      console.log("check");
+      let missionsC = [...state.missions];
+      missionsC.map(mission => {
+        const name = mission.missionName.slice().toLowerCase();
+        const customer = mission.customer.slice().toLowerCase();
+        const searchValue = action.payload.toLowerCase();
+
+        name.includes(searchValue) || customer.includes(searchValue) ? mission.show = true : mission.show = false;
+        return mission;
+      })
+      console.log(missionsC);
+
+      return {
+        ...state,
+        missions: missionsC,
+      }
 
     // API reducers
     case Types.FETCH_USER_MISSIONS_REQUEST:
@@ -28,10 +46,14 @@ const missionReducer = (state = initialState, action) => {
         loading: true,
       };
     case Types.FETCH_USER_MISSIONS_SUCCESS:
+      let missionsA = [...action.payload];
+      missionsA.forEach(mission => {
+        mission.show = true
+      });
       return {
         ...state,
         loading: false,
-        missions: action.payload,
+        missions: missionsA,
         errorMsg: "",
         error: false,
       };
@@ -48,10 +70,14 @@ const missionReducer = (state = initialState, action) => {
         loading: true,
       };
     case Types.FETCH_MISSION_DATA_SUCCESS:
+      let missionsB = [...action.payload[0].data];
+      missionsB.forEach(mission => {
+        mission.show = true
+      });
       return {
         ...state,
         loading: false,
-        missions: action.payload[0].data,
+        missions: missionsB,
         markedMissions: action.payload[1].data,
         errorMsg: "",
         error: false,

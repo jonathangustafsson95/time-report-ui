@@ -119,7 +119,6 @@ const LeftSideBar = ({ user, signOut }) => {
       >
         <Tool>
           <IconButton
-            color="#585656"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
