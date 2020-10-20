@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Table from "@material-ui/core/Table";
@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
+import MissionAlertDialog from "./MissionAlertDialog";
+import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import styled from "styled-components";
 import {
   markMission,
@@ -16,11 +18,14 @@ import {
   removeMissionMembership,
 } from "../../../Redux/Actions/MissionActions";
 
+
+
 const useStyles = makeStyles({
   table: {
     minWidth: 1000,
   },
 });
+
 const MissionsTable = ({
   missions,
   markedMissions,
@@ -33,10 +38,15 @@ const MissionsTable = ({
 }) => {
   let history = useHistory();
   const classes = useStyles();
-
+  const[open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    //removeMembership(token, userId, mission.missionId);
+    setOpen(true);
+}
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
+  const[showSnackBar,setShowSnackBar]=useState(false);
   const handleClick = (e, id) => {
     const favoriteMission = {
       UserId: userId,
@@ -47,13 +57,18 @@ const MissionsTable = ({
       : unmarkMission(favoriteMission, token);
   };
   const handleMemberStatus = (mission) => {
+    console.log(mission)
     mission.isMember
-      ? removeMembership(token, userId, mission.missionId)
+      ? handleClickOpen()
       : addMembership(token, {
           UserId: userId,
           MissionId: mission.missionId,
         });
+        setShowSnackBar(true);
   };
+
+
+
 
   return (
     <div>
@@ -88,12 +103,19 @@ const MissionsTable = ({
               <TableCell align="right">
                 <Button onClick={() => handleMemberStatus(mission)}>
                   {mission.isMember ? "Leave" : "Join"}
+                <SnackBar
+                show={showSnackBar}
+                hide={()=>setShowSnackBar(false)}
+                severity="success"
+                >
+                </SnackBar>
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <MissionAlertDialog setOpen={setOpen} missionId = {1} open = {open}/> 
     </div>
   );
 };

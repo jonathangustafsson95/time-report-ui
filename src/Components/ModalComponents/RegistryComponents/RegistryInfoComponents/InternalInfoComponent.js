@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import TimeInput from "../../../CommonComponents/TimeInputComponent";
 import styled from "styled-components";
-
+import Alert from "@material-ui/lab/Alert";
 const InternalInfo = ({ registry, updateRegistry }) => {
   const tmpHour = Math.floor(registry.hours);
   const tmpMinutes = (registry.hours - tmpHour) * 60;
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
+  const [isValid, setIsValid] = useState(true);
 
   const update = () => {
+    if (hours === 0 && minutes === 0) {
+      setIsValid(false);
+      return;
+    }
     const updatedReg = JSON.parse(JSON.stringify(registry));
     const mins = parseFloat(minutes) / 60;
     const time = parseFloat(hours) + mins;
@@ -19,13 +24,14 @@ const InternalInfo = ({ registry, updateRegistry }) => {
 
   return (
     <Root>
-      <TimeInput
+       <TimeInput
         setHours={(value) => setHours(value)}
         setMinutes={(value) => setMinutes(value)}
         hours={hours}
         minutes={minutes}
         titleContent="Change time"
       />
+      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
       <Button onClick={() => update()}>Update</Button>
     </Root>
   );
