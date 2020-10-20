@@ -11,10 +11,12 @@ const Projects = ({
   fetchMissionData,
   isMissionStatusUpdated,
   missionData,
+  searchString,
+  updatedFrom
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   useEffect(() => {
-    fetchMissionData(token);
+    fetchMissionData(token, updatedFrom, searchString);
   }, [token, fetchMissionData, isMissionStatusUpdated]);
 
   return (
@@ -25,7 +27,7 @@ const Projects = ({
         <SnackBar
           show={showSnackBar}
           hide={() => setShowSnackBar(false)}
-          error={true}
+          error={true} 
         />
       ) : null}
     </Main>
@@ -40,13 +42,15 @@ const mapStateToProps = (state) => {
   return {
     token: state.authData.user.token,
     isMissionStatusUpdated: state.missionData.isMissionStatusUpdated,
+    updatedFrom: state.missionData.updatedFrom,
+    searchString: state.missionData.searchString,
     missionData: state.missionData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissionData: (token) => dispatch(fetchMissionData(token)),
+    fetchMissionData: (token, type, searchString) => dispatch(fetchMissionData(token, type, searchString)),
   };
 };
 

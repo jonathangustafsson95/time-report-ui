@@ -8,7 +8,8 @@ const initialState = {
   errorMsg: "",
   error: false,
   isMissionStatusUpdated: false,
-  foundMissions: [],
+  updatedFrom: "yourProjects",
+  searchString: "",
 };
 
 const missionReducer = (state = initialState, action) => {
@@ -45,7 +46,6 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        isMissionStatusUpdated: false,
       };
     case Types.FETCH_MISSION_DATA_SUCCESS:
       return {
@@ -75,9 +75,10 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        missions: action.payload,
+        missions: action.payload[0],
         errorMsg: "",
         error: false,
+        searchString: action.payload[1],
       };
     case Types.FETCH_MISSIONS_BY_SEARCHSTRING_FAILURE:
       return {
@@ -90,6 +91,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        isMissionStatusUpdated: false,
       };
     case Types.MARK_MISSION_SUCCESS:
       return {
@@ -98,6 +100,7 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: "",
         error: false,
         isMissionStatusUpdated: true,
+        updatedFrom: action.payload,
       };
     case Types.MARK_MISSION_FAILURE:
       return {
@@ -110,6 +113,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        isMissionStatusUpdated: false,
       };
     case Types.UNMARK_MISSION_SUCCESS:
       return {
@@ -118,6 +122,7 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: "",
         error: false,
         isMissionStatusUpdated: true,
+        updatedFrom: action.payload,
       };
     case Types.UNMARK_MISSION_FAILURE:
       return {
@@ -130,6 +135,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        isMissionStatusUpdated: false,
       };
     case Types.REMOVE_MISSION_MEMBERSHIP_SUCCESS:
       return {
@@ -138,6 +144,7 @@ const missionReducer = (state = initialState, action) => {
         errorMsg: "",
         error: false,
         isMissionStatusUpdated: true,
+        updatedFrom: action.payload,
       };
     case Types.REMOVE_MISSION_MEMBERSHIP_FAILURE:
       return {
@@ -150,6 +157,7 @@ const missionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        isMissionStatusUpdated: false,
       };
     case Types.ADD_MISSION_MEMBERSHIP_SUCCESS:
       return {
@@ -157,7 +165,8 @@ const missionReducer = (state = initialState, action) => {
         loading: false,
         errorMsg: "",
         error: false,
-        isMissionStatusUpdated: true,
+        isMissionStatusUpdated: true,      
+        updatedFrom: action.payload,
       };
     case Types.ADD_MISSION_MEMBERSHIP_FAILURE:
       return {

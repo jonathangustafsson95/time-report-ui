@@ -6,10 +6,14 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SnackBar = ({ show, hide, error=false }) => {
-  console.log(show);
+const SnackBar = ({ show, hide, error = false, content = "" }) => {
   let severity = error ? "error" : "success";
-  let message = error ? "Could not load data from server... Check your connection." : "Changes was succesfully stored.";
+  let message = "";
+  content === ""
+    ? (message = error
+        ? "Could not load data from server... Check your connection."
+        : "Changes was succesfully stored.")
+    : (message = content);
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -20,9 +24,9 @@ const SnackBar = ({ show, hide, error=false }) => {
 
   return (
     <Snackbar open={show} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity}>
-          {message}
-        </Alert>
+      <Alert onClose={handleClose} severity={severity}>
+        {message}
+      </Alert>
     </Snackbar>
   );
 };

@@ -17,7 +17,7 @@ const MarkedMission = ({ markedMission }) => {
     </Box>
   );
 };
-
+ 
 const TextDiv = styled.div`
   margin-left: 10px;
   margin-right: 60px;

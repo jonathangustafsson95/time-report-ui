@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Table from "@material-ui/core/Table";
@@ -10,14 +10,13 @@ import { Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import styled from "styled-components";
+import Dialog from "../../DialogComponents/DialogComponent";
 import {
   markMission,
   unmarkMission,
   addMissionMembership,
   removeMissionMembership,
 } from "../../../Redux/Actions/MissionActions";
-
-
 
 const useStyles = makeStyles({
   table: {
@@ -34,30 +33,50 @@ const MissionsTable = ({
   unmarkMission,
   addMembership,
   removeMembership,
+  missionData,
+  tableType,
 }) => {
   let history = useHistory();
   const classes = useStyles();
   const checkFavorite = ({ mission }) => {
     return markedMissions.some((item) => item.missionId === mission.missionId);
   };
-  const[showSnackBar,setShowSnackBar]=useState(false);
+  const [showSnackBar, setShowSnackBar] = useState(false);
+  const [currentMission, setCurrentMission] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleClose = () => {
+    setShowDialog(false);
+  };
+
+  const [missionStatusType, setMissionStatusType] = useState("");
+
   const handleClick = (e, id) => {
     const favoriteMission = {
       UserId: userId,
       MissionId: id,
     };
     e.target.checked
-      ? markMission(favoriteMission, token)
-      : unmarkMission(favoriteMission, token);
+      ? markMission(favoriteMission, token, tableType)
+      : unmarkMission(favoriteMission, token, tableType);
   };
-  const handleMemberStatus = (mission) => {
+  const handleMemberStatus = (mission, type) => {
+    setCurrentMission(mission);
     mission.isMember
-      ? removeMembership(token, userId, mission.missionId)
-      : addMembership(token, {
-          UserId: userId,
-          MissionId: mission.missionId,
-        });
-        setShowSnackBar(true);
+      ? setShowDialog(true)
+      : addMembership(
+          token,
+          {
+            UserId: userId,
+            MissionId: mission.missionId,
+          },
+          tableType
+        );
+
+    type === "Join" && setShowSnackBar(true);
+    type === "Join"
+      ? setMissionStatusType("joined")
+      : setMissionStatusType("left");
   };
 
   return (
@@ -91,19 +110,40 @@ const MissionsTable = ({
               <TableCell align="right">{mission.customer}</TableCell>
               <TableCell align="right">{mission.startDate}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => handleMemberStatus(mission)}>
-                  {mission.isMember ? "Leave" : "Join"}
-                <SnackBar
-                show={showSnackBar}
-                hide={()=>setShowSnackBar(false)}
-                severity="success"
+                <Button
+                  onClick={() =>
+                    handleMemberStatus(
+                      mission,
+                      mission.isMember ? "Leave" : "Join"
+                    )
+                  }
                 >
-                </SnackBar>
+                  {mission.isMember ? "Leave" : "Join"}
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
+        <SnackBar
+          show={showSnackBar}
+          hide={() => setShowSnackBar(false)}
+          error={missionData.error}
+          content={
+            !missionData.error ? `You succesfully ${missionStatusType}.` : ""
+          }
+        ></SnackBar>
+        <Dialog
+          open={showDialog}
+          handleClose={handleClose}
+          removeMembership={() => {
+            removeMembership(
+              token,
+              userId,
+              currentMission.missionId,
+              tableType
+            );
+          }}
+        />
       </Table>
     </div>
   );
@@ -134,6 +174,7 @@ const mapStateToProps = (state) => {
     userId: state.authData.user.userDetails.userId,
     markedMissions: state.missionData.markedMissions,
     missions: state.missionData.missions,
+    missionData: state.missionData,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -142,10 +183,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(markMission(favoriteMission, token)),
     unmarkMission: (favoriteMission, token) =>
       dispatch(unmarkMission(favoriteMission, token)),
-    addMembership: (token, _missionMember) =>
-      dispatch(addMissionMembership(token, _missionMember)),
-    removeMembership: (token, userId, missionId) =>
-      dispatch(removeMissionMembership(token, userId, missionId)),
+    addMembership: (token, _missionMember, tableType) =>
+      dispatch(addMissionMembership(token, _missionMember, tableType)),
+    removeMembership: (token, userId, missionId, tableType) =>
+      dispatch(removeMissionMembership(token, userId, missionId, tableType)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MissionsTable);

@@ -33,7 +33,7 @@ const DayBox = ({
       d.setDate(d.getDate() + dayConst - 1);
     }
     setDate(d);
-  }, [storeDate]);
+  }, [storeDate, dayConst]);
   
   const onCloseAddModal = () => {
     setShowModal(false);

@@ -61,15 +61,6 @@ const AlertMsg = styled(Alert)`
   margin-top: 35px;
 `;
 
-const img = require("./Images/mountain-lake-header.jpg");
-
-const divStyle = {
-  width: "100%",
-  height: "978px",
-  backgroundImage: `url(${img})`,
-  backgroundSize: "cover",
-};
-
 const mapStateToProps = (state) => {
   return {
     authData: state.authData,
