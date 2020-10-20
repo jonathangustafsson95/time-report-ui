@@ -48,7 +48,6 @@ const fetchUserMissionsFailure = (error) => {
 };
 
 export const fetchUserMissions = (taskId) => {
-  console.log(taskId);
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
