@@ -163,7 +163,7 @@ export const fetchTimeReportDayData = (date) => {
       })
       .catch((error) => {
         console.log(error);
-        dispatch(fetchTimeReportDayDataFailure(error.message));
+        dispatch(fetchTimeReportDayDataFailure(error.response.data.message));
       });
   };
 };
@@ -213,7 +213,7 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
         dispatch(saveChangesSuccess());
       })
       .catch((error) => {
-        dispatch(saveChangesFailure(error.message));
+        dispatch(saveChangesFailure(error.response.data.message));
       });
   };
 };
@@ -233,6 +233,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use((response) => {
   return response
 }, async function (error) {
+  if (typeof(error.response.data.message) === 'undefined'){
+    error.response.data.message = "Something went terribly wrong."
+  }
   if (error.response.status === 401) {
     unAuthorize();
   }

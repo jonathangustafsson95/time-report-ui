@@ -58,7 +58,7 @@ export const fetchUserMissions = (taskId) => {
         dispatch(fetchUserMissionsSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(fetchUserMissionsFailure(error.message));
+        dispatch(fetchUserMissionsFailure(error.response.data.message));
       });
   };
 };
@@ -150,7 +150,7 @@ export const fetchMissionData = (searchString, type) => {
       })
       .catch((error) => {
         console.log(error);
-        dispatch(fetchMissionDataFailure(error.message));
+        dispatch(fetchMissionDataFailure(error.response.data.message));
       });
   };
 };
@@ -188,7 +188,7 @@ export const fetchMissionsBySearchString = (searchString) => {
         );
       })
       .catch((error) => {
-        dispatch(fetchMissionsBySearchStringFailure(error));
+        dispatch(fetchMissionsBySearchStringFailure(error.response.data.message));
       });
   };
 };
@@ -223,7 +223,7 @@ export const markMission = (missionId) => {
         dispatch(markMissionSuccess());
       })
       .catch((error) => {
-        dispatch(markMissionFailure(error.message));
+        dispatch(markMissionFailure(error.response.data.message));
       });
   };
 };
@@ -258,7 +258,7 @@ export const unmarkMission = (missionId) => {
         dispatch(unmarkMissionSuccess());
       })
       .catch((error) => {
-        dispatch(unmarkMissionFailure(error.message));
+        dispatch(unmarkMissionFailure(error.response.data.message));
       });
   };
 };
@@ -293,7 +293,7 @@ export const removeMissionMembership = (missionId) => {
         dispatch(removeMissionMembershipSuccess());
       })
       .catch((error) => {
-        dispatch(removeMissionMembershipFailure(error.message));
+        dispatch(removeMissionMembershipFailure(error.response.data.message));
       });
   };
 };
@@ -328,7 +328,7 @@ export const addMissionMembership = (missionId) => {
         dispatch(addMissionMembershipSuccess());
       })
       .catch((error) => {
-        dispatch(addMissionMembershipFailure(error.message));
+        dispatch(addMissionMembershipFailure(error.response.data.message));
       });
   };
 };
@@ -345,13 +345,14 @@ axios.interceptors.request.use(
   }
 );
 // Response interceptor for API calls
-axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async function (error) {
-    if (error.response.status === 401) {
-      unAuthorize();
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  if (typeof(error.response.data.message) === 'undefined'){
+    error.response.data.message = "Something went terribly wrong."
+  }
+  if (error.response.status === 401) {
+    unAuthorize();
     }
     return Promise.reject(error);
   }

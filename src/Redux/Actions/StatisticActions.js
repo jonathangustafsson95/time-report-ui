@@ -36,7 +36,7 @@ export const fetchTaskStats = (missionId) => {
         dispatch(fetchTaskStatsSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(fetchTaskStatsFailure(error.message));
+        dispatch(fetchTaskStatsFailure(error.response.data.message));
       });
   };
 };
@@ -139,9 +139,11 @@ axios.interceptors.response.use(
     return response;
   },
   async function (error) {
+    if (typeof error.response.data.message === "undefined") {
+      error.response.data.message = "Something went terribly wrong.";
+    }
     if (error.response.status === 401) {
       unAuthorize();
     }
-    return Promise.reject(error);
   }
 );

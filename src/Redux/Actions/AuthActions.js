@@ -31,12 +31,13 @@ export const authorize = (userData) => {
       data: { userName: "Bengt", password: "bengt123" },
     })
       .then((response) => {
+        console.log(response)
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userDetails", JSON.stringify(response.data.userDetails));
         dispatch(authorizeSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(authorizeFailure(error.message));
+        dispatch(authorizeFailure(error.response.data.message));
       });
   };
 };
@@ -55,3 +56,14 @@ export const unAuthorize = () => {
     type: Types.UN_AUTHORIZATION,
   };
 };
+
+// Response interceptor for API calls
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  console.log(error)
+  if (typeof(error.response.data.message) === 'undefined'){
+    error.response.data.message = "Something went terribly wrong."
+  }
+  return Promise.reject(error);
+});

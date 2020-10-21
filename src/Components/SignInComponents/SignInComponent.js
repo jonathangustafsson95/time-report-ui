@@ -49,7 +49,7 @@ const SignIn = ({ signIn, authData }) => {
           Login
         </Button>
         {authData.error ? (
-          <AlertMsg severity="error">Something went wrong...</AlertMsg>
+          <AlertMsg severity="error">{authData.errorMsg}</AlertMsg>
         ) : null}
       </form>
     </div>
