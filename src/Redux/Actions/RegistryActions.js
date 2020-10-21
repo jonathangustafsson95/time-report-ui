@@ -213,6 +213,8 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
         dispatch(saveChangesSuccess());
       })
       .catch((error) => {
+        console.log(error.response)
+        console.log("catch");
         dispatch(saveChangesFailure(error.response.data.message));
       });
   };
@@ -233,8 +235,8 @@ axios.interceptors.request.use(
 axios.interceptors.response.use((response) => {
   return response
 }, async function (error) {
-  if (typeof(error.response.data.message) === 'undefined'){
-    error.response.data.message = "Something went terribly wrong."
+  if (typeof(error.response) === 'undefined'){
+    error.response = {data : {message:"Something went terribly wrong."}}
   }
   if (error.response.status === 401) {
     unAuthorize();

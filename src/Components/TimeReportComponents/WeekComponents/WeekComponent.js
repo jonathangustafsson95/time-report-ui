@@ -110,6 +110,7 @@ const Week = ({
           show={showSnackBar}
           hide={() => setShowSnackBar(false)}
           error={true}
+          content={registryData.errorMsg}
         />
       )}
     </div>

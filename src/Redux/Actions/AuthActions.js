@@ -2,6 +2,8 @@ import * as Types from "../Types/AuthTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 
+const axiosAuthInstance = axios.create();
+
 export const authorizeRequest = () => {
   return {
     type: Types.AUTHORIZATION_REQUEST,
@@ -25,10 +27,10 @@ export const authorize = (userData) => {
 
   return (dispatch) => {
     dispatch(authorizeRequest());
-    axios({
+    axiosAuthInstance({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: "Bengt", password: "bengt123" },
+      data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
         console.log(response)
@@ -58,12 +60,15 @@ export const unAuthorize = () => {
 };
 
 // Response interceptor for API calls
-axios.interceptors.response.use((response) => {
+axiosAuthInstance.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   console.log(error)
-  if (typeof(error.response.data.message) === 'undefined'){
-    error.response.data.message = "Something went terribly wrong."
+  if (typeof(error.response) === 'undefined'){
+    error.response = {data : { message : "Something went terribly wrong."}}
+  }
+  if (error.response.status === 401) {
+    unAuthorize();
   }
   return Promise.reject(error);
 });
