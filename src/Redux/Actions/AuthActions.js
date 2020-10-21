@@ -61,6 +61,7 @@ export const unAuthorize = () => {
 axios.interceptors.response.use((response) => {
   return response
 }, async function (error) {
+  console.log(error)
   if (typeof(error.response.data.message) === 'undefined'){
     error.response.data.message = "Something went terribly wrong."
   }
