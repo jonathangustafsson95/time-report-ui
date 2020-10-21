@@ -36,7 +36,7 @@ export const fetchTaskStats = (token, missionId) => {
         dispatch(fetchTaskStatsSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(fetchTaskStatsFailure(error.message));
+        dispatch(fetchTaskStatsFailure(error.response.data.message));
       });
   };
 };
@@ -56,6 +56,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use((response) => {
   return response
 }, async function (error) {
+  if (typeof(error.response.data.message) === 'undefined'){
+    error.response.data.message = "Something went terribly wrong."
+  }
   if (error.response.status === 401) {
     unAuthorize();
   }
