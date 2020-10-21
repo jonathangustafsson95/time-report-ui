@@ -6,12 +6,13 @@ import { fetchUserMissions } from "../../../../Redux/Actions/MissionActions";
 import MissionTable from "../TableComponents/MissionTableComponent";
 import TaskTable from "../TableComponents/TaskTableComponent";
 import Alert from "@material-ui/lab/Alert";
+import { isMobile } from "react-device-detect";
+
 const CustomerInfo = ({
   registry,
   updateRegistry,
   missions,
   fetchMissions,
-  token,
 }) => {
   const [currentMission, setCurrentMission] = useState(null);
   const [currentTask, setCurrentTask] = useState(registry.taskId);
@@ -60,7 +61,7 @@ const CustomerInfo = ({
 
   return (
     <Root>
-      <Main>
+      <Main isMobile={isMobile}>
         <MissionTable
           missions={missions}
           currentMission={currentMission}
@@ -94,6 +95,8 @@ const Root = styled.div`
 
 const Main = styled.div`
   display: flex;
+  flex-direction: ${props => props.isMobile ? "column" : "row"}
+  align-items: center;
   justify-content: center;
   width: 100%;
   margin-bottom: 20px;

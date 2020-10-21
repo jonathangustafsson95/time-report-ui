@@ -13,6 +13,7 @@ import {
   updateNewRegistryFromStore,
   updateOldRegistryFromStore,
 } from "../../../../Redux/Actions/RegistryActions";
+import { isMobile } from "react-device-detect";
 
 const RegistryInfo = ({
   showModal,
@@ -46,30 +47,57 @@ const RegistryInfo = ({
 
     onCloseModal();
   };
-
-  return (
-    <Modal
-      show={showModal}
-      onHide={onCloseModal}
-      dialogClassName="modal-90w"
-      centered
-    >
-      <Modal.Header>
-        <Text>{registry.missionName}</Text>
-        <Text>{registry.taskName}</Text>
-        <IconButton onClick={() => onDelete(registry)}>
-          <TrashIcon />
-        </IconButton>
-      </Modal.Header>
-      <Modal.Body></Modal.Body>
-      {!registry.taskId ? (
-        <InternalInfo registry={registry} updateRegistry={updateRegistry} />
-      ) : (
-        <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
-      )}
-    </Modal>
-  );
+  if (isMobile) {
+    return (
+      <Modal show={showModal} onHide={onCloseModal} centered>
+        <Modal.Header>
+          <TitleDiv>
+            <Text>{registry.missionName}</Text>
+            <Text>{registry.taskName}</Text>
+          </TitleDiv>
+          <IconButton onClick={() => onDelete(registry)}>
+            <TrashIcon />
+          </IconButton>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
+          {!registry.taskId ? (
+            <InternalInfo registry={registry} updateRegistry={updateRegistry} />
+          ) : (
+            <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+          )}
+      </Modal>
+    );
+  } else {
+    return (
+      <Modal
+        show={showModal}
+        onHide={onCloseModal}
+        dialogClassName="modal-90w"
+        centered
+      >
+        <Modal.Header>
+          <Text>{registry.missionName}</Text>
+          <Text>{registry.taskName}</Text>
+          <IconButton onClick={() => onDelete(registry)}>
+            <TrashIcon />
+          </IconButton>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
+        {!registry.taskId ? (
+          <InternalInfo registry={registry} updateRegistry={updateRegistry} />
+        ) : (
+          <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+        )}
+      </Modal>
+    );
+  }
 };
+
+const TitleDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Text = styled.h1`
   font-family: Roboto;
