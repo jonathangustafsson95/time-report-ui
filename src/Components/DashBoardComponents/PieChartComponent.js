@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { PieChart, Pie, Sector } from "recharts";
 import { connect } from "react-redux";
+import { fetchCustomerStats } from "../../Redux/Actions/StatisticActions";
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -76,8 +77,12 @@ const renderActiveShape = (props) => {
   );
 };
 
-const PieChartGraph = ({ data }) => {
+const PieChartGraph = ({ data, fetchData }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   const onPieEnter = (data, index) => {
     setActiveIndex(index);
@@ -128,4 +133,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PieChartGraph);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: () => dispatch(fetchCustomerStats()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PieChartGraph);

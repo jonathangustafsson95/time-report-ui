@@ -1,24 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import Day from "./WeekComponents/DayComponent";
-import Menu from "./MenuComponents/MenuComponent";
 
 const MobileTimeReport = () => {
   return (
     <Main>
-      <TimeReportDiv>
-        <div>
-          <Text>New Time Report</Text>
-          <Day />
-        </div>
-        <Menu></Menu>
-      </TimeReportDiv>
+      <Text>New Time Report</Text>
+      <Day />
     </Main>
   );
 };
 
 const Main = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const TimeReportDiv = styled.div`
@@ -31,9 +27,7 @@ const Text = styled.p`
   font-size: 17px;
   letter-spacing: 0.08em;
   line-height: 40px;
-  text-align: left;
   color: #585656;
-  text-align: center;
   margin: 0;
 `;
 

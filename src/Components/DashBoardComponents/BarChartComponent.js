@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { fetchCustomerInternalStats } from "../../Redux/Actions/StatisticActions";
 import {
   BarChart,
   Bar,
@@ -11,7 +12,10 @@ import {
   Legend,
 } from "recharts";
 
-const BarChartGraph = ({ data }) => {
+const BarChartGraph = ({ data, fetchData }) => {
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <Main>
       <Title>Hours spended on tasks</Title>
@@ -43,12 +47,6 @@ const BarChartGraph = ({ data }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    data: state.statisticData.hoursOnCustomersInternal,
-  };
-};
-
 const Title = styled.p`
   margin: 0;
   font-family: Roboto;
@@ -71,4 +69,16 @@ const Main = styled.div`
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.16));
 `;
 
-export default connect(mapStateToProps)(BarChartGraph);
+const mapStateToProps = (state) => {
+  return {
+    data: state.statisticData.hoursOnCustomersInternal,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: () => dispatch(fetchCustomerInternalStats())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BarChartGraph);
