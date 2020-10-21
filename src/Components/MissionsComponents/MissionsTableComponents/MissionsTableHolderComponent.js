@@ -9,6 +9,7 @@ import {
   resetMissionsFromStore,
   fetchUserMissions,
   filterMissionsBySearchstring,
+  changeCurrentTableType,
 } from "../../../Redux/Actions/MissionActions";
 import { TextField } from "@material-ui/core";
 
@@ -17,23 +18,25 @@ const MissionsTableHolder = ({
   fetchBySearch,
   resetMissions,
   fetchUserMissions,
-  filterMissions
+  filterMissions,
+  changeCurrentTableType,
 }) => {
   const [tableType, setTableType] = useState({
-    yourProjects: true,
-    allProjects: false,
+    yourMissions: true,
+    allMissions: false,
   });
 
   const [searchString, setSearchString] = useState("");
 
   const handleClick = (type) => {
-    type === "yourProjects"
-      ? setTableType({ yourProjects: true, allProjects: false })
-      : setTableType({ yourProjects: false, allProjects: true });
+    changeCurrentTableType(type);
+    type === "yourMissions"
+      ? setTableType({ yourMissions: true, allMissions: false })
+      : setTableType({ yourMissions: false, allMissions: true });
     resetMissions();
-    type === "yourProjects"
-      ? fetchUserMissions(token, 0)
-      : searchString !== "" && fetchBySearch(searchString, token);
+    type === "yourMissions"
+      ? fetchUserMissions(0)
+      : searchString !== "" && fetchBySearch(searchString);
   };
 
   const handleOnValueChange = (e) => {
@@ -41,8 +44,8 @@ const MissionsTableHolder = ({
   };
 
   const handleSearch = () => {
-    tableType.allProjects && fetchBySearch(searchString, token);
-    if(tableType.yourProjects){
+    tableType.allMissions && fetchBySearch(searchString, token);
+    if (tableType.yourMissions) {
       filterMissions(searchString);
     }
   };
@@ -51,15 +54,15 @@ const MissionsTableHolder = ({
     <div>
       <MenuSwitch>
         <Button
-          onClick={() => handleClick("yourProjects")}
-          act={tableType.yourProjects}
+          onClick={() => handleClick("yourMissions")}
+          act={tableType.yourMissions}
         >
           Your missions
         </Button>
         <Line />
         <Button
-          onClick={() => handleClick("allProjects")}
-          act={tableType.allProjects}
+          onClick={() => handleClick("allMissions")}
+          act={tableType.allMissions}
         >
           All missions
         </Button>
@@ -77,10 +80,10 @@ const MissionsTableHolder = ({
           />
         </MissionButtonDiv>
 
-        {tableType.yourProjects ? (
-          <MissionsTable tableType="yourProjects" />
+        {tableType.yourMissions ? (
+          <MissionsTable tableType="yourMissions" />
         ) : (
-          <MissionsTable tableType="allProjects" />
+          <MissionsTable tableType="allMissions" />
         )}
       </TableDiv>
     </div>
@@ -139,24 +142,16 @@ const MissionButtonDiv = styled.div`
   margin-top: 15px;
 `;
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.authData.user.token,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchBySearch: (searchString, token) =>
-      dispatch(fetchMissionsBySearchString(searchString, token)),
+    fetchBySearch: (searchString) =>
+      dispatch(fetchMissionsBySearchString(searchString)),
     resetMissions: () => dispatch(resetMissionsFromStore()),
-    fetchUserMissions: (token, taskId) =>
-      dispatch(fetchUserMissions(token, taskId)),
-      filterMissions: (searchValue) => dispatch(filterMissionsBySearchstring(searchValue)),
+    fetchUserMissions: (taskId) => dispatch(fetchUserMissions(taskId)),
+    filterMissions: (searchValue) =>
+      dispatch(filterMissionsBySearchstring(searchValue)),
+    changeCurrentTableType: (type) => dispatch(changeCurrentTableType(type)),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MissionsTableHolder);
+export default connect(null, mapDispatchToProps)(MissionsTableHolder);

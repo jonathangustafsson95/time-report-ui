@@ -12,12 +12,12 @@ const Projects = ({
   isMissionStatusUpdated,
   missionData,
   searchString,
-  updatedFrom
+  currentTableType,
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   useEffect(() => {
-    fetchMissionData(token, updatedFrom, searchString);
-  }, [token, fetchMissionData, isMissionStatusUpdated]);
+    fetchMissionData(searchString, currentTableType);
+  }, [fetchMissionData, isMissionStatusUpdated]);
 
   return (
     <Main>
@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
   return {
     token: state.authData.user.token,
     isMissionStatusUpdated: state.missionData.isMissionStatusUpdated,
-    updatedFrom: state.missionData.updatedFrom,
+    currentTableType: state.missionData.currentTableType,
     searchString: state.missionData.searchString,
     missionData: state.missionData,
   };
@@ -50,7 +50,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissionData: (token, type, searchString) => dispatch(fetchMissionData(token, type, searchString)),
+    fetchMissionData: (searchString, type ) => dispatch(fetchMissionData(searchString, type)),
   };
 };
 

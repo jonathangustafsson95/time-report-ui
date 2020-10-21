@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   isMissionStatusUpdated: false,
   updatedFrom: "yourProjects",
+  currentTableType: "yourMissions",
   searchString: "",
 };
 
@@ -22,21 +23,22 @@ const missionReducer = (state = initialState, action) => {
         missions: [],
       };
     case Types.FILTER_MISSIONS_BY_SEARCHSTRING:
-      console.log("check");
       let missionsC = [...state.missions];
       missionsC.map(mission => {
         const name = mission.missionName.slice().toLowerCase();
         const customer = mission.customer.slice().toLowerCase();
         const searchValue = action.payload.toLowerCase();
-
         name.includes(searchValue) || customer.includes(searchValue) ? mission.show = true : mission.show = false;
         return mission;
-      })
-      console.log(missionsC);
-
+      });
       return {
         ...state,
         missions: missionsC,
+      }
+    case Types.CHANGE_CURRENT_TABLE_TYPE:
+      return {
+        ...state,
+        currentTableType: action.payload,
       }
 
     // API reducers
@@ -98,6 +100,10 @@ const missionReducer = (state = initialState, action) => {
         loading: true,
       };
     case Types.FETCH_MISSIONS_BY_SEARCHSTRING_SUCCESS:
+      let missionsD = [...action.payload[0]];
+      missionsD.forEach(mission => {
+        mission.show = true
+      });
       return {
         ...state,
         loading: false,

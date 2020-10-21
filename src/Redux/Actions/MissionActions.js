@@ -1,7 +1,7 @@
 import * as Types from "../Types/MissionTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
-import {unAuthorize} from './AuthActions'
+import { unAuthorize } from "./AuthActions";
 
 // LOCAL actions
 
@@ -15,8 +15,15 @@ export const filterMissionsBySearchstring = (searchString) => {
   return {
     type: Types.FILTER_MISSIONS_BY_SEARCHSTRING,
     payload: searchString,
-  }
-}
+  };
+};
+
+export const changeCurrentTableType = (type) => {
+  return {
+    type: Types.CHANGE_CURRENT_TABLE_TYPE,
+    payload: type,
+  };
+};
 
 // API actions
 
@@ -40,7 +47,7 @@ const fetchUserMissionsFailure = (error) => {
   };
 };
 
-export const fetchUserMissions = (token, taskId) => {
+export const fetchUserMissions = (taskId) => {
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
     axios({
@@ -52,6 +59,42 @@ export const fetchUserMissions = (token, taskId) => {
       })
       .catch((error) => {
         dispatch(fetchUserMissionsFailure(error.response.data.message));
+      });
+  };
+};
+
+const fetchMissionRequest = () => {
+  return {
+    type: Types.FETCH_MISSION_REQUEST,
+  };
+};
+
+const fetchMissionSuccess = (mission) => {
+  return {
+    type: Types.FETCH_MISSION_SUCCESS,
+    payload: mission,
+  };
+};
+
+const fetchMissionFailure = (error) => {
+  return {
+    type: Types.FETCH_MISSION_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMission = (missionId) => {
+  return (dispatch) => {
+    dispatch(fetchMissionRequest());
+    axios({
+      url: service.baseUrl + "/mission/SpecificMission/" + missionId,
+      method: "get",
+    })
+      .then((response) => {
+        dispatch(fetchMissionSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMissionFailure(error));
       });
   };
 };
@@ -76,7 +119,7 @@ const fetchMissionDataFailure = (error) => {
   };
 };
 
-export const fetchMissionData = (token, type, searchString) => {
+export const fetchMissionData = (searchString, type) => {
   return (dispatch) => {
     dispatch(fetchMissionDataRequest());
 
@@ -84,26 +127,21 @@ export const fetchMissionData = (token, type, searchString) => {
       url: service.baseUrl + "/mission/UserMissions/" + 0,
       method: "get",
     };
-
     const allMissionConfig = {
-      url:
-        service.baseUrl +
-        "/mission/GetAllMissionsBySearchString/" +
-        searchString,
+      url: service.baseUrl + "/mission/SearchMission/" + searchString,
       method: "get",
     };
-
     axios
       .all([
         axios(
-          type === "yourProjects"
+          type === "yourMissions"
             ? userMissioConfig
             : searchString !== ""
             ? allMissionConfig
             : userMissioConfig
         ),
         axios({
-          url: service.baseUrl + "/mission/GetFavoriteMissions",
+          url: service.baseUrl + "/mission/FavoriteMissions",
           method: "get",
         }),
       ])
@@ -137,14 +175,11 @@ const fetchMissionsBySearchStringFailure = (error) => {
   };
 };
 
-export const fetchMissionsBySearchString = (searchString, token) => {
+export const fetchMissionsBySearchString = (searchString) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
-    axios({ 
-      url:
-        service.baseUrl +
-        "/mission/GetAllMissionsBySearchString/" +
-        searchString,
+    axios({
+      url: service.baseUrl + "/mission/SearchMission/" + searchString,
       method: "get",
     })
       .then((response) => {
@@ -164,10 +199,9 @@ const markMissionRequest = () => {
   };
 };
 
-const markMissionSuccess = (type) => {
+const markMissionSuccess = () => {
   return {
     type: Types.MARK_MISSION_SUCCESS,
-    payload: type,
   };
 };
 
@@ -178,16 +212,15 @@ const markMissionFailure = (error) => {
   };
 };
 
-export const markMission = (favoriteMission, token, type) => {
+export const markMission = (missionId) => {
   return (dispatch) => {
     dispatch(markMissionRequest());
     axios({
-      url: service.baseUrl + "/mission/AddFavoriteMission",
+      url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "post",
-      data: favoriteMission,
     })
       .then(() => {
-        dispatch(markMissionSuccess(type));
+        dispatch(markMissionSuccess());
       })
       .catch((error) => {
         dispatch(markMissionFailure(error.response.data.message));
@@ -201,10 +234,9 @@ const unmarkMissionRequest = () => {
   };
 };
 
-const unmarkMissionSuccess = (type) => {
+const unmarkMissionSuccess = () => {
   return {
     type: Types.UNMARK_MISSION_SUCCESS,
-    payload: type
   };
 };
 
@@ -215,16 +247,15 @@ const unmarkMissionFailure = (error) => {
   };
 };
 
-export const unmarkMission = (favoriteMission, token, type) => {
+export const unmarkMission = (missionId) => {
   return (dispatch) => {
     dispatch(unmarkMissionRequest());
     axios({
-      url: service.baseUrl + "/mission/FavoriteMission",
+      url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "delete",
-      data: favoriteMission,
     })
       .then(() => {
-        dispatch(unmarkMissionSuccess(type));
+        dispatch(unmarkMissionSuccess());
       })
       .catch((error) => {
         dispatch(unmarkMissionFailure(error.response.data.message));
@@ -238,10 +269,9 @@ const removeMissionMembershipRequest = () => {
   };
 };
 
-const removeMissionMembershipSuccess = (type) => {
+const removeMissionMembershipSuccess = () => {
   return {
     type: Types.REMOVE_MISSION_MEMBERSHIP_SUCCESS,
-    payload: type,
   };
 };
 
@@ -252,20 +282,15 @@ const removeMissionMembershipFailure = (error) => {
   };
 };
 
-export const removeMissionMembership = (token, userId, missionId, type) => {
+export const removeMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(removeMissionMembershipRequest());
     axios({
-      url:
-        service.baseUrl +
-        "/mission/DeleteMissionMember/" +
-        userId +
-        "/" +
-        missionId,
+      url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "delete",
     })
       .then(() => {
-        dispatch(removeMissionMembershipSuccess(type));
+        dispatch(removeMissionMembershipSuccess());
       })
       .catch((error) => {
         dispatch(removeMissionMembershipFailure(error.response.data.message));
@@ -279,10 +304,9 @@ const addMissionMembershipRequest = () => {
   };
 };
 
-const addMissionMembershipSuccess = (type) => {
+const addMissionMembershipSuccess = () => {
   return {
     type: Types.ADD_MISSION_MEMBERSHIP_SUCCESS,
-    payload: type,
   };
 };
 
@@ -293,16 +317,15 @@ const addMissionMembershipFailure = (error) => {
   };
 };
 
-export const addMissionMembership = (token, _missionMember, type) => {
+export const addMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(addMissionMembershipRequest());
     axios({
-      url: service.baseUrl + "/mission/AddMissionMember",
+      url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "post",
-      data: _missionMember,
     })
       .then(() => {
-        dispatch(addMissionMembershipSuccess(type));
+        dispatch(addMissionMembershipSuccess());
       })
       .catch((error) => {
         dispatch(addMissionMembershipFailure(error.response.data.message));
@@ -310,52 +333,17 @@ export const addMissionMembership = (token, _missionMember, type) => {
   };
 };
 
-const fetchMissionRequest = () => {
-  return {
-    type: Types.FETCH_MISSION_REQUEST,
-  };
-};
-
-const fetchMissionSuccess = (mission) => {
-  return {
-    type: Types.FETCH_MISSION_SUCCESS,
-    payload: mission,
-  };
-};
-
-const fetchMissionFailure = (error) => {
-  return {
-    type: Types.FETCH_MISSION_FAILURE,
-    payload: error,
-  };
-};
-
-export const fetchMission = (token, missionId) => {
-  return (dispatch) => {
-    dispatch(fetchMissionRequest());
-    axios({
-      url: service.baseUrl + "/mission/SpecificMission/" + missionId,
-      method: "get",
-    })
-      .then((response) => {
-        dispatch(fetchMissionSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(fetchMissionFailure(error.response.data.message));
-      });
-  };
-};
-
 // Request interceptor for API calls
 axios.interceptors.request.use(
-  async config => {
-    console.log(config)
-    config.headers.Authorization = "Bearer " + localStorage.getItem('token');
+  async (config) => {
+    console.log(config);
+    config.headers.Authorization = "Bearer " + localStorage.getItem("token");
     return config;
   },
-  error => {
-    Promise.reject(error)
-});
+  (error) => {
+    Promise.reject(error);
+  }
+);
 // Response interceptor for API calls
 axios.interceptors.response.use((response) => {
   return response
@@ -365,6 +353,7 @@ axios.interceptors.response.use((response) => {
   }
   if (error.response.status === 401) {
     unAuthorize();
+    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
