@@ -149,7 +149,6 @@ export const fetchMissionData = (searchString, type) => {
         dispatch(fetchMissionDataSuccess(response));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(fetchMissionDataFailure(error.response.data.message));
       });
   };
@@ -349,7 +348,7 @@ axios.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   if (typeof(error.response.data.message) === 'undefined'){
-    error.response.data.message = "Something went terribly wrong."
+    //error.response.data.message = "Something went terribly wrong."
   }
   if (error.response.status === 401) {
     unAuthorize();

@@ -5,6 +5,8 @@ import AddInternalRegistry from "./AddInternalRegistryComponent";
 import AddCustomerRegistry from "./AddCustomerRegistryComponent";
 import Icon from "../../IconComponents/MenuIconComponent";
 import "../Css/Modal.css";
+import { isMobile } from "react-device-detect";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 const AddRegistry = ({ date, showModal, onCloseModal }) => {
   const [registryType, setRegistryType] = useState({
@@ -18,43 +20,79 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
       : setRegistryType({ internal: false, customer: true });
   };
 
-  return (
-    <StyledModal
-      show={showModal}
-      onHide={onCloseModal}
-      dialogClassName="modal-90w"
-      centered
-    >
-      <Modal.Body>
-        <Text>New Registry</Text>
-        <MenuDiv>
-          <Title>Internal Time</Title>
-          <SpaceDiv />
-          <Title>Customer Time</Title>
-        </MenuDiv>
-        <IconMenuDiv>
-          <IconButton
-            selected={registryType.internal}
-            onClick={() => toggleButton("internal")}
-          >
-            <Icon />
-          </IconButton>
-          <MenuLine />
-          <IconButton
-            selected={registryType.customer}
-            onClick={() => toggleButton("customer")}
-          >
-            <Icon />
-          </IconButton>
-        </IconMenuDiv>
-        {registryType.internal ? (
-          <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
-        ) : (
-          <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
-        )}
-      </Modal.Body>
-    </StyledModal>
-  );
+  if (isMobile) {
+    return (
+      <StyledModal show={showModal} onHide={onCloseModal} centered >
+        <Modal.Body>
+          <ArrowBackIosIcon onClick={() => onCloseModal()} />
+          <Text>New Registry</Text>
+          <MenuDiv>
+            <Title>Internal Time</Title>
+            <SpaceDiv />
+            <Title>Customer Time</Title>
+          </MenuDiv>
+          <IconMenuDiv>
+            <IconButton
+              selected={registryType.internal}
+              onClick={() => toggleButton("internal")}
+            >
+              <Icon />
+            </IconButton>
+            <MenuLine />
+            <IconButton
+              selected={registryType.customer}
+              onClick={() => toggleButton("customer")}
+            >
+              <Icon />
+            </IconButton>
+          </IconMenuDiv>
+          {registryType.internal ? (
+            <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
+          ) : (
+            <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
+          )}
+        </Modal.Body>
+      </StyledModal>
+    );
+  } else {
+    return (
+      <StyledModal
+        show={showModal}
+        onHide={onCloseModal}
+        dialogClassName="modal-90w"
+        centered
+      >
+        <Modal.Body>
+          <Text>New Registry</Text>
+          <MenuDiv>
+            <Title>Internal Time</Title>
+            <SpaceDiv />
+            <Title>Customer Time</Title>
+          </MenuDiv>
+          <IconMenuDiv>
+            <IconButton
+              selected={registryType.internal}
+              onClick={() => toggleButton("internal")}
+            >
+              <Icon />
+            </IconButton>
+            <MenuLine />
+            <IconButton
+              selected={registryType.customer}
+              onClick={() => toggleButton("customer")}
+            >
+              <Icon />
+            </IconButton>
+          </IconMenuDiv>
+          {registryType.internal ? (
+            <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
+          ) : (
+            <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
+          )}
+        </Modal.Body>
+      </StyledModal>
+    );
+  }
 };
 
 const StyledModal = styled(Modal)`

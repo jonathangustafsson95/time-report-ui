@@ -7,11 +7,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
+import { isMobile } from "react-device-detect";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 250,
-    width: 250,
+    minWidth: isMobile ? "100%;" : 250,
+    width: isMobile ? "100%;" : 250,
   },
 });
 
@@ -84,11 +85,11 @@ const TaskTable = ({
     });
     setCurrentTask(id);
     setSelectedStatus(newSelectedStatus);
-  }
+  } 
 
   return (
-    <TableHolder>
-      <Title>Choose task</Title>
+    <TableHolder isMobile={isMobile}>
+      <Title isMobike={isMobile}>Choose task</Title>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -124,12 +125,13 @@ const Title = styled.p`
   opacity: 0.8;
   letter-spacing: 0.08em;
   color: #585656;
-  margin-bottom: 30px;
+  margin-bottom: ${props => props.isMobile ? "10px" : "30px"};
   text-align: left;
 `;
 
 const TableHolder = styled.div`
   padding: 15px;
+  ${props => props.isMobile && "width: 90%;" }
   padding-bottom: 0;
   border-radius: 10px;
   background: #fff;

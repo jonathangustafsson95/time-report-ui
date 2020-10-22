@@ -2,10 +2,11 @@ import React from "react";
 import MarkedMission from "./MarkedMissionComponent";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { isMobile } from "react-device-detect";
 
 const MarkedMissions = ({ markedMissions }) => {
   return (
-    <Main>
+    <Main isMobile={isMobile}>
       <Title>Marked missions</Title>
       <MarkedMissionHolder>
         {markedMissions.map((markedMission) => (
@@ -20,8 +21,9 @@ const MarkedMissions = ({ markedMissions }) => {
 };
 
 const Main = styled.div`
-  min-width: 1300px;
-  max-width: 1300px;
+  ${props => props.isMobile && "width: 100%;"}
+  ${(props) => !props.isMobile && "min-width: 1300px;"}
+  ${(props) => !props.isMobile && "max-width: 1300px;"}
   margin-bottom: 40px;
 `;
 

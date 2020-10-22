@@ -9,6 +9,7 @@ import TaskTable from "../TableComponents/TaskTableComponent";
 import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
 import { BeatLoader } from "react-spinners";
 import Alert from "@material-ui/lab/Alert";
+import { isMobile } from "react-device-detect";
 
 const AddCustomerRegistry = ({
   date,
@@ -94,7 +95,7 @@ const AddCustomerRegistry = ({
           Could not load missions... Check your connection.
         </Alert>
       ) : (
-        <Main>
+        <Main isMobile={isMobile}>
           <MissionTable
             missions={missions}
             currentMission={currentMission}
@@ -130,7 +131,9 @@ const Root = styled.div`
 
 const Main = styled.div`
   display: flex;
+  flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
   justify-content: center;
+  align-items: center;
   width: 100%;
   margin-bottom: 20px;
 `;

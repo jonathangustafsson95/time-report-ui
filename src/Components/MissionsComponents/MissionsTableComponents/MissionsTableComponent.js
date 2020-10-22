@@ -17,10 +17,11 @@ import {
   addMissionMembership,
   removeMissionMembership,
 } from "../../../Redux/Actions/MissionActions";
+import { isMobile } from "react-device-detect";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 1000,
+    minWidth: isMobile ? null : 1000,
   },
 });
 
@@ -66,7 +67,7 @@ const MissionsTable = ({
             <TableCell padding="checkbox"></TableCell>
             <TableCell>Mission Name</TableCell>
             <TableCell align="right">Customer</TableCell>
-            <TableCell align="right">StartDate</TableCell>
+            {!isMobile && <TableCell align="right">StartDate</TableCell>}
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
@@ -91,7 +92,7 @@ const MissionsTable = ({
                     {mission.missionName}
                   </TableCell>
                   <TableCell align="right">{mission.customer}</TableCell>
-                  <TableCell align="right">{mission.startDate}</TableCell>
+                  {!isMobile && <TableCell align="right">{mission.startDate}</TableCell>}
                   <TableCell align="right">
                     <Button
                       onClick={() =>

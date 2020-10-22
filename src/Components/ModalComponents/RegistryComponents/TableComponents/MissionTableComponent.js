@@ -7,12 +7,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Checkbox } from "@material-ui/core";
+import { isMobile } from "react-device-detect";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 400,
-    width: 400,
-    marginRight: 50,
+    minWidth: isMobile ? "100%;" : 400,
+    width: isMobile ? "100%;" : 400,
+    marginRight: isMobile ? 0 : 50,
   },
 });
 
@@ -78,8 +79,8 @@ const MissionTable = ({
   }
 
   return (
-    <TableHolder>
-      <Title>Choose mission</Title>
+    <TableHolder isMobile={isMobile}>
+      <Title isMobile={isMobile}>Choose mission</Title>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -121,7 +122,7 @@ const Title = styled.p`
   opacity: 0.8;
   letter-spacing: 0.08em;
   color: #585656;
-  margin-bottom: 30px;
+  ${props => props.isMobile ? "10px" : "30px"};
   text-align: left;
 `;
 
@@ -129,7 +130,9 @@ const TableHolder = styled.div`
   padding: 15px;
   padding-bottom: 0;
   border-radius: 10px;
-  margin-right: 15px;
+  ${props => props.isMobile && "width: 90%;" }
+  margin-right: ${props => props.isMobile ? "0px" : "15px"};
+  margin-bottom: ${props => props.isMobile ? "10px" : "0px"};
   background: #fff;
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
   max-height: 300px;

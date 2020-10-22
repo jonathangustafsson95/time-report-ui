@@ -20,7 +20,7 @@ const CustomerInfo = ({
   const tmpMinutes = (registry.hours - tmpHour) * 60;
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
-  const [isValid, setIsValid]=useState(true)
+  const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     fetchMissions(registry.taskId);
@@ -95,7 +95,7 @@ const Root = styled.div`
 
 const Main = styled.div`
   display: flex;
-  flex-direction: ${props => props.isMobile ? "column" : "row"}
+  flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
   align-items: center;
   justify-content: center;
   width: 100%;

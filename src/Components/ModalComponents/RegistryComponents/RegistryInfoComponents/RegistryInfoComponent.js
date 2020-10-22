@@ -14,6 +14,7 @@ import {
   updateOldRegistryFromStore,
 } from "../../../../Redux/Actions/RegistryActions";
 import { isMobile } from "react-device-detect";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 const RegistryInfo = ({
   showModal,
@@ -50,7 +51,8 @@ const RegistryInfo = ({
   if (isMobile) {
     return (
       <Modal show={showModal} onHide={onCloseModal} centered>
-        <Modal.Header>
+        <HeaderDiv>
+          <ArrowBackIosIcon onClick={() => onCloseModal()} />
           <TitleDiv>
             <Text>{registry.missionName}</Text>
             <Text>{registry.taskName}</Text>
@@ -58,13 +60,13 @@ const RegistryInfo = ({
           <IconButton onClick={() => onDelete(registry)}>
             <TrashIcon />
           </IconButton>
-        </Modal.Header>
+        </HeaderDiv>
         <Modal.Body></Modal.Body>
-          {!registry.taskId ? (
-            <InternalInfo registry={registry} updateRegistry={updateRegistry} />
-          ) : (
-            <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
-          )}
+        {!registry.taskId ? (
+          <InternalInfo registry={registry} updateRegistry={updateRegistry} />
+        ) : (
+          <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+        )}
       </Modal>
     );
   } else {
@@ -92,6 +94,12 @@ const RegistryInfo = ({
     );
   }
 };
+
+const HeaderDiv = styled(Modal.Header)`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
 
 const TitleDiv = styled.div`
   display: flex;
