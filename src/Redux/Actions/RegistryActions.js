@@ -5,6 +5,8 @@ import {unAuthorize} from './AuthActions'
 
 // LOCAL ACTIONS
 
+const axiosRegistryInstance = axios.create();
+
 export const addRegistryToStore = (registryData) => {
   return {
     type: Types.ADD_REGISTRY_TO_STORE,
@@ -100,15 +102,15 @@ export const fetchTimeReportData = (date) => {
     dispatch(fetchTimeReportDataRequest());
     axios
       .all([
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/week/" + stringDate,
           method: "get",
         }),
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/weekTemplates/" + stringDateForWeekTemp,
           method: "get",
         }),
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/latestRegistries/",
           method: "get",
         }),
@@ -117,7 +119,7 @@ export const fetchTimeReportData = (date) => {
         dispatch(fetchTimeReportDataSuccess(response));
       })
       .catch((error) => {
-        dispatch(fetchTimeReportDataFailure(error.message));
+        dispatch(fetchTimeReportDataFailure(error.response.data.message));
       });
   };
 };
@@ -149,11 +151,11 @@ export const fetchTimeReportDayData = (date) => {
     dispatch(fetchTimeReportDayDataRequest());
     axios
       .all([
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/day/" + stringDate,
           method: "get",
         }),
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/latestRegistries/",
           method: "get",
         }),
@@ -198,12 +200,12 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
     dispatch(saveChangesRequest());
     axios
       .all([
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/TimeReport",
           method: "post",
           data: postPayload,
         }),
-        axios({
+        axiosRegistryInstance({
           url: service.baseUrl + "/reporting/TimeReport",
           method: "delete",
           data: deletePayload,
@@ -213,13 +215,15 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
         dispatch(saveChangesSuccess());
       })
       .catch((error) => {
+        console.log(error.response)
+        console.log("catch");
         dispatch(saveChangesFailure(error.response.data.message));
       });
   };
 };
 
 // Request interceptor for API calls
-axios.interceptors.request.use(
+axiosRegistryInstance.interceptors.request.use(
   async config => {
     console.log(config)
     config.headers.Authorization = "Bearer " + localStorage.getItem('token');
@@ -230,11 +234,11 @@ axios.interceptors.request.use(
 });
 
 // Response interceptor for API calls
-axios.interceptors.response.use((response) => {
+axiosRegistryInstance.interceptors.response.use((response) => {
   return response
 }, async function (error) {
-  if (typeof(error.response.data.message) === 'undefined'){
-    error.response.data.message = "Something went terribly wrong."
+  if (typeof(error.response) === 'undefined'){
+    error.response = {data : {message:"Something went terribly wrong."}}
   }
   if (error.response.status === 401) {
     unAuthorize();

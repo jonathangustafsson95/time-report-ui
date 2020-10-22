@@ -5,6 +5,8 @@ import { unAuthorize } from "./AuthActions";
 
 // API actions
 
+const axiosStatisticInstance = axios.create();
+
 const fetchTaskStatsRequest = () => {
   return {
     type: Types.FETCH_TASK_STATS_REQUEST,
@@ -28,7 +30,7 @@ const fetchTaskStatsFailure = (error) => {
 export const fetchTaskStats = (missionId) => {
   return (dispatch) => {
     dispatch(fetchTaskStatsRequest());
-    axios({
+    axiosStatisticInstance({
       url: service.baseUrl + "/statistics/TaskStats/" + missionId,
       method: "get",
     })
@@ -67,7 +69,7 @@ export const fetchCustomerStats = () => {
     d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
   return (dispatch) => {
     dispatch(fetchCustomerStatsRequest());
-    axios({
+    axiosStatisticInstance({
       url: service.baseUrl + "/statistics/CustomerVsCustomer/" + stringDate,
       method: "get",
     })
@@ -107,7 +109,7 @@ export const fetchCustomerInternalStats = () => {
     d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
   return (dispatch) => {
     dispatch(fetchCustomerInternalStatsRequest());
-    axios({
+    axiosStatisticInstance({
       url: service.baseUrl + "/statistics/InternalVsCustomer/" + stringDate,
       method: "get",
     })
@@ -122,7 +124,7 @@ export const fetchCustomerInternalStats = () => {
 };
 
 // Request interceptor for API calls
-axios.interceptors.request.use(
+axiosStatisticInstance.interceptors.request.use(
   async (config) => {
     console.log(config);
     config.headers.Authorization = "Bearer " + localStorage.getItem("token");
@@ -134,13 +136,13 @@ axios.interceptors.request.use(
 );
 
 // Response interceptor for API calls
-axios.interceptors.response.use(
+axiosStatisticInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   async function (error) {
     if (typeof error.response.data.message === "undefined") {
-      error.response.data.message = "Something went terribly wrong.";
+      error.response = {data : { message : "Something went terribly wrong."}}
     }
     if (error.response.status === 401) {
       unAuthorize();

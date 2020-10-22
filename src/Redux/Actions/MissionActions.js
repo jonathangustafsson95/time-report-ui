@@ -5,6 +5,8 @@ import { unAuthorize } from "./AuthActions";
 
 // LOCAL actions
 
+const axiosMissionInstance = axios.create();
+
 export const resetMissionsFromStore = () => {
   return {
     type: Types.RESET_MISSIONS_FROM_STORE,
@@ -50,7 +52,7 @@ const fetchUserMissionsFailure = (error) => {
 export const fetchUserMissions = (taskId) => {
   return (dispatch) => {
     dispatch(fetchUserMissionsRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/UserMissions/" + taskId,
       method: "get",
     })
@@ -86,7 +88,7 @@ const fetchMissionFailure = (error) => {
 export const fetchMission = (missionId) => {
   return (dispatch) => {
     dispatch(fetchMissionRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/SpecificMission/" + missionId,
       method: "get",
     })
@@ -133,14 +135,14 @@ export const fetchMissionData = (searchString, type) => {
     };
     axios
       .all([
-        axios(
+        axiosMissionInstance(
           type === "yourMissions"
             ? userMissioConfig
             : searchString !== ""
             ? allMissionConfig
             : userMissioConfig
         ),
-        axios({
+        axiosMissionInstance({
           url: service.baseUrl + "/mission/FavoriteMissions",
           method: "get",
         }),
@@ -177,7 +179,7 @@ const fetchMissionsBySearchStringFailure = (error) => {
 export const fetchMissionsBySearchString = (searchString) => {
   return (dispatch) => {
     dispatch(fetchMissionsBySearchStringRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/SearchMission/" + searchString,
       method: "get",
     })
@@ -214,7 +216,7 @@ const markMissionFailure = (error) => {
 export const markMission = (missionId) => {
   return (dispatch) => {
     dispatch(markMissionRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "post",
     })
@@ -249,7 +251,7 @@ const unmarkMissionFailure = (error) => {
 export const unmarkMission = (missionId) => {
   return (dispatch) => {
     dispatch(unmarkMissionRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/FavoriteMission/" + missionId,
       method: "delete",
     })
@@ -284,7 +286,7 @@ const removeMissionMembershipFailure = (error) => {
 export const removeMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(removeMissionMembershipRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "delete",
     })
@@ -319,7 +321,7 @@ const addMissionMembershipFailure = (error) => {
 export const addMissionMembership = (missionId) => {
   return (dispatch) => {
     dispatch(addMissionMembershipRequest());
-    axios({
+    axiosMissionInstance({
       url: service.baseUrl + "/mission/MissionMember/" + missionId,
       method: "post",
     })
@@ -333,7 +335,7 @@ export const addMissionMembership = (missionId) => {
 };
 
 // Request interceptor for API calls
-axios.interceptors.request.use(
+axiosMissionInstance.interceptors.request.use(
   async (config) => {
     console.log(config);
     config.headers.Authorization = "Bearer " + localStorage.getItem("token");
@@ -344,11 +346,15 @@ axios.interceptors.request.use(
   }
 );
 // Response interceptor for API calls
-axios.interceptors.response.use((response) => {
+axiosMissionInstance.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   if (typeof(error.response.data.message) === 'undefined'){
+<<<<<<< HEAD
     //error.response.data.message = "Something went terribly wrong."
+=======
+    error.response = {data : { message : "Something went terribly wrong."}}
+>>>>>>> 2d52c87fa92341f0ef7691829fdc33ee315e0263
   }
   if (error.response.status === 401) {
     unAuthorize();
