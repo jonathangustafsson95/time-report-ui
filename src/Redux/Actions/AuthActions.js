@@ -65,7 +65,6 @@ axiosAuthInstance.interceptors.response.use((response) => {
 }, async function (error) {
   console.log(error.response)
   if (typeof(error.response) === "undefined"){
-    console.log("plokten")
     error.response = {data : { message : "Something went terribly wrong."}}
   }
   if (error.response.status === 401) {

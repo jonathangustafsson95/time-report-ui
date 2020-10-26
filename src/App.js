@@ -5,6 +5,7 @@ import SignIn from "./Components/SignInComponents/SignInComponent";
 import { connect } from "react-redux";
 import { isMobile } from "react-device-detect";
 import {reAuthorize} from "./Redux/Actions/AuthActions"
+import jwtDecode from "jwt-decode"
 
 function App({ authData, reAuth }) {
   if (!authData.user) {
@@ -14,15 +15,20 @@ function App({ authData, reAuth }) {
     };
     
     if (localStorageData.token !== null){
-      reAuth(localStorageData);
+      console.log(jwtDecode(localStorage.token));
+      if (jwtDecode(localStorageData.token).exp > Date.now() / 1000) {
+        reAuth(localStorageData);
+      }
+      else {
+        localStorage.clear();
+      }
     }
-    else {
-      return (
-        <div>
-          <SignIn />
-        </div>
-      );
-    } 
+    
+    return (
+      <div>
+        <SignIn />
+      </div>
+    );
   }
   
   if (isMobile) {
