@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import RegistryInfoModal from "../../ModalComponents/RegistryComponents/RegistryInfoComponents/RegistryInfoComponent";
 import { commitRegistryFromTemplateToStore } from "../../../Redux/Actions/RegistryActions";
@@ -6,14 +6,22 @@ import { connect } from "react-redux";
 import Icon from "./IconComponent";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const renderTooltip = (props) => (
-  <Tooltip id="button-tooltip" {...props}>
-    missionName
-  </Tooltip>
-);
+const renderTooltip = (props, registry) => {
+  return (
+    <Tooltip id="button-tooltip" {...props}>
+      <MText>{registry.missionName}</MText>
+      <TText>{registry.taskName}</TText>
+    </Tooltip>
+  );
+};
 
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  useEffect(() => {
+    registry.hours < 1 && setShowOverlay(true);
+  }, [registry]);
 
   const onCloseModal = () => {
     setShowModal(false);
@@ -53,8 +61,9 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
       <OverlayTrigger
         placement="right"
         delay={{ show: 250, hide: 100 }}
-        overlay={renderTooltip}
+        overlay={(props) => renderTooltip(props, registry)}
         registry={registry}
+        show={showOverlay ? undefined : false}
       >
         <Box
           hours={registry.hours}
@@ -71,7 +80,7 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
                 color={registry.taskId ? registry.missionColor : "#EB6D6D"}
               />
               <TextDiv>
-                <ProjectText>{registry.missionName}</ProjectText>
+                <MissionText>{registry.missionName}</MissionText>
                 <TaskText>{registry.taskName}</TaskText>
               </TextDiv>
             </InfoDiv>
@@ -112,7 +121,7 @@ const TextDiv = styled.div`
   margin-left: 5px;
 `;
 
-const ProjectText = styled.h3`
+const MissionText = styled.h3`
   font-family: Roboto;
   font-weight: normal;
   font-size: 10px;
@@ -131,6 +140,13 @@ const TaskText = styled.h4`
   text-align: left;
   color: #585656;
   margin: 0;
+`;
+
+const MText = styled(MissionText)`
+  color: white;
+`;
+const TText = styled(TaskText)`
+  color: white;
 `;
 
 const mapPropsToState = (state) => {

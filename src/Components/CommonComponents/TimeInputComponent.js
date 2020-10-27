@@ -20,7 +20,7 @@ const TimeInput = ({ setHours, hours, minutes, setMinutes, titleContent }) => {
     <Root>
       <Title>{titleContent}</Title>
       <TimeDiv>
-        <Text>Pick hour</Text>
+        <Text>Pick hours</Text>
         <Slider
           className={classes.root}
           defaultValue={hours}
@@ -32,7 +32,7 @@ const TimeInput = ({ setHours, hours, minutes, setMinutes, titleContent }) => {
           max={10}
           valueLabelDisplay="auto"
         />
-        <Text>Pick minute</Text>
+        <Text>Pick minutes</Text>
         <Slider
           className={classes.root}
           defaultValue={minutes}

@@ -89,7 +89,6 @@ const fetchCustomerInternalStatsRequest = () => {
 };
 
 const fetchCustomerInternalStatsSuccess = (data) => {
-  console.log(data);
   return {
     type: Types.FETCH_CUSTOMER_INTERNAL_STATS_SUCCESS,
     payload: data,
@@ -114,7 +113,6 @@ export const fetchCustomerInternalStats = () => {
       method: "get",
     })
       .then((response) => {
-        console.log(response);
         dispatch(fetchCustomerInternalStatsSuccess(response.data));
       })
       .catch((error) => {
@@ -126,7 +124,6 @@ export const fetchCustomerInternalStats = () => {
 // Request interceptor for API calls
 axiosStatisticInstance.interceptors.request.use(
   async (config) => {
-    console.log(config);
     config.headers.Authorization = "Bearer " + localStorage.getItem("token");
     return config;
   },
@@ -142,7 +139,7 @@ axiosStatisticInstance.interceptors.response.use(
   },
   async function (error) {
     if (typeof error.response.data.message === "undefined") {
-      error.response = {data : { message : "Something went terribly wrong."}}
+      error.response = { data: { message: "Something went terribly wrong." } };
     }
     if (error.response.status === 401) {
       unAuthorize();

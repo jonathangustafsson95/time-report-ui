@@ -373,7 +373,6 @@ export const addMissionMembership = (missionId) => {
 // Request interceptor for API calls
 axiosMissionInstance.interceptors.request.use(
   async (config) => {
-    console.log(config);
     config.headers.Authorization = "Bearer " + localStorage.getItem("token");
     return config;
   },

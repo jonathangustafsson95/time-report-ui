@@ -164,7 +164,6 @@ export const fetchTimeReportDayData = (date) => {
         dispatch(fetchTimeReportDayDataSuccess(response));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(fetchTimeReportDayDataFailure(error.response.data.message));
       });
   };
@@ -215,8 +214,6 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
         dispatch(saveChangesSuccess());
       })
       .catch((error) => {
-        console.log(error.response)
-        console.log("catch");
         dispatch(saveChangesFailure(error.response.data.message));
       });
   };
@@ -225,7 +222,6 @@ export const saveChanges = (registriesToReport, registriesToDelete) => {
 // Request interceptor for API calls
 axiosRegistryInstance.interceptors.request.use(
   async config => {
-    console.log(config)
     config.headers.Authorization = "Bearer " + localStorage.getItem('token');
     return config;
   },

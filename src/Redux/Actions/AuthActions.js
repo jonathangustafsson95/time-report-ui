@@ -46,7 +46,6 @@ export const authorize = (userData) => {
 
 export const reAuthorize = (localStorageData) => {
   return (dispatch) => {
-    console.log(localStorageData)
     dispatch(authorizeSuccess(localStorageData));
   }
 }
@@ -63,7 +62,6 @@ export const unAuthorize = () => {
 axiosAuthInstance.interceptors.response.use((response) => {
   return response
 }, async function (error) {
-  console.log(error.response)
   if (typeof(error.response) === "undefined"){
     error.response = {data : { message : "Something went terribly wrong."}}
   }

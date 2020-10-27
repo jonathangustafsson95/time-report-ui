@@ -26,8 +26,6 @@ const TaskTable = ({
 }) => {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [rows, setRows] = useState([]);
-  console.log(missionId);
-  console.log(loading);
 
   useEffect(() => {
     !missionId && setRows([]);
