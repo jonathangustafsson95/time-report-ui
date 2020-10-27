@@ -22,12 +22,16 @@ const TaskTable = ({
   currentTask,
   setCurrentTask,
   info = false,
+  loading,
 }) => {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [rows, setRows] = useState([]);
+  console.log(missionId);
+  console.log(loading);
 
   useEffect(() => {
-    if (missionId) {
+    !missionId && setRows([]);
+    if (missionId && !loading) {
       const mission = missions.find(
         (mission) => mission.missionId === missionId
       );
@@ -64,11 +68,10 @@ const TaskTable = ({
           setCurrentTask(rows[0].id);
         }
       }
-
-      setRows(rows);
+      setRows(rows); 
       setSelectedStatus(selectedStatus);
     }
-  }, [missionId, missions, currentTask, info, setCurrentTask]);
+  }, [missionId, missions, info]);
 
   const classes = useStyles();
 
@@ -134,6 +137,7 @@ const TableHolder = styled.div`
   ${props => props.isMobile && "width: 90%;" }
   padding-bottom: 0;
   border-radius: 10px;
+  height: 100%;
   background: #fff;
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.14));
   max-height: 300px;

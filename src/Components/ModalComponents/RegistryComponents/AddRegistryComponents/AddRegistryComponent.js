@@ -22,7 +22,7 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
 
   if (isMobile) {
     return (
-      <StyledModal show={showModal} onHide={onCloseModal} centered >
+      <StyledModal show={showModal} onHide={onCloseModal} centered>
         <Modal.Body>
           <ArrowBackIosIcon onClick={() => onCloseModal()} />
           <Text>New Registry</Text>
@@ -96,7 +96,8 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
 };
 
 const StyledModal = styled(Modal)`
-  // margin-top: -100px;
+  z-index: 3000;
+  position: absolute;
 `;
 
 const IconButton = styled.button`

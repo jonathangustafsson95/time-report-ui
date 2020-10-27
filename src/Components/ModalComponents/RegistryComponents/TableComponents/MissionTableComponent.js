@@ -122,11 +122,11 @@ const Title = styled.p`
   opacity: 0.8;
   letter-spacing: 0.08em;
   color: #585656;
-  ${props => props.isMobile ? "10px" : "30px"};
+  margin-bottom: ${props => props.isMobile ? "10px" : "30px"};
   text-align: left;
 `;
 
-const TableHolder = styled.div`
+const TableHolder = styled.div` 
   padding: 15px;
   padding-bottom: 0;
   border-radius: 10px;

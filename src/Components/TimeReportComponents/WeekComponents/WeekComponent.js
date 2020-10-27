@@ -9,6 +9,7 @@ import {
   resetIsSuccesfullySaved,
   saveChanges,
 } from "../../../Redux/Actions/RegistryActions";
+import { fetchMarkedMissions } from "../../../Redux/Actions/MissionActions";
 import { setDate } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
@@ -31,6 +32,7 @@ const Week = ({
   resetIsSuccesfullySaved,
   setDate,
   date,
+  fetchMarkedMissions
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   const [isReporting, setIsReporting] = useState(false);
@@ -38,12 +40,13 @@ const Week = ({
   useEffect(() => {
     resetIsSuccesfullySaved();
     fetchData(date);
+    fetchMarkedMissions();
   }, [fetchData, date, resetIsSuccesfullySaved]);
 
   const onReportRegistries = () => {
     saveChanges(
       registryData.registriesToReport,
-      registryData.registriesToDelete,
+      registryData.registriesToDelete
     );
     setShowSnackBar(true);
     setIsReporting(true);
@@ -101,9 +104,7 @@ const Week = ({
           </IconButton>
         </Inner>
       </BoxDiv>
-      <Button onClick={() => onReportRegistries()}>
-        Save Changes
-      </Button>
+      <Button onClick={() => onReportRegistries()}>Save Changes</Button>
 
       {registryData.error && (
         <SnackBar
@@ -185,6 +186,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(saveChanges(registriesToReport, registriesToDelete)),
     resetIsSuccesfullySaved: () => dispatch(resetIsSuccesfullySaved()),
     setDate: (type) => dispatch(setDate(type)),
+    fetchMarkedMissions: () => dispatch(fetchMarkedMissions()),
   };
 };
 

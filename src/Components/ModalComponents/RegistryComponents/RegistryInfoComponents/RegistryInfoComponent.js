@@ -71,29 +71,39 @@ const RegistryInfo = ({
     );
   } else {
     return (
-      <Modal
+      <ModalDiv
         show={showModal}
         onHide={onCloseModal}
         dialogClassName="modal-90w"
         centered
       >
-        <Modal.Header>
-          <Text>{registry.missionName}</Text>
-          <Text>{registry.taskName}</Text>
+        <HeaderDiv>
+          <IconButton onClick={() => onCloseModal()}>
+            <ArrowBackIosIcon />
+          </IconButton>
+          <TitleDiv>
+            <Text>{registry.missionName}</Text>
+            <Text>{registry.taskName}</Text>
+          </TitleDiv>
           <IconButton onClick={() => onDelete(registry)}>
             <TrashIcon />
           </IconButton>
-        </Modal.Header>
+        </HeaderDiv>
         <Modal.Body></Modal.Body>
         {!registry.taskId ? (
           <InternalInfo registry={registry} updateRegistry={updateRegistry} />
         ) : (
           <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
         )}
-      </Modal>
+      </ModalDiv>
     );
   }
 };
+
+const ModalDiv = styled(Modal)`
+  z-index: 3000;
+  position: absolute;
+`;
 
 const HeaderDiv = styled(Modal.Header)`
   display: flex;

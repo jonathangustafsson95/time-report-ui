@@ -33,7 +33,7 @@ const MissionsTable = ({
   addMembership,
   removeMembership,
   missionData,
-}) => {
+}) => { 
   let history = useHistory();
   const classes = useStyles();
   const [showSnackBar, setShowSnackBar] = useState(false);

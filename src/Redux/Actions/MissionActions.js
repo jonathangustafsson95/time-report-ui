@@ -156,6 +156,42 @@ export const fetchMissionData = (searchString, type) => {
   };
 };
 
+const fetchMarkedMissionsRequest = () => {
+  return {
+    type: Types.FETCH_MARKED_MISSIONS_REQUEST,
+  };
+};
+
+const fetchMarkedMissionsSuccess = (missions) => {
+  return {
+    type: Types.FETCH_MARKED_MISSIONS_SUCCESS,
+    payload: missions,
+  };
+};
+
+const fetchMarkedMissionsFailure = (error) => {
+  return {
+    type: Types.FETCH_MARKED_MISSIONS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchMarkedMissions = () => {
+  return (dispatch) => {
+    dispatch(fetchMarkedMissionsRequest());
+    axiosMissionInstance({
+      url: service.baseUrl + "/mission/FavoriteMissions",
+      method: "get",
+    })
+      .then((response) => {
+        dispatch(fetchMarkedMissionsSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchMarkedMissionsFailure(error.response.data.message));
+      });
+  };
+};
+
 const fetchMissionsBySearchStringRequest = () => {
   return {
     type: Types.FETCH_MISSIONS_BY_SEARCHSTRING_REQUEST,
@@ -350,11 +386,7 @@ axiosMissionInstance.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   if (typeof(error.response.data.message) === 'undefined'){
-<<<<<<< HEAD
-    //error.response.data.message = "Something went terribly wrong."
-=======
     error.response = {data : { message : "Something went terribly wrong."}}
->>>>>>> 2d52c87fa92341f0ef7691829fdc33ee315e0263
   }
   if (error.response.status === 401) {
     unAuthorize();
