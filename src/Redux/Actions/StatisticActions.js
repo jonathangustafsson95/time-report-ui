@@ -3,6 +3,14 @@ import * as Types from "../Types/StatisticTypes";
 import * as service from "../ApiService/Service";
 import { unAuthorize } from "./AuthActions";
 
+// LOCAL actions
+
+export const resetStatisticDataStore = () => {
+  return {
+    type: Types.RESET_STATISTIC_DATA_STORE,
+  }
+}
+
 // API actions
 
 const axiosStatisticInstance = axios.create();

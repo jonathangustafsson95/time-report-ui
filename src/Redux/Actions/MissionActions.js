@@ -3,9 +3,15 @@ import axios from "axios";
 import * as service from "../ApiService/Service";
 import { unAuthorize } from "./AuthActions";
 
+const axiosMissionInstance = axios.create();
+
 // LOCAL actions
 
-const axiosMissionInstance = axios.create();
+export const resetMissionDataStore = () => {
+  return {
+    type: Types.RESET_MISSION_DATA_STORE,
+  }
+}
 
 export const resetMissionsFromStore = () => {
   return {

@@ -37,11 +37,13 @@ const CustomerInfo = ({
   const [hours, setHours] = useState(tmpHour);
   const [minutes, setMinutes] = useState(tmpMinutes);
   const [isValid, setIsValid] = useState(true);
+  const [isTaskValid, setIsTaskValid] = useState(true);
   const [tableType, setTableType] = useState({
     yourMissions: true,
     allMissions: false,
   });
   const [searchString, setSearchString] = useState("");
+
   const handleClick = (type) => {
     changeCurrentTableType(type);
     type === "yourMissions"
@@ -97,7 +99,10 @@ const CustomerInfo = ({
       (mission) => mission.missionId === currentMission
     );
     const task = mission.tasks.find((task) => task.taskId === currentTask);
-
+    if (task === undefined) {
+      setIsTaskValid(false);
+      return;
+    }
     updatedReg.hours = time;
     updatedReg.taskId = currentTask;
     updatedReg.taskName = task.name;
@@ -158,7 +163,8 @@ const CustomerInfo = ({
         minutes={minutes}
         titleContent="Change time"
       />
-      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
+      {!isValid && <Alert severity="error">Time can't be zero</Alert>}
+      {!isTaskValid && <Alert severity="error">You must choose a task</Alert>}
       <Button onClick={() => update()}>Update</Button>
     </Root>
   );

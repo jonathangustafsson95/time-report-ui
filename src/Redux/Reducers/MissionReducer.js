@@ -16,6 +16,10 @@ const initialState = {
 const missionReducer = (state = initialState, action) => {
   switch (action.type) {
     // Local reducers
+    case Types.RESET_MISSION_DATA_STORE:
+      return {
+        ...initialState
+      }
     case Types.RESET_MISSIONS_FROM_STORE:
       return {
         ...state,

@@ -17,6 +17,10 @@ const initialState = {
 const registryReducer = (state = initialState, action) => {
   switch (action.type) {
     // LOCAL state manipulators
+    case Types.RESET_REGISTRY_DATA_STORE:
+      return {
+        ...initialState
+      };
     case Types.ADD_REGISTRY_TO_STORE:
       return {
         ...state,
@@ -131,6 +135,9 @@ const registryReducer = (state = initialState, action) => {
         loading: true,
       };
     case Types.FETCH_TIME_REPORT_DATA_SUCCESS:
+      action.payload[0].data.forEach((registry) => {
+        registry.new = false;
+      });
       return {
         ...state,
         loading: false,
@@ -150,30 +157,30 @@ const registryReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         error: true,
       };
-      case Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-      case Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          registriesByWeek: action.payload[0].data,
-          latestRegistries: action.payload[1].data,
-          errorMsg: "",
-          error: false,
-        };
-      case Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          registriesByWeek: [],
-          latestRegistries: [],
-          errorMsg: action.payload,
-          error: true,
-        };
-      
+    case Types.FETCH_TIME_REPORT_DAY_DATA_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.FETCH_TIME_REPORT_DAY_DATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        registriesByWeek: action.payload[0].data,
+        latestRegistries: action.payload[1].data,
+        errorMsg: "",
+        error: false,
+      };
+    case Types.FETCH_TIME_REPORT_DAY_DATA_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        registriesByWeek: [],
+        latestRegistries: [],
+        errorMsg: action.payload,
+        error: true,
+      };
+
     case Types.SAVE_CHANGES_REQUEST:
       return {
         ...state,

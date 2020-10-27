@@ -16,7 +16,7 @@ const LatestRegistryItemComponent = ({ registry }) => {
       draggable
       onDragStart={(e) => handleOnDrag(e)}
     >
-      <Icon color={registry.missionColor} size="large"/>
+      <Icon color={registry.missionColor} size="large" status={registry.new} from="latest"/>
       <TextDiv>
         <Project>{registry.missionName}</Project>
         <Mission>{registry.taskName}</Mission>

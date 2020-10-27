@@ -8,8 +8,9 @@ import {
   fetchTimeReportData,
   resetIsSuccesfullySaved,
   saveChanges,
+  resetRegistryDataStore
 } from "../../../Redux/Actions/RegistryActions";
-import { fetchMarkedMissions } from "../../../Redux/Actions/MissionActions";
+import { fetchMarkedMissions, resetMissionDataStore } from "../../../Redux/Actions/MissionActions";
 import { setDate } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
@@ -32,7 +33,9 @@ const Week = ({
   resetIsSuccesfullySaved,
   setDate,
   date,
-  fetchMarkedMissions
+  fetchMarkedMissions,
+  resetRegistryDataStore,
+  resetMissionDataStore
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   const [isReporting, setIsReporting] = useState(false);
@@ -51,6 +54,13 @@ const Week = ({
     setShowSnackBar(true);
     setIsReporting(true);
   };
+
+  useEffect(() => {
+    return function cleanUp() {
+      resetRegistryDataStore();
+      resetMissionDataStore();
+    }
+  },[])
 
   if (isReporting && !registryData.loading) {
     if (!registryData.error) {
@@ -187,6 +197,8 @@ const mapDispatchToProps = (dispatch) => {
     resetIsSuccesfullySaved: () => dispatch(resetIsSuccesfullySaved()),
     setDate: (type) => dispatch(setDate(type)),
     fetchMarkedMissions: () => dispatch(fetchMarkedMissions()),
+    resetRegistryDataStore: () => dispatch(resetRegistryDataStore()),
+    resetMissionDataStore: () => dispatch(resetMissionDataStore()),
   };
 };
 

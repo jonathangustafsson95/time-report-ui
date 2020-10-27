@@ -73,15 +73,19 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
           onDragStart={(e) => handleOnDrag(e)}
           onClick={() => handleClick()}
           opacity={registry.isFromTemplate ? 0.5 : 1}
+          new={registry.new}
         >
           {registry.hours >= 1 ? (
             <InfoDiv>
               <Icon
                 color={registry.taskId ? registry.missionColor : "#EB6D6D"}
+                status={registry.new}
               />
               <TextDiv>
-                <MissionText>{registry.missionName}</MissionText>
-                <TaskText>{registry.taskName}</TaskText>
+                <MissionText new={registry.new}>
+                  {registry.missionName}
+                </MissionText>
+                <TaskText new={registry.new}>{registry.taskName}</TaskText>
               </TextDiv>
             </InfoDiv>
           ) : null}
@@ -99,6 +103,7 @@ const Box = styled.div`
   text-align: center;
   background-color: ${(props) =>
     props.registry.hours >= 1 ? "white" : props.color};
+  ${(props) => !props.new && "background-color: " + props.color + ";"}
   border: 4px solid ${(props) => props.color};
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
   opacity: ${(props) => props.opacity};
@@ -126,8 +131,7 @@ const MissionText = styled.h3`
   font-weight: normal;
   font-size: 10px;
   letter-spacing: 0.02em;
-  text-align: left;
-  color: #585656;
+  color: ${(props) => props.new ? "#585656" : "white"};
   margin: 0;
   margin-bottom: 3px;
 `;
@@ -137,8 +141,7 @@ const TaskText = styled.h4`
   font-weight: 500;
   font-size: 7px;
   letter-spacing: 0.02em;
-  text-align: left;
-  color: #585656;
+  color: ${(props) => props.new ? "#585656" : "white"};
   margin: 0;
 `;
 

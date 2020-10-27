@@ -7,7 +7,6 @@ const MarkedMissionItem = ({ mission }) => {
   const tasks = mission.tasks.map((task) => (
       <TaskItem key={task.taskId} task={task} mission={mission}/>
   ))
-  console.log(show);
   return (
     <Root>
       <Button onClick={() => setShow(!show)}>{mission.missionName}</Button>

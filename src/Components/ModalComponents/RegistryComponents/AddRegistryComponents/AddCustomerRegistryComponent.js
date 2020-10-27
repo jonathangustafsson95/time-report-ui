@@ -94,7 +94,6 @@ const AddCustomerRegistry = ({
       (mission) => mission.missionId === currentMission
     );
     const task = mission.tasks.find((task) => task.taskId === currentTask);
-
     const registryToReport = {
       registryId: 0,
       taskId: currentTask,
@@ -188,7 +187,7 @@ const AddCustomerRegistry = ({
         minutes={minutes}
         titleContent="Add time"
       />
-      {!isValid ? <Alert severity="error">Time can't be zero</Alert> : null}
+      {!isValid && <Alert severity="error">Time can't be zero</Alert>}
       <Button disabled={!isValid} onClick={onAddRegistry}>
         Add
       </Button>

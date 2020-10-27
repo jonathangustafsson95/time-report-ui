@@ -2,22 +2,31 @@ import React, { useEffect, useState } from "react";
 import MarkedMissions from "./MarkedMissionsComponents/MarkedMissionsComponent";
 import MissionsTableHolder from "./MissionsTableComponents/MissionsTableHolderComponent";
 import { connect } from "react-redux";
-import { fetchMissionData } from "../../Redux/Actions/MissionActions";
+import {
+  fetchMissionData,
+  resetMissionDataStore,
+} from "../../Redux/Actions/MissionActions";
 import styled from "styled-components";
 import SnackBar from "../SnackBarComponents/SnackBarComponent";
 
-const Projects = ({
-  token,
+const Missions = ({
   fetchMissionData,
   isMissionStatusUpdated,
   missionData,
   searchString,
   currentTableType,
+  resetStore,
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
   useEffect(() => {
     fetchMissionData(searchString, currentTableType);
-  }, [fetchMissionData, isMissionStatusUpdated]);
+  }, [fetchMissionData, isMissionStatusUpdated, searchString]);
+
+  useEffect(() => {
+    return function cleanUp() {
+      resetStore();
+    };
+  }, []);
 
   return (
     <Main>
@@ -27,7 +36,7 @@ const Projects = ({
         <SnackBar
           show={showSnackBar}
           hide={() => setShowSnackBar(false)}
-          error={true} 
+          error={true}
         />
       ) : null}
     </Main>
@@ -50,8 +59,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMissionData: (searchString, type ) => dispatch(fetchMissionData(searchString, type)),
+    fetchMissionData: (searchString, type) =>
+      dispatch(fetchMissionData(searchString, type)),
+    resetStore: () => dispatch(resetMissionDataStore()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Missions);

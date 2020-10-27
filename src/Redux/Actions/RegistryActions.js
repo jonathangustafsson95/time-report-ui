@@ -3,9 +3,15 @@ import axios from "axios";
 import * as service from "../ApiService/Service";
 import {unAuthorize} from './AuthActions'
 
+const axiosRegistryInstance = axios.create();
+
 // LOCAL ACTIONS
 
-const axiosRegistryInstance = axios.create();
+export const resetRegistryDataStore = () => {
+  return {
+    type: Types.RESET_REGISTRY_DATA_STORE,
+  }
+}
 
 export const addRegistryToStore = (registryData) => {
   return {

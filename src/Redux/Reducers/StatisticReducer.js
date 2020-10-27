@@ -11,6 +11,10 @@ const initialState = {
 
 const statisticReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Types.RESET_STATISTIC_DATA_STORE:
+      return {
+        ...initialState,
+      };
     case Types.FETCH_TASK_STATS_REQUEST:
       return {
         ...state,
