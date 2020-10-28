@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import SnackBar from "../SnackBarComponents/SnackBarComponent";
-import { connect } from "react-redux";
 import PieChart from "./PieChartComponent";
 import BarChart from "./BarChartComponent";
 import RecentEvents from "../MissionComponents/RecentEventsComponent";
 import styled from "styled-components";
 
-const DashBoard = ({ isSuccesfullySaved }) => {
-  const [showSnackBar, setShowSnackBar] = useState(true);
-
+const DashBoard = () => {
   return (
     <Root>
-      {isSuccesfullySaved && (
-        <SnackBar show={showSnackBar} hide={() => setShowSnackBar(false)} />
-      )}
       <PieChart />
       <BarChart />
       <RecentEvents />
@@ -26,10 +19,4 @@ const Root = styled.div`
   align-items: flex-start;
 `;
 
-const mapStateToProps = (state) => {
-  return {
-    isSuccesfullySaved: state.registryData.isSuccesfullySaved,
-  };
-};
-
-export default connect(mapStateToProps)(DashBoard);
+export default DashBoard;
