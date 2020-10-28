@@ -13,21 +13,18 @@ function App({ authData, reAuth }) {
       token: localStorage.getItem("token"),
       userDetails: JSON.parse(localStorage.getItem("userDetails")),
     };
-    
-    if (localStorageData.token !== null){
-      if (jwtDecode(localStorageData.token).exp > Date.now() / 1000) {
-        reAuth(localStorageData);
-      }
-      else {
-        localStorage.clear();
-      }
+
+    if (localStorageData.token !== null && jwtDecode(localStorageData.token).exp > Date.now() / 1000) {
+      reAuth(localStorageData);
     }
-    
-    return (
-      <div>
-        <SignIn />
-      </div>
-    );
+    else {
+      localStorage.clear();
+      return (
+        <div>
+          <SignIn />
+        </div>
+      );
+    }
   }
   
   if (isMobile) {

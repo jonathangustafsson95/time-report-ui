@@ -51,8 +51,7 @@ export const reAuthorize = (localStorageData) => {
 }
 
 export const unAuthorize = () => {
-  localStorage.removeItem("token")
-  localStorage.removeItem("userDetails")
+  localStorage.clear();
   return {
     type: Types.UN_AUTHORIZATION,
   };

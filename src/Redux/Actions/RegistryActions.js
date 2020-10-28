@@ -2,6 +2,7 @@ import * as Types from "../Types/RegistryTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 import {unAuthorize} from './AuthActions'
+import reduxStore from '../Store';
 
 const axiosRegistryInstance = axios.create();
 
@@ -236,14 +237,16 @@ axiosRegistryInstance.interceptors.request.use(
 });
 
 // Response interceptor for API calls
-axiosRegistryInstance.interceptors.response.use((response) => {
-  return response
-}, async function (error) {
-  if (typeof(error.response) === 'undefined'){
-    error.response = {data : {message:"Something went terribly wrong."}}
+const {dispatch} = reduxStore;
+axiosRegistryInstance.interceptors.response.use(
+  response => response, 
+  error => {
+    if (error.response.status === 401 || error.response.status === 403) {
+      dispatch(unAuthorize());
+    }
+    if (typeof(error.response) === 'undefined'){
+      error.response = {data : {message:"Something went terribly wrong."}}
+    }
+    return Promise.reject(error);
   }
-  if (error.response.status === 401) {
-    unAuthorize();
-  }
-  return Promise.reject(error);
-});
+);
