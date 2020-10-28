@@ -32,6 +32,8 @@ const MissionsTableHolder = ({
 
   const handleClick = (type) => {
     changeCurrentTableType(type);
+    setSearchString("");
+    setIsValid(true);
     type === "yourMissions"
       ? setTableType({ yourMissions: true, allMissions: false })
       : setTableType({ yourMissions: false, allMissions: true });
@@ -86,6 +88,7 @@ const MissionsTableHolder = ({
             id="standard-basic"
             label="Search"
             onChange={(e) => handleOnValueChange(e)}
+            value={searchString}
           />
         </MissionButtonDiv>
         {!isValid && (
