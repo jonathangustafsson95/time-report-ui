@@ -8,9 +8,12 @@ import {
   fetchTimeReportData,
   resetIsSuccesfullySaved,
   saveChanges,
-  resetRegistryDataStore
+  resetRegistryDataStore,
 } from "../../../Redux/Actions/RegistryActions";
-import { fetchMarkedMissions, resetMissionDataStore } from "../../../Redux/Actions/MissionActions";
+import {
+  fetchMarkedMissions,
+  resetMissionDataStore,
+} from "../../../Redux/Actions/MissionActions";
 import { setDate } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
 import { Redirect } from "react-router-dom";
@@ -35,16 +38,17 @@ const Week = ({
   date,
   fetchMarkedMissions,
   resetRegistryDataStore,
-  resetMissionDataStore
+  resetMissionDataStore,
+  isSuccesfullySaved,
 }) => {
   const [showSnackBar, setShowSnackBar] = useState(true);
+  const [showSecSnackBar, setShowSecSnackBar] = useState(true);
   const [isReporting, setIsReporting] = useState(false);
 
   useEffect(() => {
-    resetIsSuccesfullySaved();
     fetchData(date);
     fetchMarkedMissions();
-  }, [fetchData, date, resetIsSuccesfullySaved]);
+  }, [fetchData, fetchMarkedMissions, date, isReporting]);
 
   const onReportRegistries = () => {
     saveChanges(
@@ -59,14 +63,13 @@ const Week = ({
     return function cleanUp() {
       resetRegistryDataStore();
       resetMissionDataStore();
-    }
-  },[])
+    };
+  }, []);
 
   if (isReporting && !registryData.loading) {
     if (!registryData.error) {
-      return <Redirect to="/" />;
+      setIsReporting(false);
     }
-    setIsReporting(false);
   }
 
   const getMonAndSun = () => {
@@ -115,13 +118,24 @@ const Week = ({
         </Inner>
       </BoxDiv>
       <Button onClick={() => onReportRegistries()}>Save Changes</Button>
-
       {registryData.error && (
         <SnackBar
           show={showSnackBar}
           hide={() => setShowSnackBar(false)}
           error={true}
           content={registryData.errorMsg}
+        />
+      )}
+      {console.log(showSecSnackBar)}
+      {isSuccesfullySaved && (
+        
+        <SnackBar
+          show={showSecSnackBar}
+          hide={() => {
+            setShowSecSnackBar(false);
+            resetIsSuccesfullySaved();
+            setShowSecSnackBar(true);
+          }}
         />
       )}
     </div>
@@ -186,6 +200,7 @@ const mapStateToProps = (state) => {
   return {
     registryData: state.registryData,
     date: state.settings.date,
+    isSuccesfullySaved: state.registryData.isSuccesfullySaved,
   };
 };
 

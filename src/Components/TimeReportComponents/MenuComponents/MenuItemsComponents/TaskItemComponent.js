@@ -21,7 +21,7 @@ const TaskItem = ({ task, mission }) => {
 
   return (
     <Box draggable onDragStart={(e) => handleOnDrag(e)}>
-      <Icon color={mission.color} size="large" />
+      <Icon color={mission.color} size="large" from="marked" />
       <Task>{task.name}</Task>
     </Box>
   );
