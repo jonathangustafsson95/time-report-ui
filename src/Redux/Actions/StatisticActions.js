@@ -146,11 +146,11 @@ const {dispatch} = reduxStore;
 axiosStatisticInstance.interceptors.response.use(
   response => response, 
   error => {
-    if (error.response.status === 401 || error.response.status === 403) {
-      dispatch(unAuthorize());
-    }
     if (typeof(error.response) === 'undefined'){
-      error.response = {data : {message:"Something went terribly wrong."}}
+      error.response = {data : {message:"Something went terribly wrong."}};
+    }
+    else if (error.response.status === 401 || error.response.status === 403) {
+      dispatch(unAuthorize());
     }
     return Promise.reject(error);
   }

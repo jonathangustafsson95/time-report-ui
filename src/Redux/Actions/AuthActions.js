@@ -30,7 +30,7 @@ export const authorize = (userData) => {
     axiosAuthInstance({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: "Bengt", password: "bengt123" },
+      data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
@@ -63,7 +63,7 @@ axiosAuthInstance.interceptors.response.use((response) => {
   if (typeof(error.response) === "undefined"){
     error.response = {data : { message : "Something went terribly wrong."}}
   }
-  if (error.response.status === 401) {
+  else if (error.response.status === 401) {
     unAuthorize();
   }
   return Promise.reject(error);
