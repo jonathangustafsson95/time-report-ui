@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
+import Alert from "@material-ui/lab/Alert";
 import {
   fetchMissionsBySearchString,
   resetMissionsFromStore,
@@ -27,6 +28,7 @@ const MissionsTableHolder = ({
   });
 
   const [searchString, setSearchString] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   const handleClick = (type) => {
     changeCurrentTableType(type);
@@ -44,7 +46,14 @@ const MissionsTableHolder = ({
   };
 
   const handleSearch = () => {
-    tableType.allMissions && fetchBySearch(searchString, token);
+    if (tableType.allMissions) {
+      if (searchString !== "") {
+        fetchBySearch(searchString);
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+      }
+    }
     if (tableType.yourMissions) {
       filterMissions(searchString);
     }
@@ -79,6 +88,9 @@ const MissionsTableHolder = ({
             onChange={(e) => handleOnValueChange(e)}
           />
         </MissionButtonDiv>
+        {!isValid && (
+          <Alert severity="error">Search value can not be empty</Alert>
+        )}
 
         {tableType.yourMissions ? (
           <MissionsTable tableType="yourMissions" />
