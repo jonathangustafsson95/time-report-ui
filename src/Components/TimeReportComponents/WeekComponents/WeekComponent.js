@@ -126,7 +126,6 @@ const Week = ({
           content={registryData.errorMsg}
         />
       )}
-      {console.log(showSecSnackBar)}
       {isSuccesfullySaved && (
         
         <SnackBar

@@ -33,7 +33,6 @@ export const authorize = (userData) => {
       data: { userName: "Bengt", password: "bengt123" },
     })
       .then((response) => {
-        console.log(response)
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userDetails", JSON.stringify(response.data.userDetails));
         dispatch(authorizeSuccess(response.data));

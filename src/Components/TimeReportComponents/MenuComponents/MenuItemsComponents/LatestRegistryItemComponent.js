@@ -3,16 +3,12 @@ import styled from "styled-components";
 import Icon from "../../WeekComponents/IconComponent";
 
 const LatestRegistryItemComponent = ({ registry }) => {
-  const handleOnClick = () => {
-    console.log("Click");
-  };
   const handleOnDrag = (e) => {
     e.dataTransfer.setData("registry", JSON.stringify(registry));
     e.dataTransfer.setData("from", "latestRegistries");
   };
   return (
     <Box
-      onClick={() => handleOnClick()}
       draggable
       onDragStart={(e) => handleOnDrag(e)}
     >
