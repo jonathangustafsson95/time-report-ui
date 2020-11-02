@@ -2,6 +2,7 @@ import axios from "axios";
 import * as Types from "../Types/StatisticTypes";
 import * as service from "../ApiService/Service";
 import { unAuthorize } from "./AuthActions";
+import reduxStore from '../Store';
 
 // LOCAL actions
 
@@ -141,16 +142,16 @@ axiosStatisticInstance.interceptors.request.use(
 );
 
 // Response interceptor for API calls
+const {dispatch} = reduxStore;
 axiosStatisticInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async function (error) {
-    if (typeof error.response.data.message === "undefined") {
-      error.response = { data: { message: "Something went terribly wrong." } };
+  response => response, 
+  error => {
+    if (typeof(error.response) === 'undefined'){
+      error.response = {data : {message:"Something went terribly wrong."}};
     }
-    if (error.response.status === 401) {
-      unAuthorize();
+    else if (error.response.status === 401 || error.response.status === 403) {
+      dispatch(unAuthorize());
     }
+    return Promise.reject(error);
   }
 );

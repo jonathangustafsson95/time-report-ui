@@ -32,8 +32,10 @@ const AddCustomerRegistry = ({
   changeCurrentTableType,
   fetchBySearch,
   filterMissions,
+  userId,
+  currentMission,
+  setCurrentMission
 }) => {
-  const [currentMission, setCurrentMission] = useState(null);
   const [currentTask, setCurrentTask] = useState(null);
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
@@ -97,7 +99,7 @@ const AddCustomerRegistry = ({
     const registryToReport = {
       registryId: 0,
       taskId: currentTask,
-      userId: 1,
+      userId: userId,
       hours: time,
       created: d.toJSON(),
       date: date.toJSON(),
@@ -273,6 +275,7 @@ const mapStateToProps = (state) => {
     missions: state.missionData.missions,
     loading: state.missionData.loading,
     error: state.missionData.error,
+    userId: state.authData.user.userDetails.userId,
   };
 };
 

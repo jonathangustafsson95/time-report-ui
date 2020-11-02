@@ -5,7 +5,7 @@ import registryReducer from "./Reducers/RegistryReducer";
 import authReducer from "./Reducers/AuthReducer";
 import missionReducer from "./Reducers/MissionReducer";
 import settingsReducer from "./Reducers/SettingsReducer";
-import statisticReducer from "./Reducers/StatisticReducer"
+import statisticReducer from "./Reducers/StatisticReducer";
 
 const rootReducer = combineReducers({
   registryData: registryReducer,
@@ -14,10 +14,13 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   statisticData: statisticReducer,
 });
-
+const composeEnhancers = composeWithDevTools({
+  trace: true,
+  traceLimit: 25,
+});
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export default store;

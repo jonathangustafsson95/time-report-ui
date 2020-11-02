@@ -199,6 +199,7 @@ const registryReducer = (state = initialState, action) => {
         error: false,
       };
     case Types.SAVE_CHANGES_FAILURE:
+      console.log()
       return {
         ...state,
         loading: false,

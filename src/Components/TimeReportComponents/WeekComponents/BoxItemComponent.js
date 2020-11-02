@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Icon from "./IconComponent";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { dayBoxHeight } from "../../../Service/Constants";
+import { resetMissionsFromStore } from "../../../Redux/Actions/MissionActions";
 
 const renderTooltip = (props, registry) => {
   return (
@@ -16,7 +17,7 @@ const renderTooltip = (props, registry) => {
   );
 };
 
-const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
+const BoxItem = ({ registry, commitTemplateRegistry, resetMissions }) => {
   const [showModal, setShowModal] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   useEffect(() => {
@@ -144,6 +145,7 @@ const TaskText = styled.h4`
 const MText = styled(MissionText)`
   color: white;
 `;
+
 const TText = styled(TaskText)`
   color: white;
 `;

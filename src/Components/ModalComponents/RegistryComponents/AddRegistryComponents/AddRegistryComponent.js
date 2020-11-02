@@ -7,13 +7,15 @@ import Icon from "../../IconComponents/MenuIconComponent";
 import "../Css/Modal.css";
 import { isMobile } from "react-device-detect";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { connect } from "react-redux";
+import { resetMissionsFromStore } from "../../../../Redux/Actions/MissionActions";
 
-const AddRegistry = ({ date, showModal, onCloseModal }) => {
+const AddRegistry = ({ date, showModal, onCloseModal, resetMissions }) => {
   const [registryType, setRegistryType] = useState({
     internal: true,
     customer: false,
   });
-
+  const [currentMission, setCurrentMission] = useState(null);
   const toggleButton = (buttonName) => {
     buttonName === "internal"
       ? setRegistryType({ internal: true, customer: false })
@@ -22,7 +24,15 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
 
   if (isMobile) {
     return (
-      <StyledModal show={showModal} onHide={onCloseModal} centered>
+      <StyledModal
+        show={showModal}
+        onHide={onCloseModal}
+        centered
+        onExited={() => {
+          resetMissions();
+          setCurrentMission(null);
+        }}
+      >
         <Modal.Body>
           <ArrowBackIosIcon onClick={() => onCloseModal()} />
           <Text>New Registry</Text>
@@ -49,7 +59,12 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
           {registryType.internal ? (
             <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
           ) : (
-            <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
+            <AddCustomerRegistry
+              date={date}
+              onCloseModal={onCloseModal}
+              currentMission={currentMission}
+              setCurrentMission={setCurrentMission}
+            />
           )}
         </Modal.Body>
       </StyledModal>
@@ -61,6 +76,10 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
         onHide={onCloseModal}
         dialogClassName="modal-90w"
         centered
+        onExited={() => {
+          resetMissions();
+          setCurrentMission(null);
+        }}
       >
         <Modal.Body>
           <Text>New Registry</Text>
@@ -87,7 +106,12 @@ const AddRegistry = ({ date, showModal, onCloseModal }) => {
           {registryType.internal ? (
             <AddInternalRegistry date={date} onCloseModal={onCloseModal} />
           ) : (
-            <AddCustomerRegistry date={date} onCloseModal={onCloseModal} />
+            <AddCustomerRegistry
+              date={date}
+              onCloseModal={onCloseModal}
+              currentMission={currentMission}
+              setCurrentMission={setCurrentMission}
+            />
           )}
         </Modal.Body>
       </StyledModal>
@@ -160,4 +184,9 @@ const MenuLine = styled.hr`
   margin-left: 7px;
 `;
 
-export default AddRegistry;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetMissions: () => dispatch(resetMissionsFromStore()),
+  };
+};
+export default connect(null, mapDispatchToProps)(AddRegistry);

@@ -26,10 +26,10 @@ const CustomerInfo = ({
   changeCurrentTableType,
   fetchBySearch,
   filterMissions,
-  type,
+  currentMission,
+  setCurrentMission,
 }) => {
   const [originalMission, setOriginalMission] = useState(null);
-  const [currentMission, setCurrentMission] = useState(null);
   const [currentTask, setCurrentTask] = useState(registry.taskId);
   const [loading, setLoading] = useState(false);
   const tmpHour = Math.floor(registry.hours);
@@ -43,7 +43,6 @@ const CustomerInfo = ({
     allMissions: false,
   });
   const [searchString, setSearchString] = useState("");
-
   const handleClick = (type) => {
     changeCurrentTableType(type);
     type === "yourMissions"
@@ -55,7 +54,6 @@ const CustomerInfo = ({
       ? fetchMissions(registry.taskId)
       : searchString !== "" && fetchBySearch(searchString);
   };
-
   const handleSearch = () => {
     setLoading(true);
     tableType.allMissions && fetchBySearch(searchString);
@@ -63,15 +61,12 @@ const CustomerInfo = ({
       filterMissions(searchString);
     }
   };
-
   const handleOnValueChange = (e) => {
     setSearchString(e.target.value);
   };
-
   useEffect(() => {
     fetchMissions(registry.taskId);
   }, [registry.taskId, fetchMissions]);
-
   useEffect(() => {
     if (missions.length > 0) {
       const mission = missions.find(
@@ -83,9 +78,7 @@ const CustomerInfo = ({
       !mission && setCurrentMission(missions[0].missionId);
       setLoading(false);
     }
-    
   }, [missions, currentTask]);
-
   const update = () => {
     if (hours === 0 && minutes === 0) {
       setIsValid(false);
@@ -108,10 +101,10 @@ const CustomerInfo = ({
     updatedReg.taskName = task.name;
     updatedReg.missionName = mission.missionName;
     updatedReg.missionColor = mission.missionColor;
-
     updateRegistry(updatedReg);
+    setCurrentMission(null);
+    resetMissions();
   };
-
   return (
     <Root>
       <MenuSwitch>
@@ -212,8 +205,8 @@ const Root = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
-  align-items: ${(props) => props.isMobile ? "center" : "stretch"};
-  justify-content: ${(props) => props.isMobile ? "stretch" : "center"};
+  align-items: ${(props) => (props.isMobile ? "center" : "stretch")};
+  justify-content: ${(props) => (props.isMobile ? "stretch" : "center")};
   width: 100%;
   margin-bottom: 20px;
 `;

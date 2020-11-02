@@ -28,6 +28,8 @@ const TaskTable = ({
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
+    console.log(missionId);
+    console.log(missions)
     !missionId && setRows([]);
     if (missionId && !loading) {
       const mission = missions.find(
@@ -66,7 +68,7 @@ const TaskTable = ({
           setCurrentTask(rows[0].id);
         }
       }
-      setRows(rows); 
+      setRows(rows);
       setSelectedStatus(selectedStatus);
     }
   }, [missionId, missions, info]);
@@ -86,7 +88,7 @@ const TaskTable = ({
     });
     setCurrentTask(id);
     setSelectedStatus(newSelectedStatus);
-  } 
+  }
 
   return (
     <TableHolder isMobile={isMobile}>
@@ -108,7 +110,9 @@ const TaskTable = ({
                 <TableCell size="small">
                   <Checkbox checked={isItemSelected} />
                 </TableCell>
-                <TableCell size="small" align="right">{row.name}</TableCell>
+                <TableCell size="small" align="right">
+                  {row.name}
+                </TableCell>
               </TableRow>
             );
           })}
@@ -126,13 +130,13 @@ const Title = styled.p`
   opacity: 0.8;
   letter-spacing: 0.08em;
   color: #585656;
-  margin-bottom: ${props => props.isMobile ? "10px" : "30px"};
+  margin-bottom: ${(props) => (props.isMobile ? "10px" : "30px")};
   text-align: left;
 `;
 
 const TableHolder = styled.div`
   padding: 15px;
-  ${props => props.isMobile && "width: 90%;" }
+  ${(props) => props.isMobile && "width: 90%;"}
   padding-bottom: 0;
   border-radius: 10px;
   height: 100%;

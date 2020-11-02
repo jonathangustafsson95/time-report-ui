@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { addRegistryToStore } from "../../../../Redux/Actions/RegistryActions";
 import { Alert } from "@material-ui/lab";
 
-const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
+const AddInternalRegistry = ({ date, onCloseModal, addRegistry, userId }) => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
   const [isValid, setIsValid] = useState(true);
@@ -23,7 +23,7 @@ const AddInternalRegistry = ({ date, onCloseModal, addRegistry }) => {
     const registryToReport = {
       registryId: 0,
       taskId: null,
-      userId: 1,
+      userId: userId,
       hours: time,
       created: new Date().toJSON(),
       date: date.toJSON(),
@@ -87,10 +87,16 @@ const Button = styled.button`
   border: 2px solid #585656;
 `;
 
+const mapStateToProps = (state) => {
+  return {
+    userId: state.authData.user.userDetails.userId,
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addRegistry: (registries) => dispatch(addRegistryToStore(registries)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddInternalRegistry);
+export default connect(mapStateToProps, mapDispatchToProps)(AddInternalRegistry);

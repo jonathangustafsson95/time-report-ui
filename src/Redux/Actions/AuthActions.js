@@ -30,10 +30,9 @@ export const authorize = (userData) => {
     axiosAuthInstance({
       url: service.baseUrl + "/system/login",
       method: "post",
-      data: { userName: "Bengt", password: "bengt123" },
+      data: { userName: userData.userName, password: userData.password },
     })
       .then((response) => {
-        console.log(response)
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userDetails", JSON.stringify(response.data.userDetails));
         dispatch(authorizeSuccess(response.data));
@@ -51,8 +50,7 @@ export const reAuthorize = (localStorageData) => {
 }
 
 export const unAuthorize = () => {
-  localStorage.removeItem("token")
-  localStorage.removeItem("userDetails")
+  localStorage.clear();
   return {
     type: Types.UN_AUTHORIZATION,
   };
@@ -65,7 +63,7 @@ axiosAuthInstance.interceptors.response.use((response) => {
   if (typeof(error.response) === "undefined"){
     error.response = {data : { message : "Something went terribly wrong."}}
   }
-  if (error.response.status === 401) {
+  else if (error.response.status === 401) {
     unAuthorize();
   }
   return Promise.reject(error);

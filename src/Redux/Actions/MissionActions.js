@@ -2,6 +2,7 @@ import * as Types from "../Types/MissionTypes";
 import axios from "axios";
 import * as service from "../ApiService/Service";
 import { unAuthorize } from "./AuthActions";
+import reduxStore from '../Store';
 
 const axiosMissionInstance = axios.create();
 
@@ -386,15 +387,17 @@ axiosMissionInstance.interceptors.request.use(
     Promise.reject(error);
   }
 );
+
 // Response interceptor for API calls
-axiosMissionInstance.interceptors.response.use((response) => {
-  return response
-}, async function (error) {
-  if (typeof(error.response.data.message) === 'undefined'){
-    error.response = {data : { message : "Something went terribly wrong."}}
-  }
-  if (error.response.status === 401) {
-    unAuthorize();
+const {dispatch} = reduxStore;
+axiosMissionInstance.interceptors.response.use(
+  response => response, 
+  error => {
+    if (typeof(error.response) === 'undefined'){
+      error.response = {data : {message:"Something went terribly wrong."}}
+    }
+    else if (error.response.status === 401 || error.response.status === 403) {
+      dispatch(unAuthorize());
     }
     return Promise.reject(error);
   }

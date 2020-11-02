@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
@@ -15,6 +15,7 @@ import {
 } from "../../../../Redux/Actions/RegistryActions";
 import { isMobile } from "react-device-detect";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { resetMissionsFromStore } from "../../../../Redux/Actions/MissionActions";
 
 const RegistryInfo = ({
   showModal,
@@ -24,17 +25,20 @@ const RegistryInfo = ({
   removeOldRegistry,
   updateNewRegistry,
   updateOldRegistry,
+  userId,
+  resetMissions,
 }) => {
+  const [currentMission, setCurrentMission] = useState(null);
   const onDelete = (registry) => {
     registry.new ? removeNewRegistry(registry) : removeOldRegistry(registry);
     onCloseModal();
+    setCurrentMission(null);
   };
-
   const updateRegistry = (updatedReg) => {
     const registryToReport = {
       registryId: updatedReg.new ? 0 : updatedReg.registryId,
       taskId: updatedReg.taskId,
-      userId: 1,
+      userId: userId,
       hours: updatedReg.hours,
       created: updatedReg.created,
       date: updatedReg.date,
@@ -45,12 +49,20 @@ const RegistryInfo = ({
     registry.new
       ? updateNewRegistry([updatedReg, registryToReport])
       : updateOldRegistry([updatedReg, registryToReport]);
-
     onCloseModal();
+    setCurrentMission(null);
   };
   if (isMobile) {
     return (
-      <StyledModal show={showModal} onHide={onCloseModal} centered>
+      <StyledModal
+        show={showModal}
+        onHide={onCloseModal}
+        centered
+        onExited={() => {
+          resetMissions();
+          setCurrentMission(null);
+        }}
+      >
         <HeaderDiv>
           <ArrowBackIosIcon onClick={() => onCloseModal()} />
           <TitleDiv>
@@ -65,7 +77,12 @@ const RegistryInfo = ({
         {!registry.taskId ? (
           <InternalInfo registry={registry} updateRegistry={updateRegistry} />
         ) : (
-          <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+          <CustomerInfo
+            registry={registry}
+            updateRegistry={updateRegistry}
+            currentMission={currentMission}
+            setCurrentMission={setCurrentMission}
+          />
         )}
       </StyledModal>
     );
@@ -76,9 +93,17 @@ const RegistryInfo = ({
         onHide={onCloseModal}
         dialogClassName="modal-90w"
         centered
+        onExited={() => {
+          resetMissions();
+          setCurrentMission(null);
+        }}
       >
         <HeaderDiv>
-          <IconButton onClick={() => onCloseModal()}>
+          <IconButton
+            onClick={() => {
+              onCloseModal();
+            }}
+          >
             <ArrowBackIosIcon />
           </IconButton>
           <TitleDiv>
@@ -93,7 +118,12 @@ const RegistryInfo = ({
         {!registry.taskId ? (
           <InternalInfo registry={registry} updateRegistry={updateRegistry} />
         ) : (
-          <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
+          <CustomerInfo
+            registry={registry}
+            updateRegistry={updateRegistry}
+            currentMission={currentMission}
+            setCurrentMission={setCurrentMission}
+          />
         )}
       </StyledModal>
     );
@@ -127,6 +157,12 @@ const Text = styled.h1`
   color: #585656;
 `;
 
+const mapStateToProps = (state) => {
+  return {
+    userId: state.authData.user.userDetails.userId,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     removeNewRegistry: (registry) =>
@@ -137,7 +173,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateNewRegistryFromStore(registries)),
     updateOldRegistry: (registries) =>
       dispatch(updateOldRegistryFromStore(registries)),
+    resetMissions: () => dispatch(resetMissionsFromStore()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(RegistryInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(RegistryInfo);
