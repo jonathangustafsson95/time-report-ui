@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import BoxItem from "./BoxItemComponent";
+import { makeStyles } from "@material-ui/core/styles";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
 import AddRegistryModal from "../../ModalComponents/RegistryComponents/AddRegistryComponents/AddRegistryComponent";
 import {
   addRegistryToStore,
   updateNewRegistryFromStore,
   updateOldRegistryFromStore,
 } from "../../../Redux/Actions/RegistryActions";
+import { dayBoxHeight } from "../../../Service/Constants";
+
+const useStyles = makeStyles({
+  root: {
+    marginBottom: 10,
+  },
+  dayBox: {
+    background: "#fafafa",
+    filter: "drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.16))",
+    borderRadius: 8,
+  },
+  boxHolder: {
+    height: dayBoxHeight,
+    minWidth: 150,
+  },
+  text: {
+    marginBottom: 10,
+  },
+});
 
 const DayBox = ({
   day,
@@ -21,6 +42,7 @@ const DayBox = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState(storeDate);
+  const classes = useStyles();
 
   useEffect(() => {
     var d = new Date(storeDate.valueOf());
@@ -34,7 +56,7 @@ const DayBox = ({
     }
     setDate(d);
   }, [storeDate, dayConst]);
-  
+
   const onCloseAddModal = () => {
     setShowModal(false);
   };
@@ -101,73 +123,67 @@ const DayBox = ({
   });
 
   return (
-    <Main onDrop={(e) => handleOnDrop(e)} onDragOver={(e) => onDragOver(e)}>
+    <Grid
+      container
+      onDrop={(e) => handleOnDrop(e)}
+      onDragOver={(e) => onDragOver(e)}
+      className={classes.root}
+    >
       <AddRegistryModal
         showModal={showModal}
         onCloseModal={onCloseAddModal}
         date={date}
       />
+      <Grid container item xs={12} justify="center" className={classes.text}>
+        <Text>{day}</Text>
+      </Grid>
+      <Grid container item xs={12} justify="center">
+        <Grid container item xs={11} className={classes.dayBox}>
+          <Grid item xs={12} className={classes.boxHolder}>
+            <BoxItemHolder>{registryList}</BoxItemHolder>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+            <Line></Line>
+          </Grid>
 
-      <Text>{day}</Text>
-      <Box>
-        <BoxItemHolder>{registryList}</BoxItemHolder>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <Line></Line>
-        <AddBtn
-          type="image"
-          alt="AddRegistry"
-          src={require("./Images/add.svg")}
-          onClick={() => setShowModal(true)}
-        ></AddBtn>
-      </Box>
-    </Main>
+          <Grid container xs={12} justify="center">
+            <AddBtn
+              type="image"
+              alt="AddRegistry"
+              src={require("./Images/add.svg")}
+              onClick={() => setShowModal(true)}
+            ></AddBtn>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
 const BoxItemHolder = styled.div`
+  width: 100%;
+  height: inherit;
   position: fixed;
-  min-height: 368px;
-  max-height: 368px;
   overflow: auto;
-  min-width: inherit;
 `;
-
-const Main = styled.div``;
 
 const Line = styled.hr`
   margin: 0;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 45px;
-  // border-top: 1px dashed #707070;
-  // opacity: 0.3;
-`;
-
-const Box = styled.div`
-  overflow: auto;
-  border-radius: 8px;
-  //height: 45vh;
-  min-height: 430px;
-  min-width: 140px;
-  margin-bottom: 25px;
-  background: #fff;
-  filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.16));
-  text-align: center;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: ${dayBoxHeight / 8 - 1}px;
 `;
 
 const Text = styled.p`
   font-family: Roboto;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 0.08em;
-  line-height: 46px;
-  text-align: left;
   color: #585656;
   opacity: 0.7;
   margin: 0;
@@ -175,7 +191,8 @@ const Text = styled.p`
 `;
 
 const AddBtn = styled.input`
-  margin-top: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   &:hover {
     transform: scale(1.03) perspective(1px);
   }

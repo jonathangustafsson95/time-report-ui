@@ -21,7 +21,7 @@ import { isMobile } from "react-device-detect";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: isMobile ? null : 1000,
+    // minWidth: isMobile ? null : 1000,
   },
 });
 

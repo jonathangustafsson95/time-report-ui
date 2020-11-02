@@ -5,12 +5,10 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import MissionIcon from "../IconComponents/MissionIconComponent";
 import { markMission, unmarkMission } from "../../../Redux/Actions/MissionActions";
+import Grid from "@material-ui/core/Grid";
 
 const MarkedMission = ({ markedMission }) => {
   let history = useHistory();
-  // const checkFavorite = ({ mission }) => {
-  //   return markedMissions.some((item) => item.missionId === mission.missionId);
-  // };
   return (
     <Box onClick={() => history.push("/missions/" + markedMission.missionId)}>
       <MissionIcon />
@@ -19,8 +17,7 @@ const MarkedMission = ({ markedMission }) => {
         <CompanyText>{markedMission.missionCustomerName}</CompanyText>
       </TextDiv>
       <Checkbox
-        // onClick={(e) => handleClick(e, mission.missionId)}
-        // checked={checkFavorite({ mission })}
+        checked={true}
       />
     </Box>
   );

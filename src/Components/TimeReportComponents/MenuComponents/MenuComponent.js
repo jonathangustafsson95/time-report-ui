@@ -3,73 +3,89 @@ import styled from "styled-components";
 import Templates from "./MenuItemsComponents/TemplatesComponent";
 import LatestRegistries from "./MenuItemsComponents/LatestRegistriesComponent";
 import MarkedMissions from "./MenuItemsComponents/MarkedMissionsComponent";
-import { isMobile } from "react-device-detect";
+import Grid from "@material-ui/core/Grid";
+import { ExpandMore, ExpandLess } from "@material-ui/icons";
 
 const Menu = () => {
-  const [showMenuItems, setShowMenuItems] = useState({
-    template: false,
-    latestReports: false,
-    markedMissions: false,
-  });
+  const [showLatests, setShowLatests] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [showMarked, setShowMarked] = useState(false);
 
-  const toggleMenuItem = (buttonName) => {
-    setShowMenuItems({
-      [buttonName]: !showMenuItems[buttonName],
-    });
-  };
-  if (isMobile) {
-    return (
-      <Main>
-        <Button onClick={() => toggleMenuItem("latestReports")}>
-          Latest reports
-        </Button>
-        {showMenuItems.latestReports && <LatestRegistries />}
-      </Main>
-    );
-  } else
-    return (
-      <Main>
-        <Button onClick={() => toggleMenuItem("latestReports")}>
-          Latest reports
-        </Button>
-        {showMenuItems.latestReports && <LatestRegistries />}
+  return (
+    <Grid container item spacing={1}>
+      <Grid container item xs={12} spacing={2}>
+        <Grid item xs={12}>
+          <MenuItemDiv>
+            <Button onClick={() => setShowLatests(!showLatests)}>
+              Latest reports
+            </Button>
+            {showLatests ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </MenuItemDiv>
+        </Grid>
+        <Grid item xs={12}>
+          {showLatests && <LatestRegistries />}
+        </Grid>
+      </Grid>
 
-        <Button onClick={() => toggleMenuItem("template")}>Template</Button>
-        {showMenuItems.template && <Templates />}
+      <Grid container item xs={12} spacing={2}>
+        <Grid item xs={12}>
+          <MenuItemDiv>
+            <Button onClick={() => setShowTemplates(!showTemplates)}>
+              Templates
+            </Button>
+            {showTemplates ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </MenuItemDiv>
+        </Grid>
+        <Grid item xs={12}>
+          {showTemplates && <Templates />}
+        </Grid>
+      </Grid>
 
-        <Button onClick={() => toggleMenuItem("markedMissions")}>
-          Marked missions
-        </Button>
-        {showMenuItems.markedMissions && <MarkedMissions />}
-      </Main>
-    );
+      <Grid container item xs={12} spacing={2}>
+        <Grid item xs={12}>
+          <MenuItemDiv>
+            <Button onClick={() => setShowMarked(!showMarked)}>
+              Marked missions
+            </Button>
+            {showMarked ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </MenuItemDiv>
+        </Grid>
+        <Grid item xs={12}>
+          {showMarked && <MarkedMissions />}
+        </Grid>
+      </Grid>
+    </Grid>
+  );
 };
+
+const MenuItemDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ExpandMoreIcon = styled(ExpandMore)`
+  color: #585656;
+`;
+
+const ExpandLessIcon = styled(ExpandLess)`
+  color: #585656;
+`;
 
 const Button = styled.button`
   font-family: Roboto;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.08em;
-  line-height: 40px;
-  text-align: left;
   border: none;
   background: none;
   color: #585656;
   padding: 0;
-  margin-bottom: 15px;
   &.focus {
     outline: none;
   }
   &:hover {
     opacity: 0.8;
   }
-`;
-
-const Main = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 50px;
-  width: 220px;
 `;
 
 export default Menu;

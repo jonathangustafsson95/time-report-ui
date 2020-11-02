@@ -5,6 +5,7 @@ import { commitRegistryFromTemplateToStore } from "../../../Redux/Actions/Regist
 import { connect } from "react-redux";
 import Icon from "./IconComponent";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { dayBoxHeight } from "../../../Service/Constants";
 
 const renderTooltip = (props, registry) => {
   return (
@@ -18,15 +19,12 @@ const renderTooltip = (props, registry) => {
 const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
   const [showModal, setShowModal] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
-
   useEffect(() => {
     registry.hours < 1 && setShowOverlay(true);
   }, [registry]);
-
   const onCloseModal = () => {
     setShowModal(false);
   };
-
   const handleClick = () => {
     if (registry.isFromTemplate) {
       const registryToReport = {
@@ -45,12 +43,10 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
       setShowModal(true);
     }
   };
-
   const handleOnDrag = (e) => {
     e.dataTransfer.setData("registry", JSON.stringify(registry));
     e.dataTransfer.setData("from", "boxComponent");
   };
-
   return (
     <>
       <RegistryInfoModal
@@ -97,8 +93,9 @@ const BoxItem = ({ registry, commitTemplateRegistry, reload }) => {
 
 const Box = styled.div`
   margin: 0 auto;
-  margin-right: 6%;
-  margin-left: 6%;
+  height: ${(props) => props.hours * (dayBoxHeight / 8)}px;
+  margin-right: 3%;
+  margin-left: 3%;
   border-radius: 6px;
   text-align: center;
   background-color: ${(props) =>
@@ -107,7 +104,6 @@ const Box = styled.div`
   border: 4px solid ${(props) => props.color};
   filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.1));
   opacity: ${(props) => props.opacity};
-  height: ${(props) => props.hours * 46}px;
   &:hover {
     cursor: pointer;
   }
@@ -131,7 +127,7 @@ const MissionText = styled.h3`
   font-weight: normal;
   font-size: 10px;
   letter-spacing: 0.02em;
-  color: ${(props) => props.new ? "#585656" : "white"};
+  color: ${(props) => (props.new ? "#585656" : "white")};
   margin: 0;
   margin-bottom: 3px;
 `;
@@ -141,7 +137,7 @@ const TaskText = styled.h4`
   font-weight: 500;
   font-size: 7px;
   letter-spacing: 0.02em;
-  color: ${(props) => props.new ? "#585656" : "white"};
+  color: ${(props) => (props.new ? "#585656" : "white")};
   margin: 0;
 `;
 

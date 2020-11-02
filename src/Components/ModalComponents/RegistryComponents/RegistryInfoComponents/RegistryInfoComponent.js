@@ -50,7 +50,7 @@ const RegistryInfo = ({
   };
   if (isMobile) {
     return (
-      <Modal show={showModal} onHide={onCloseModal} centered>
+      <StyledModal show={showModal} onHide={onCloseModal} centered>
         <HeaderDiv>
           <ArrowBackIosIcon onClick={() => onCloseModal()} />
           <TitleDiv>
@@ -67,11 +67,11 @@ const RegistryInfo = ({
         ) : (
           <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
         )}
-      </Modal>
+      </StyledModal>
     );
   } else {
     return (
-      <ModalDiv
+      <StyledModal
         show={showModal}
         onHide={onCloseModal}
         dialogClassName="modal-90w"
@@ -95,12 +95,12 @@ const RegistryInfo = ({
         ) : (
           <CustomerInfo registry={registry} updateRegistry={updateRegistry} />
         )}
-      </ModalDiv>
+      </StyledModal>
     );
   }
 };
 
-const ModalDiv = styled(Modal)`
+const StyledModal = styled(Modal)`
   z-index: 3000;
   position: absolute;
 `;

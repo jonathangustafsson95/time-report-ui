@@ -2,30 +2,33 @@ import React from "react";
 import MarkedMission from "./MarkedMissionComponent";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { isMobile } from "react-device-detect";
+// import { isMobile } from "react-device-detect";
+import Grid from "@material-ui/core/Grid";
 
 const MarkedMissions = ({ markedMissions }) => {
   return (
-    <Main isMobile={isMobile}>
-      <Title>Marked missions</Title>
-      <MarkedMissionHolder>
+    <Grid container item xs={12}>
+      <Grid item xs={12}>
+        <Title>Marked missions</Title>
+      </Grid>
+      <Grid container item xs={12}>
         {markedMissions.map((markedMission) => (
           <MarkedMission
             key={markedMission.missionId}
             markedMission={markedMission}
           />
         ))}
-      </MarkedMissionHolder>
-    </Main>
+      </Grid>
+    </Grid>
   );
 };
 
-const Main = styled.div`
-  ${props => props.isMobile && "width: 100%;"}
-  ${(props) => !props.isMobile && "min-width: 1300px;"}
-  ${(props) => !props.isMobile && "max-width: 1300px;"}
-  margin-bottom: 40px;
-`;
+// const Main = styled.div`
+//   ${(props) => props.isMobile && "width: 100%;"}
+//   ${(props) => !props.isMobile && "min-width: 1300px;"}
+//   ${(props) => !props.isMobile && "max-width: 1300px;"}
+//   margin-bottom: 40px;
+// `;
 
 const Title = styled.p`
   margin: 0;
@@ -37,12 +40,6 @@ const Title = styled.p`
   text-align: left;
   color: #585656;
   margin-bottom: 20px;
-`;
-
-const MarkedMissionHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
 `;
 
 const mapStateToProps = (state) => {

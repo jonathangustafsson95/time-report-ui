@@ -15,7 +15,6 @@ import {
 import { TextField } from "@material-ui/core";
 
 const MissionsTableHolder = ({
-  token,
   fetchBySearch,
   resetMissions,
   fetchUserMissions,

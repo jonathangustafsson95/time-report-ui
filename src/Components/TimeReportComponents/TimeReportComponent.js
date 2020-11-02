@@ -1,40 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 import Week from "./WeekComponents/WeekComponent";
 import Menu from "./MenuComponents/MenuComponent";
+import { BrowserView } from "react-device-detect";
 
 const TimeReport = () => {
   return (
-    <Main>
-      <TimeReportDiv>
-        <div>
-          <Text>New Time Report</Text>
+    <Grid container item>
+      <Grid item xs={0} lg={1}></Grid>
+      <Grid container item xs={12} lg={11} spacing={2}>
+        <Grid item xs={10}>
           <Week />
-        </div>
-        <Menu></Menu>
-      </TimeReportDiv>
-    </Main>
+        </Grid>
+        <Grid item xs={2}>
+          <BrowserView>
+            <Menu />
+          </BrowserView>
+        </Grid>
+      </Grid>
+      <Grid item xs={0} md={0}></Grid>
+    </Grid>
   );
 };
-
-const Main = styled.div`
-  display: inline-block;
-`;
-
-const TimeReportDiv = styled.div`
-  display: flex;
-`;
-
-const Text = styled.p`
-  font-family: Roboto;
-  font-weight: bold;
-  font-size: 17px;
-  letter-spacing: 0.08em;
-  line-height: 40px;
-  text-align: left;
-  color: #585656;
-  text-align: center;
-  margin: 0;
-`;
 
 export default TimeReport;

@@ -212,8 +212,8 @@ const Root = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
-  align-items: stretch;
-  justify-content: center;
+  align-items: ${(props) => props.isMobile ? "center" : "stretch"};
+  justify-content: ${(props) => props.isMobile ? "stretch" : "center"};
   width: 100%;
   margin-bottom: 20px;
 `;

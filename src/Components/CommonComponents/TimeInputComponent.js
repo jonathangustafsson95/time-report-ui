@@ -12,10 +12,8 @@ const useStyles = makeStyles({
 const TimeInput = ({ setHours, hours, minutes, setMinutes, titleContent }) => {
   const classes = useStyles();
   const handleOnChange = (e, value, inputType) => {
-    console.log(value);
     inputType === "hours" ? setHours(value) : setMinutes(value);
   };
-
   return (
     <Root>
       <Title>{titleContent}</Title>

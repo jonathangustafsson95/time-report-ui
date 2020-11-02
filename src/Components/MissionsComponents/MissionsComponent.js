@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Grid from "@material-ui/core/Grid";
 import MarkedMissions from "./MarkedMissionsComponents/MarkedMissionsComponent";
 import MissionsTableHolder from "./MissionsTableComponents/MissionsTableHolderComponent";
 import { connect } from "react-redux";
@@ -6,7 +7,6 @@ import {
   fetchMissionData,
   resetMissionDataStore,
 } from "../../Redux/Actions/MissionActions";
-import styled from "styled-components";
 import SnackBar from "../SnackBarComponents/SnackBarComponent";
 
 const Missions = ({
@@ -26,12 +26,23 @@ const Missions = ({
     return function cleanUp() {
       resetStore();
     };
-  }, []);
+  }, [resetStore]);
 
   return (
-    <Main>
-      <MarkedMissions />
-      <MissionsTableHolder />
+    <Grid container item>
+      <Grid item xs={0} md={1} lg={2}></Grid>
+      <Grid item xs={12} md={10} lg={8}>
+        <Grid container item spacing={4}>
+          <Grid item xs={12}>
+            <MarkedMissions />
+          </Grid>
+          <Grid item xs={12}>
+            <MissionsTableHolder />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={0} md={1} lg={2}></Grid>
+
       {missionData.error ? (
         <SnackBar
           show={showSnackBar}
@@ -39,13 +50,9 @@ const Missions = ({
           error={true}
         />
       ) : null}
-    </Main>
+    </Grid>  
   );
 };
-
-const Main = styled.div`
-  width: 100%;
-`;
 
 const mapStateToProps = (state) => {
   return {

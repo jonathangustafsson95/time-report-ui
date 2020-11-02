@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import DayBox from "./DayBoxComponent";
@@ -16,10 +18,17 @@ import {
 } from "../../../Redux/Actions/MissionActions";
 import { setDate } from "../../../Redux/Actions/SettingsActions";
 import SnackBar from "../../SnackBarComponents/SnackBarComponent";
-import { Redirect } from "react-router-dom";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import IconButton from "@material-ui/core/IconButton";
+
+const useStyles = makeStyles({
+  week: {
+    borderRadius: 10,
+    background: "#fafafa",
+    filter: "drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16))",
+  },
+});
 
 const override = css`
   position: absolute;
@@ -44,6 +53,8 @@ const Week = ({
   const [showSnackBar, setShowSnackBar] = useState(true);
   const [showSecSnackBar, setShowSecSnackBar] = useState(true);
   const [isReporting, setIsReporting] = useState(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     fetchData(date);
@@ -90,11 +101,17 @@ const Week = ({
     setDate(type);
   };
 
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
   return (
-    <div>
-      <BoxDiv>
-        <Text>{getMonAndSun()}</Text>
-        <Inner>
+    <Grid container spacing={2} className={classes.root}>
+      <Grid container item xs={12} className={classes.week}>
+        <Grid container item xs={12} justify="center">
+          <Text>{getMonAndSun()}</Text>
+        </Grid>
+        <WeekHolder>
           <IconButton onClick={(e) => switchWeek(e, "back")}>
             <ArrowBackIosIcon />
           </IconButton>
@@ -115,9 +132,11 @@ const Week = ({
           <IconButton onClick={(e) => switchWeek(e, "forward")}>
             <ArrowForwardIosIcon />
           </IconButton>
-        </Inner>
-      </BoxDiv>
-      <Button onClick={() => onReportRegistries()}>Save Changes</Button>
+        </WeekHolder>
+      </Grid>
+      <Grid container item xs={12} justify="center">
+        <Button onClick={() => onReportRegistries()}>Save Changes</Button>
+      </Grid>
       {registryData.error && (
         <SnackBar
           show={showSnackBar}
@@ -126,9 +145,7 @@ const Week = ({
           content={registryData.errorMsg}
         />
       )}
-      {console.log(showSecSnackBar)}
       {isSuccesfullySaved && (
-        
         <SnackBar
           show={showSecSnackBar}
           hide={() => {
@@ -138,25 +155,22 @@ const Week = ({
           }}
         />
       )}
-    </div>
+    </Grid>
   );
 };
 
-const Inner = styled.div`
+const WeekHolder = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 100%;
+  padding-bottom: 15px;
 `;
 
 const Button = styled.button`
   font-family: Roboto;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 12px;
   color: #fff;
-  margin-left: 40%;
-  margin-right: 40%;
   width: 189px;
   height: 40px;
   border-radius: 8px;
@@ -164,25 +178,11 @@ const Button = styled.button`
   border: 2px solid #585656;
 `;
 
-const BoxDiv = styled.div`
-  border-radius: 8px;
-  background: #fff;
-  // @media (min-width: 2000px) {
-  //   transform: scale(1.2);
-  //   margin-top: 100px;
-  //   margin-bottom: 100px;
-  // }
-  margin-bottom: 30px;
-  filter: drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16));
-`;
-
 const BoxHolder = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 10px;
-  margin-left: 30px;
-  margin-right: 30px;
-  //margin-bottom: 50px;
+  overflow: auto;
+  display: flex;
+  width: 100%;
+  align-content: space-between;
 `;
 
 const Text = styled.p`
@@ -193,7 +193,6 @@ const Text = styled.p`
   letter-spacing: 0.08em;
   line-height: 44px;
   color: #585656;
-  text-align: center;
 `;
 
 const mapStateToProps = (state) => {

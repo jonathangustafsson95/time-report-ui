@@ -1,27 +1,24 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import LeftSideBar from "./NavBarComponents/LeftSideBar";
+import Grid from "@material-ui/core/Grid";
 import MainSwitch from "./ServiceComponents/MainSwitchComponent";
+import NavBar from "./NavBarComponents/NavBarComponent";
+
 import styled from "styled-components";
 
 const Layout = () => {
   return (
     <BrowserRouter>
-      <MainView>
-        <LeftSideBar />
-        <MainSwitch />
-        <div></div>
-      </MainView>
+      <Grid container >
+        <Grid container item xs={12}>
+          <NavBar></NavBar>
+        </Grid>
+        <Grid item xs={12}>
+          <MainSwitch />
+        </Grid>
+      </Grid>
     </BrowserRouter>
   );
 };
-
-const MainView = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  margin-top: 60px;
-`;
 
 export default Layout;

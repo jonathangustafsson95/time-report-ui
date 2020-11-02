@@ -137,6 +137,7 @@ const registryReducer = (state = initialState, action) => {
     case Types.FETCH_TIME_REPORT_DATA_SUCCESS:
       action.payload[0].data.forEach((registry) => {
         registry.new = false;
+        registry.isFromTemplate = false;
       });
       return {
         ...state,

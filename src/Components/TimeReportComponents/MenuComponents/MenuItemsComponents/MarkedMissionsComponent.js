@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import MarkedMissionItem from "./MarkedMissionItemComponent";
+import Grid from "@material-ui/core/Grid";
 
 const MarkedMissions = ({ markedMissions }) => {
   const missions = markedMissions.map((mission) => (
     <MarkedMissionItem key={mission.missionId} mission={mission} />
   ));
-  return <div>{missions}</div>;
+  return <Grid container item justify="flex-end" spacing={2}>{missions}</Grid>;
 };
 
 const mapStateToProps = (state) => {

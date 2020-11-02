@@ -220,8 +220,8 @@ const MenuSwitch = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
-  justify-content: center;
-  align-items: stretch;
+  align-items: ${(props) => props.isMobile ? "center" : "stretch"};
+  justify-content: ${(props) => props.isMobile ? "stretch" : "center"};
   width: 100%;
   margin-bottom: 20px;
 `;
@@ -250,18 +250,6 @@ const MissionButtonDiv = styled.div`
   margin-bottom: 20px;
   margin-top: 15px;
 `;
-
-// const Button = styled.button`
-//   font-family: Roboto;
-//   font-weight: normal;
-//   font-size: 14px;
-//   color: #fff;
-//   width: 189px;
-//   height: 40px;
-//   border-radius: 8px;
-//   background: #585656;
-//   border: 2px solid #585656;
-// `;
 
 const MissionsButton = styled.button`
   font-family: Roboto;

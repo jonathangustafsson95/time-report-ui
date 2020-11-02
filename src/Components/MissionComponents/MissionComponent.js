@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import { BeatLoader } from "react-spinners";
 import { connect } from "react-redux";
@@ -20,12 +21,7 @@ const override = css`
   margin: auto;
 `;
 
-const Mission = ({
-  mission,
-  fetchMission,
-  fetchStats,
-  missionData,
-}) => {
+const Mission = ({ mission, fetchMission, fetchStats, missionData }) => {
   const { missionId } = useParams();
   const [showSnackBar, setShowSnackBar] = useState(true);
 
@@ -54,20 +50,23 @@ const Mission = ({
     );
   } else {
     return (
-      <Root>
-        <Main>
-          <Header>
-            <BackDiv>
-              <IconButton size="small" onClick={() => history.goBack()}>
-                <ArrowBackIosIcon />
-              </IconButton>
-              <Title>Back</Title>
-            </BackDiv>
-            <MissionName>{mission.missionName}</MissionName>
-            <div></div>
-          </Header>
-
-          <MissionDetails>
+      <Grid container item>
+        <Grid item xs={0} md={1} lg={2}></Grid>
+        <Grid container item xs={12} md={10} lg={8} spacing={6}>
+          <Grid container item xs={12}>
+            <Grid item xs={3}>
+              <BackDiv>
+                <IconButton size="small" onClick={() => history.goBack()}>
+                  <ArrowBackIosIcon />
+                </IconButton>
+                <Title>Back</Title>
+              </BackDiv>
+            </Grid>
+            <Grid item xs={9}>
+              <MissionName>{mission.missionName}</MissionName>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={3}>
             <InfoHolder>
               <Text>
                 Customer: <strong>{mission.customer}</strong>
@@ -78,11 +77,16 @@ const Mission = ({
               <Text>Description:</Text>
               <DescriptionText>{mission.description}</DescriptionText>
             </InfoHolder>
+          </Grid>
+          <Grid item xs={12} md={6}>
             <Statistic />
-          </MissionDetails>
-        </Main>
-        <MissionMenu></MissionMenu>
-      </Root>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <MissionMenu />
+          </Grid>
+        </Grid>
+        <Grid item xs={0} md={1} lg={2}></Grid>
+      </Grid>
     );
   }
 };
@@ -99,7 +103,6 @@ const Title = styled.p`
 const MissionName = styled(Title)`
   text-align: center;
   font-weight: bold;
-  margin-right: 70px;
 `;
 
 const Text = styled(Title)`
@@ -118,14 +121,6 @@ const BackDiv = styled.div`
   align-items: center;
 `;
 
-const Header = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-`;
-
 const Root = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -138,17 +133,8 @@ const InfoHolder = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   border-radius: 10px;
-  margin-right: 15px;
   box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.16);
 `;
-
-const MissionDetails = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-const Main = styled.div``;
 
 const mapStateToProps = (state) => {
   return {
@@ -161,10 +147,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMission: (missionId) =>
-      dispatch(fetchMission(missionId)),
-    fetchStats: (missionId) =>
-      dispatch(fetchTaskStats(missionId)),
+    fetchMission: (missionId) => dispatch(fetchMission(missionId)),
+    fetchStats: (missionId) => dispatch(fetchTaskStats(missionId)),
   };
 };
 

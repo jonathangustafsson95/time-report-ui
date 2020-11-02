@@ -10,12 +10,12 @@ const MissionMenu = () => {
   });
 
   return (
-    <Root>
+    <div>
       <MenuOption>Members</MenuOption>
       {showMenuItems.members && <Members />}
       <MenuOption>Tasks</MenuOption>
       {showMenuItems.tasks && <Tasks />}
-    </Root>
+    </div>
   );
 };
 
@@ -37,10 +37,6 @@ const MenuOption = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`;
-
-const Root = styled.div`
-  margin-left: 100px;
 `;
 
 export default MissionMenu;
