@@ -139,7 +139,7 @@ const Week = ({
       </Grid>
       <Grid container item xs={12} justify="center">
         <Button onClick={() => onReportRegistries()} className={classes.button}>
-          Report
+          Save changes
         </Button>
       </Grid>
       {registryData.error && (
