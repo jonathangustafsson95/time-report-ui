@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     maxWidth: 180,
-  }
+  },
 });
 
 const TemplateItem = ({
@@ -23,7 +23,6 @@ const TemplateItem = ({
   date,
 }) => {
   const classes = useStyles();
-  const [focus, setFocus] = useState(false);
   const [hasAlreadyClicked, setHasAlreadyClicked] = useState(false);
   const loadTemplate = () => {
     if (hasLoadedFromTemplate) {
@@ -59,12 +58,11 @@ const TemplateItem = ({
         addRegistry(newRegistry);
       });
     }
-    setFocus(!focus);
     setHasAlreadyClicked(!hasAlreadyClicked);
   };
   return (
     <Grid item xs={11} className={classes.root}>
-      <Box onClick={() => loadTemplate()} focus={focus}>
+      <Box onClick={() => loadTemplate()}>
         <Grid container>
           <Grid item xs={12} md={4}>
             <Icon src={require("./Icons/template.svg")} />
@@ -89,7 +87,6 @@ const Box = styled.div`
   padding-bottom: 8px;
   padding-left: 15px;
   background: #fff;
-  ${props => props.focus && "outline: #585656 dashed 1px;"}
   box-shadow: 0px 25px 30px rgba(0, 0, 0, 0.1);
   &:hover {
     cursor: pointer;

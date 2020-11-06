@@ -4,7 +4,6 @@ import DashBoard from "../DashBoardComponents/DashBoard";
 import TimeReport from "../TimeReportComponents/TimeReportComponent";
 import Missions from "../MissionsComponents/MissionsComponent";
 import Mission from "../MissionComponents/MissionComponent";
-import styled from "styled-components";
 
 const MainSwitch = () => {
   return (

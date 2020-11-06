@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import MissionIcon from "../IconComponents/MissionIconComponent";
 import { markMission, unmarkMission } from "../../../Redux/Actions/MissionActions";
-import Grid from "@material-ui/core/Grid";
 
 const MarkedMission = ({ markedMission }) => {
   let history = useHistory();

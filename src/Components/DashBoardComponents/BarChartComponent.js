@@ -19,7 +19,7 @@ const BarChartGraph = ({ data, fetchData }) => {
   }, [fetchData]);
   return (
     <Main>
-      <Title>Hours spended on tasks</Title>
+      <Title>Hours spent on tasks</Title>
       <ResponsiveContainer width="90%" height={300}>
         <BarChart
           // width="inherit"

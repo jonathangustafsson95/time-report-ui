@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Icon from "./IconComponent";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { dayBoxHeight } from "../../../Service/Constants";
-import { resetMissionsFromStore } from "../../../Redux/Actions/MissionActions";
 
 const renderTooltip = (props, registry) => {
   return (
@@ -17,7 +16,7 @@ const renderTooltip = (props, registry) => {
   );
 };
 
-const BoxItem = ({ registry, commitTemplateRegistry, resetMissions }) => {
+const BoxItem = ({ registry, commitTemplateRegistry, userId }) => {
   const [showModal, setShowModal] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   useEffect(() => {
@@ -31,7 +30,7 @@ const BoxItem = ({ registry, commitTemplateRegistry, resetMissions }) => {
       const registryToReport = {
         registryId: 0,
         taskId: registry.taskId,
-        userId: 1,
+        userId: userId,
         hours: registry.hours,
         created: registry.created,
         date: registry.date,
@@ -121,6 +120,7 @@ const InfoDiv = styled.div`
 
 const TextDiv = styled.div`
   margin-left: 5px;
+  text-align: left;
 `;
 
 const MissionText = styled.h3`
@@ -153,6 +153,7 @@ const TText = styled(TaskText)`
 const mapPropsToState = (state) => {
   return {
     reload: state.registryData.registriesByWeek,
+    userId: state.authData.user.userDetails.userId,
   };
 };
 

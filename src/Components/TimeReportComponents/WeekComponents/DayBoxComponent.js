@@ -39,6 +39,7 @@ const DayBox = ({
   updateNewRegistry,
   updateOldRegistry,
   storeDate,
+  userId
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState(storeDate);
@@ -78,7 +79,7 @@ const DayBox = ({
     let registryToReport = {
       registryId: registry.id,
       taskId: registry.taskId,
-      userId: 1,
+      userId: userId,
       hours: registry.hours,
       created: d.toJSON(),
       date: date.toJSON(),
@@ -151,7 +152,7 @@ const DayBox = ({
             <Line></Line>
           </Grid>
 
-          <Grid container xs={12} justify="center">
+          <Grid container item xs={12} justify="center">
             <AddBtn
               type="image"
               alt="AddRegistry"
@@ -207,6 +208,7 @@ const mapStateToProps = (state, ownProps) => {
       (registry) => registry.day === ownProps.dayConst
     ),
     storeDate: state.settings.date,
+    userId: state.authData.user.userDetails.userId,
   };
 };
 

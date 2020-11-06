@@ -10,7 +10,7 @@ const Tasks = ({ mission }) => {
     return (
       <div>
         {tasks.map((task) => (
-          <Item content={task.name} type="task"></Item>
+          <Item key={task.taskId} content={task.name} type="task"></Item>
         ))}
       </div>
     );
