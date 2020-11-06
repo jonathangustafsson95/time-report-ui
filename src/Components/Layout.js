@@ -4,8 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import MainSwitch from "./ServiceComponents/MainSwitchComponent";
 import NavBar from "./NavBarComponents/NavBarComponent";
 
-import styled from "styled-components";
-
 const Layout = () => {
   return (
     <BrowserRouter>

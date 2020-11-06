@@ -28,6 +28,9 @@ const useStyles = makeStyles({
     background: "#fafafa",
     filter: "drop-shadow(0px 15px 30px rgba(0, 0, 0, 0.16))",
   },
+  button: {
+    marginTop: 15,
+  },
 });
 
 const override = css`
@@ -135,7 +138,9 @@ const Week = ({
         </WeekHolder>
       </Grid>
       <Grid container item xs={12} justify="center">
-        <Button onClick={() => onReportRegistries()}>Save Changes</Button>
+        <Button onClick={() => onReportRegistries()} className={classes.button}>
+          Report
+        </Button>
       </Grid>
       {registryData.error && (
         <SnackBar

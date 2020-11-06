@@ -4,20 +4,25 @@ import Members from "./MissionMenuItemComponents/MembersComponent";
 import Tasks from "./MissionMenuItemComponents/TasksComponent";
 
 const MissionMenu = () => {
-  const [showMenuItems, setShowMenuItems] = useState({
-    members: true,
-    tasks: true,
-  });
+  const [showMembers, setShowMembers] = useState(true);
+  const [showTasks, setShowTasks] = useState(false);
 
   return (
-    <div>
-      <MenuOption>Members</MenuOption>
-      {showMenuItems.members && <Members />}
-      <MenuOption>Tasks</MenuOption>
-      {showMenuItems.tasks && <Tasks />}
-    </div>
+    <Root>
+      <MenuOption onClick={() => setShowMembers(!showMembers)}>
+        Members
+      </MenuOption>
+      {showMembers && <Members />}
+      <MenuOption onClick={() => setShowTasks(!showTasks)}>Tasks</MenuOption>
+      {showTasks && <Tasks />}
+    </Root>
   );
 };
+
+const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const MenuOption = styled.button`
   font-family: Roboto;

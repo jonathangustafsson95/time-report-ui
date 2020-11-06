@@ -29,11 +29,9 @@ const NavBar = ({ user }) => {
                 <MenuIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={9}></Grid>
-            <Grid item xs={1}>
-              <UserDiv>
-                <UserName>{user.userName}</UserName>
-              </UserDiv>
+            <Grid item xs={8} md={9}></Grid>
+            <Grid container item xs={2} md={1} alignContent="center">
+              <UserName>{user.userName}</UserName>
             </Grid>
           </Grid>
         </ToolBar>
@@ -42,14 +40,9 @@ const NavBar = ({ user }) => {
     </>
   );
 };
+
 const App = styled(AppBar)`
   margin-bottom: 30px;
-`;
-
-const UserDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 `;
 
 const UserName = styled.p`

@@ -10,7 +10,7 @@ const Members = ({ mission }) => {
     return (
       <div>
         {members.map((member) => (
-          <Item content={member.userName} type="member"></Item>
+          <Item key={member.userId} content={member.userName} type="member"></Item>
         ))}
       </div>
     );

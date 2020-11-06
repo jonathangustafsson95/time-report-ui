@@ -200,6 +200,8 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 80vh;
+  overflow: scroll;
 `;
 
 const Main = styled.div`
